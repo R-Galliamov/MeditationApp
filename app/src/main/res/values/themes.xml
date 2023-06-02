@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.Sleep" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/eerie_black</item>
+        <item name="colorPrimaryVariant">@color/yankees_blue</item>
+        <item name="colorOnPrimary">@color/old_silver</item>
+
+
+
+        <item name="android:statusBarColor">@color/eerie_black</item>
+        <item name="android:navigationBarColor">@color/eerie_black</item>
+        <item name="android:windowBackground">@color/eerie_black</item>
+
+        <item name="android:timePickerStyle">@style/CustomTimePickerStyle</item>
+    </style>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="eerie_black">#FF141926</color>
+    <color name="yankees_blue">#FF21273C</color>
+    <color name="old_silver">#FF82848B</color>
+
+    <color name="blue">#FF443AEE</color>
+    <color name="blue_light">#FF5777E4</color>
+
+    <color name="green">#FF5AC391</color>
+    <color name="green_light">#FF63D39E</color>
+
+    <color name="yellow">#FFECC04A</color>
+    <color name="yellow_light">#FFFFDA65</color>
+
+    <color name="crimson">#FFDA4B6E</color>
+    <color name="crimson_light">#FFE76E5E</color>
+
+    <color name="milk">#FFFFEEB5</color>
+    <color name="cornflower_blue">#FF7D98FC</color>
+    <color name="bright_yellow">#FFF500</color>
+
+    <color name="transparent">#00FFFFFF</color>
+
+
+
+
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

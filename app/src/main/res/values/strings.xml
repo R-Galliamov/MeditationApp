@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Sleep</string>
+    <string name="continueText">Continue</string>
+    <string name="agreementOfUsage">By clicking Get Started, I agree to the Terms of Use and Privacy Policy. I understand that device data, IDFA, and non-sensitive app data may be shared with a third party to improve the experience of the app.</string>
+
+    <string name="firstWelcomeTitle">Melodies for\nrelaxation</string>
+    <string name="firstWelcomeText">Feel the relaxing atmosphere of the night. Fall asleep naturally and calmly.</string>
+
+
+    <string name="secondWelcomeTitle">Personal sleep plan</string>
+    <string name="secondWelcomeText">The personalized plan analyzes your sleep and adjusts to you so you can sleep better.</string>
+
+    <string name="thirdWelcomeTitle">Alarm sounds</string>
+    <string name="thirdWelcomeText">Morning will be good! Meet the new day with joy, wake up to your favorite music.</string>
+
+    <string name="start">Start</string>
+
+    <string name="choose_a_goal">Choose a goal</string>
+    <string name="choosing_goal_description">This will help create\na personalized sleep plan.</string>
+    <string name="fall_asleep_faster">Fall asleep\nfaster</string>
+    <string name="make_your_sleep_deep">Make your\nsleep deep</string>
+    <string name="get_up_easy_in_the_morning">Get up easy\nin the morning</string>
+    <string name="improve_sleep_quality">Improve\nsleep quality</string>
+    <string name="home">Home</string>
+    <string name="sleep">Sleep</string>
+    <string name="melodies">Melodies</string>
+    <string name="profile">Profile</string>
+    <string name="today">Today</string>
+    <string name="fall_into_a_dream">Fall into a dream</string>
+    <string name="night">Night\ </string>
+    <string name="go_to_test">Go to test</string>
+    <string name="gadgets_before_bed">Gadgets before bed</string>
+    <string name="gadges_description">Elit nec pulvinar fames convallis mauris volutpat arcu volutpat.</string>
+    <string name="sleep_coach">Sleep coach</string>
+    <string name="tip_of_the_day">Tip of the day</string>
+    <string name="sleep_settings">Sleep settings</string>
+    <string name="alarm">Alarm</string>
+    <string name="alarm_sound">Alarm sound</string>
+    <string name="choose">Choose</string>
+    <string name="smart_alarm">\"Smart\" alarm</string>
+    <string name="good_night">Good night and good dreams!</string>
+    <string name="music_for_sleep">Music for sleep</string>
+    <string name="dive_into_sleep">Dive into sleep</string>
+    <string name="dream">Dream</string>
+    <string name="qustion1">How many hours before a meal do you last eat?</string>
+    <string name="previous_question">Previous question</string>
+
+
+</resources>

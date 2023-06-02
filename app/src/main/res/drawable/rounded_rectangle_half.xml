@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners
+        android:topLeftRadius="28dp"
+        android:topRightRadius="28dp" />
+    <solid android:color="@color/yankees_blue" />
+    <size
+        android:height="63dp" />
+    <vector
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:aapt="http://schemas.android.com/aapt"
+        android:height="63dp"
+        android:viewportWidth="350"
+        android:viewportHeight="63">
+
+        <!-- Your vector path and other elements here -->
+
+    </vector>
+</shape>
