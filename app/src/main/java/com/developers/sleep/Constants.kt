@@ -14,6 +14,9 @@ object PrefsConstants {
     const val SELECTED_ALARM_MELODY_INDEX = "selectedAlarmMelodyIndex"
     const val SELECTED_ALARM_MELODY_NAME = "selectedAlarmMelodyName"
     const val IS_MUSIC_FOR_SLEEP_0N = "isMusicForSleepOn"
+
+    const val ALARM_PREFS_NAME = "AlarmPrefs"
+    const val ALARM_TIME = "AlarmTime"
 }
 
 const val BASE_URL = "https://www.learningcontainer.com/wp-content/uploads/2020/02/" //TODO add url

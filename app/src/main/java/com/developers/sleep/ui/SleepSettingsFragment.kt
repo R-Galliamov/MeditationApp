@@ -9,16 +9,14 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.developers.sleep.PrefsConstants
 import com.developers.sleep.R
 import com.developers.sleep.databinding.FragmentSleepSettingsBinding
+import com.developers.sleep.viewModel.AlarmViewModel
 
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Locale
-import kotlin.time.Duration.Companion.hours
-import kotlin.time.Duration.Companion.minutes
 
 @AndroidEntryPoint
 class SleepSettingsFragment : Fragment() {
@@ -27,6 +25,8 @@ class SleepSettingsFragment : Fragment() {
         get() = _binding!!
 
     private lateinit var sharedPreferences: SharedPreferences
+
+    private val alarmViewModel: AlarmViewModel by activityViewModels()
 
     companion object {
         @Volatile
@@ -57,27 +57,37 @@ class SleepSettingsFragment : Fragment() {
 
 
         binding.alarmTime.setOnClickListener {
-            val format = SimpleDateFormat("HH:mm", Locale.getDefault())
-            val date = format.parse(binding.alarmTime.text.toString())
-            val calendar = Calendar.getInstance()
-            calendar.time = date
-            val hour = calendar.get(Calendar.HOUR_OF_DAY)
-            val minute = calendar.get(Calendar.MINUTE)
+            val previousCalendar = alarmViewModel.alarmTime.value
+            val previousHour = previousCalendar?.get(Calendar.HOUR_OF_DAY)
+            val previousMinute = previousCalendar?.get(Calendar.MINUTE)
 
             //TODO make custom dialog or change buttons color
             val timePickerDialog = TimePickerDialog(
                 requireContext(),
                 TimePickerDialog.OnTimeSetListener { _, selectedHour, selectedMinute ->
-                    val selectedTime = String.format("%02d:%02d", selectedHour, selectedMinute)
-                    binding.alarmTime.text = selectedTime
-
+                    val selectedTime = Calendar.getInstance().apply {
+                        set(Calendar.HOUR_OF_DAY, selectedHour)
+                        set(Calendar.MINUTE, selectedMinute)
+                    }
+                    alarmViewModel.setAlarmTime(selectedTime)
                 },
-                hour,
-                minute,
+                previousHour ?: 0,
+                previousMinute ?: 0,
                 true
             )
             timePickerDialog.show()
         }
+
+        alarmViewModel.alarmTime.observe(viewLifecycleOwner) { calendar ->
+            val alarmTimeFormatted = calendar?.let {
+                val hour = it.get(Calendar.HOUR_OF_DAY)
+                val minute = it.get(Calendar.MINUTE)
+                String.format("%02d:%02d", hour, minute)
+            } ?: ""
+
+            binding.alarmTime.text = alarmTimeFormatted
+        }
+
 
         with(binding) {
 
