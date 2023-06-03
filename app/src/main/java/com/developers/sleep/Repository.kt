@@ -3,6 +3,7 @@ package com.developers.sleep
 import android.app.Application
 import android.app.DownloadManager
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.AssetFileDescriptor
 import android.media.MediaPlayer
 import android.os.Environment
@@ -22,9 +23,37 @@ class MelodyRepository @Inject constructor(
     private val downloadManager: DownloadManager,
     private val application: Application
 ) {
+
+
+    val alarmSharedPreferences: SharedPreferences =
+        application.getSharedPreferences(PrefsConstants.ALARM_PREFS_NAME, Context.MODE_PRIVATE)
+
     val mediaPlayer = MediaPlayer()
     val alarmSoundsList = getMp3SoundsFromAssets()
     val alarmSoundsNames = getAlarmSoundFileNamesFromAssets()
+
+    val chosenAlarmSound = getChosenAlarmSoundName()
+
+
+    fun getChosenAlarmSoundName(): String {
+        val name = alarmSharedPreferences.getString(
+            PrefsConstants.SELECTED_ALARM_MELODY_NAME,
+            PrefsConstants.STANDARD_ALARM_SOUND
+        ).toString()
+        return name
+    }
+
+    fun getChosenAlarmSound(): AlarmSound {
+        return alarmSoundsList.first { it.name == chosenAlarmSound }
+    }
+
+
+
+    fun saveChosenAlarmSound(alarmSound: AlarmSound) {
+        val editor = alarmSharedPreferences.edit()
+        editor.putString(PrefsConstants.SELECTED_ALARM_MELODY_NAME, alarmSound.name)
+        editor.apply()
+    }
 
     private fun getAlarmSoundFileNamesFromAssets(): Array<String> {
         return try {
@@ -51,37 +80,6 @@ class MelodyRepository @Inject constructor(
         }
         return alarmSounds
     }
-
-    fun stopPlaying(){
-        mediaPlayer.apply {
-            if (isPlaying) {
-                stop()
-            }
-            reset()
-        }
-    }
-
-    fun playMelody(alarmSound: AlarmSound) {
-        stopPlaying()
-
-        try {
-            val assetFileDescriptor: AssetFileDescriptor =
-                application.assets.openFd("alarmSounds/${alarmSound.fileName}")
-            mediaPlayer.setDataSource(
-                assetFileDescriptor.fileDescriptor,
-                assetFileDescriptor.startOffset,
-                assetFileDescriptor.length
-            )
-            assetFileDescriptor.close()
-            mediaPlayer.prepare()
-            mediaPlayer.start()
-        } catch (e: IOException) {
-            e.printStackTrace()
-            // Todo add handle
-        }
-
-    }
-
 
     fun downloadMelody(fileName: String) {
         val file = File(

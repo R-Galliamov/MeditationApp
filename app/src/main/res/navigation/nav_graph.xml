@@ -53,6 +53,9 @@
         <action
             android:id="@+id/action_sleepSettingsFragment_to_choosingAlarmFragment"
             app:destination="@id/choosingAlarmFragment" />
+        <action
+            android:id="@+id/action_sleepSettingsFragment_to_sleepDiverFragment"
+            app:destination="@id/sleepDiverFragment" />
     </fragment>
     <fragment
         android:id="@+id/choosingGoalFragment"
@@ -73,6 +76,11 @@
         android:name="com.developers.sleep.ui.ChoosingAlarmFragment"
         android:label="fragment_choosing_alarm"
         tools:layout="@layout/fragment_choosing_alarm" />
+    <fragment
+        android:id="@+id/sleepDiverFragment"
+        android:name="com.developers.sleep.ui.SleepDiverFragment"
+        android:label="fragment_sleep_diver"
+        tools:layout="@layout/fragment_sleep_diver" />
 
 
 </navigation>
