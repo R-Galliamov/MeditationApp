@@ -2,17 +2,22 @@ package com.developers.sleep.viewModel
 
 import android.app.Application
 import android.content.SharedPreferences
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.developers.sleep.AlarmSound
+import com.developers.sleep.MelodyRepository
 import com.developers.sleep.PrefsConstants
+import com.developers.sleep.alarmService.AlarmHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class AlarmViewModel @Inject constructor(
-    application: Application,
+    private val application: Application,
+    private val repository: MelodyRepository
 ) : AndroidViewModel(application) {
 
     private val sharedPreferences: SharedPreferences =
@@ -22,7 +27,13 @@ class AlarmViewModel @Inject constructor(
     val alarmTime: LiveData<Calendar>
         get() = _alarmTime
 
+    private val _chosenAlarmSound = MutableLiveData<AlarmSound>()
+    val chosenAlarmSound: LiveData<AlarmSound>
+        get() = _chosenAlarmSound
+
     init {
+        _chosenAlarmSound.value = repository.getChosenAlarmSound()
+
         val alarmMillis = sharedPreferences.getLong(PrefsConstants.ALARM_TIME, 0)
         if (alarmMillis != 0L) {
             val calendar = Calendar.getInstance()
@@ -34,6 +45,24 @@ class AlarmViewModel @Inject constructor(
             defaultTime.set(Calendar.MINUTE, 30)
             defaultTime.add(Calendar.DAY_OF_YEAR, 1)
             _alarmTime.value = defaultTime
+        }
+    }
+
+    fun getAlarmSoundsList(): List<AlarmSound> {
+        return repository.alarmSoundsList
+    }
+
+    fun setChosenAlarmSound(alarmSound: AlarmSound) {
+        _chosenAlarmSound.value = alarmSound
+        repository.saveChosenAlarmSound(alarmSound)
+    }
+
+    fun setAlarm() {
+        val alarmTime = alarmTime.value
+        if (alarmTime != null) {
+            val alarmHelper = AlarmHelper(application)
+            alarmHelper.setAlarmWithSound(alarmTime, chosenAlarmSound.value!!)
+            Toast.makeText(application, "Alarm started", Toast.LENGTH_SHORT).show()
         }
     }
 

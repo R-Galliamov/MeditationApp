@@ -88,15 +88,10 @@ class SleepSettingsFragment : Fragment() {
             binding.alarmTime.text = alarmTimeFormatted
         }
 
-
+        alarmViewModel.chosenAlarmSound.observe(viewLifecycleOwner){
+            binding.alarmSoundChooseButton.text = it.name
+        }
         with(binding) {
-
-            alarmSoundChooseButton.text =
-                sharedPreferences.getString(
-                    PrefsConstants.SELECTED_ALARM_MELODY_NAME,
-                    "Sound 1"
-                ) //TODO refactor with viewModel
-
 
             alarmSoundChooseButton.setOnClickListener {
                 findNavController().navigate(R.id.action_sleepSettingsFragment_to_choosingAlarmFragment)
@@ -114,9 +109,13 @@ class SleepSettingsFragment : Fragment() {
                 updateDiveIntoSleepCardUi(isChecked)
                 saveSwitcherState(isChecked)
             }
-        }
 
-    }
+            buttonFallIntoADream.setOnClickListener {
+                    alarmViewModel.setAlarm()
+                }
+
+            }
+        }
 
     private fun updateDiveIntoSleepCardUi(isChecked: Boolean) = with(binding) {
         overlaying.visibility = if (isChecked) View.GONE else View.VISIBLE

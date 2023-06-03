@@ -10,11 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.developers.sleep.AlarmSound
-import com.developers.sleep.GeneralViewModel
+import com.developers.sleep.MediaPlayerHelper
 import com.developers.sleep.PrefsConstants
 import com.developers.sleep.adapter.MelodyAdapter
 import com.developers.sleep.databinding.FragmentChoosingAlarmBinding
+import com.developers.sleep.viewModel.AlarmViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ChoosingAlarmFragment : Fragment() {
@@ -22,20 +24,11 @@ class ChoosingAlarmFragment : Fragment() {
     private val binding: FragmentChoosingAlarmBinding
         get() = _binding!!
 
-    companion object {
-
-        @Volatile
-        private var instance: ChoosingAlarmFragment? = null
-
-        fun getInstance(): ChoosingAlarmFragment {
-            return instance ?: synchronized(this) {
-                instance ?: ChoosingAlarmFragment().also { instance = it }
-            }
-        }
-    }
-
     private lateinit var sharedPreferences: SharedPreferences
-    private val viewModel: GeneralViewModel by activityViewModels()
+    private val alarmViewModel: AlarmViewModel by activityViewModels()
+
+    @Inject
+    lateinit var mediaPlayerHelper: MediaPlayerHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,14 +43,15 @@ class ChoosingAlarmFragment : Fragment() {
 
         val adapter = MelodyAdapter(object : MelodyAdapter.OnMelodyClickListener {
             override fun onMelodyClick(alarmSound: AlarmSound, position: Int) {
-                viewModel.playMelody(alarmSound)
+                //TODO create play service
+                mediaPlayerHelper.playLoopingAlarmSound(alarmSound.fileName)
                 saveSelectedMelody(alarmSound, position)
             }
         }, getSelectedMelodyIndex() ?: 0)
 
         val recyclerView = binding.recyclerView
         recyclerView.adapter = adapter
-        val alarmSounds = viewModel.getAlarmSoundsList()
+        val alarmSounds = alarmViewModel.getAlarmSoundsList()
         adapter.submitList(alarmSounds)
 
         binding.buttonBack.setOnClickListener {
@@ -70,9 +64,13 @@ class ChoosingAlarmFragment : Fragment() {
         return binding.root
     }
 
+    override fun onPause() {
+        super.onPause()
+        mediaPlayerHelper.stopPlaying()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
-        viewModel.stopPlaying()
         _binding = null
     }
 
@@ -85,8 +83,8 @@ class ChoosingAlarmFragment : Fragment() {
         val selectedPosition = if (position >= 0) position else 0
         val editor = sharedPreferences.edit()
         editor.putInt(PrefsConstants.SELECTED_ALARM_MELODY_INDEX, selectedPosition)
-        editor.putString(PrefsConstants.SELECTED_ALARM_MELODY_NAME, alarmSound.name)
         editor.apply()
-    }
 
+        alarmViewModel.setChosenAlarmSound(alarmSound)
+    }
 }

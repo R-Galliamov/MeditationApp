@@ -10,15 +10,6 @@ class GeneralViewModel @Inject constructor(
     private val repository: MelodyRepository
 ) : ViewModel() {
 
-    //val selectedAlarmSound: LiveData<AlarmSound>
-
-    fun playMelody(alarmSound: AlarmSound){
-        repository.playMelody(alarmSound)
-    }
-
-    fun stopPlaying(){
-        repository.stopPlaying()
-    }
 
     fun getAlarmSoundsList(): List<AlarmSound>{
         return repository.alarmSoundsList
