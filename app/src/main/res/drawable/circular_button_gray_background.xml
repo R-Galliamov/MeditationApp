@@ -1,0 +1,32 @@
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/eerie_black">
+    <item android:id="@android:id/mask">
+        <shape android:shape="rectangle">
+            <corners android:radius="28dp" />
+            <solid android:color="@color/eerie_black" />
+        </shape>
+    </item>
+
+    <item android:id="@android:id/background">
+        <layer-list>
+            <item
+                android:width="56dp"
+                android:height="56dp">
+                <shape android:shape="rectangle">
+                    <corners android:radius="28dp" />
+                    <solid android:color="@color/yankees_blue" />
+                </shape>
+            </item>
+
+            <item
+                android:width="25dp"
+                android:height="13dp"
+                android:bottom="0dp"
+                android:drawable="@drawable/arrow"
+                android:end="0dp"
+                android:gravity="center"
+                android:start="0dp"
+                android:top="0dp" />
+        </layer-list>
+    </item>
+</ripple>

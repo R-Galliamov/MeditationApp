@@ -5,6 +5,9 @@ import android.graphics.Color
 object ColorConstants {
     val YANKEES_BLUE: Int = Color.parseColor("#FF21273C")
     val EERIE_BLACK: Int = Color.parseColor("#FF141926")
+
+    val WHITE: Int = Color.parseColor("#FFFFFFFF")
+    val BLUE_LIGHT: Int = Color.parseColor("#FF5777E4")
 }
 
 object PrefsConstants {

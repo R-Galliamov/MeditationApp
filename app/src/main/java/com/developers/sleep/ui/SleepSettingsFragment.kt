@@ -28,17 +28,6 @@ class SleepSettingsFragment : Fragment() {
 
     private val alarmViewModel: AlarmViewModel by activityViewModels()
 
-    companion object {
-        @Volatile
-        private var instance: SleepSettingsFragment? = null
-
-        fun getInstance(): SleepSettingsFragment {
-            return instance ?: synchronized(this) {
-                instance ?: SleepSettingsFragment().also { instance = it }
-            }
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -61,7 +50,7 @@ class SleepSettingsFragment : Fragment() {
             val previousHour = previousCalendar?.get(Calendar.HOUR_OF_DAY)
             val previousMinute = previousCalendar?.get(Calendar.MINUTE)
 
-            //TODO make custom dialog or change buttons color
+            //TODO make custom dialog or change background
             val timePickerDialog = TimePickerDialog(
                 requireContext(),
                 TimePickerDialog.OnTimeSetListener { _, selectedHour, selectedMinute ->
@@ -88,11 +77,11 @@ class SleepSettingsFragment : Fragment() {
             binding.alarmTime.text = alarmTimeFormatted
         }
 
-        alarmViewModel.chosenAlarmSound.observe(viewLifecycleOwner){
+        alarmViewModel.chosenAlarmSound.observe(viewLifecycleOwner) {
             binding.alarmSoundChooseButton.text = it.name
         }
-        with(binding) {
 
+        with(binding) {
             alarmSoundChooseButton.setOnClickListener {
                 findNavController().navigate(R.id.action_sleepSettingsFragment_to_choosingAlarmFragment)
             }
@@ -110,12 +99,16 @@ class SleepSettingsFragment : Fragment() {
                 saveSwitcherState(isChecked)
             }
 
-            buttonFallIntoADream.setOnClickListener {
-                    alarmViewModel.setAlarm()
-                }
+            buttonDiveIntoSleep.setOnClickListener {
+                findNavController().navigate(R.id.action_sleepSettingsFragment_to_sleepDiverFragment)
+            }
 
+            buttonFallIntoADream.setOnClickListener {
+                findNavController().navigate(R.id.action_sleepSettingsFragment_to_sleepDiverFragment)
+                alarmViewModel.setAlarm()
             }
         }
+    }
 
     private fun updateDiveIntoSleepCardUi(isChecked: Boolean) = with(binding) {
         overlaying.visibility = if (isChecked) View.GONE else View.VISIBLE
@@ -123,6 +116,7 @@ class SleepSettingsFragment : Fragment() {
     }
 
     private fun saveSwitcherState(value: Boolean) {
+        //TODO replace to repository
         val editor = sharedPreferences.edit()
         editor.putBoolean(PrefsConstants.IS_MUSIC_FOR_SLEEP_0N, value)
         editor.apply()

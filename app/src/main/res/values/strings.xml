@@ -44,6 +44,7 @@
     <string name="dream">Dream</string>
     <string name="qustion1">How many hours before a meal do you last eat?</string>
     <string name="previous_question">Previous question</string>
+    <string name="stop">Stop</string>
 
 
 </resources>

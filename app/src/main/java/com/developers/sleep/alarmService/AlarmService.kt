@@ -24,7 +24,7 @@ class AlarmService: Service() {
     }
 
     @Inject
-    private lateinit var mediaPlayerHelper: MediaPlayerHelper
+    lateinit var mediaPlayerHelper: MediaPlayerHelper
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d("APP_LOG", "AlarmService started")

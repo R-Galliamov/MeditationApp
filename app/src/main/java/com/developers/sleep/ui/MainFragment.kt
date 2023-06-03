@@ -1,6 +1,9 @@
 package com.developers.sleep.ui
 
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,25 +15,17 @@ import androidx.navigation.fragment.findNavController
 import com.developers.sleep.ColorConstants
 import com.developers.sleep.R
 import com.developers.sleep.databinding.FragmentMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainFragment: Fragment() {
+class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding: FragmentMainBinding
         get() = _binding!!
 
-    companion object {
-        @Volatile
-        private var instance: MainFragment? = null
-
-        fun getInstance(): MainFragment {
-            return instance ?: synchronized(this) {
-                instance ?: MainFragment().also { instance = it }
-            }
-        }
-    }
+    private lateinit var bottomNavView: BottomNavigationView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,32 +43,79 @@ class MainFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val bottomNavView = binding.bottomNavView
+        bottomNavView = binding.bottomNavView
         bottomNavView.itemIconTintList = null
-        showFragment(HomeFragment())
 
+        updateNavBarUi(R.id.menuHome)
+        showFragment(HomeFragment())
 
 
         //TODO check what fragment is now shown
         bottomNavView.setOnItemSelectedListener { menuItem ->
+            updateNavBarUi(menuItem.itemId)
             when (menuItem.itemId) {
                 R.id.menuHome -> {
                     showFragment(HomeFragment())
                 }
+
                 R.id.menuSleep -> {
-                    //TODO change tab to home after coming back
                     findNavController().navigate(R.id.action_mainFragment_to_sleepSettingsFragment)
                 }
+
                 R.id.menuMelodies -> {
                     showFragment(ChoosingGoalFragment())
                 }
+
                 R.id.menuProfile -> {
                     showFragment(ChoosingGoalFragment())
                 }
             }
+
             true
         }
     }
+
+    private fun updateNavBarUi(menuItemId: Int) {
+        with(bottomNavView) {
+            val menuHomeItem = menu.findItem(R.id.menuHome)
+            val menuSleepItem = menu.findItem(R.id.menuSleep)
+
+            if (menuItemId == R.id.menuHome) {
+                menuHomeItem.setIcon(R.drawable.menuhome_selected)
+                val spannableStringSelected = SpannableString(menuHomeItem.title)
+                spannableStringSelected.setSpan(
+                    ForegroundColorSpan(ColorConstants.BLUE_LIGHT),
+                    0,
+                    spannableStringSelected.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                menuHomeItem.title = spannableStringSelected
+
+                menuSleepItem.setIcon(R.drawable.menumoon)
+
+                val spannableStringUnselected = SpannableString(menuSleepItem.title)
+                spannableStringUnselected.setSpan(
+                    ForegroundColorSpan(ColorConstants.WHITE),
+                    0,
+                    spannableStringUnselected.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                menuSleepItem.title = spannableStringUnselected
+
+            } else {
+                menuHomeItem.setIcon(R.drawable.menuhome)
+                val spannableStringUnselected = SpannableString(menuHomeItem.title)
+                spannableStringUnselected.setSpan(
+                    ForegroundColorSpan(ColorConstants.WHITE),
+                    0,
+                    spannableStringUnselected.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                menuHomeItem.title = spannableStringUnselected
+            }
+        }
+    }
+
 
     private fun showFragment(fragment: Fragment) {
         childFragmentManager.beginTransaction()
@@ -92,4 +134,6 @@ class MainFragment: Fragment() {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.navigationBarColor = color
     }
+
+
 }
