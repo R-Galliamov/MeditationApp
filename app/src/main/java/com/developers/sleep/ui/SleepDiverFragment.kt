@@ -41,21 +41,20 @@ class SleepDiverFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.rightButton.setOnClickListener{
+            it.isEnabled = false
             toggleUnfoldedLayout()
+            it.isEnabled = true
         }
     }
 
     private fun toggleUnfoldedLayout() {
-        val unfoldedLayout = binding.unfoldedLayout
+        val unfoldedLayout = binding.unfoldingLayout
         val rightButton = binding.rightButton
         val rightButtonCenterX = rightButton.left + rightButton.width / 2
-        val rightButtonCenter = rightButton.width / 2
-
-        //TODO add code if movement wasnt ended
         if (unfoldedLayout.visibility == View.VISIBLE) {
             // Collapse the layout
             val animator = ObjectAnimator.ofFloat(unfoldedLayout, "translationX", 0f, rightButtonCenterX.toFloat())
-            animator.duration = 3000
+            animator.duration = 600
             animator.addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     unfoldedLayout.visibility = View.GONE
@@ -68,7 +67,7 @@ class SleepDiverFragment : Fragment() {
             unfoldedLayout.translationX = rightButtonCenterX.toFloat()
             unfoldedLayout.animate()
                 .translationX(0f)
-                .setDuration(3000)
+                .setDuration(600)
                 .start()
         }
     }

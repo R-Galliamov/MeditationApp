@@ -8,22 +8,22 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="0dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="48dp"
         android:gravity="start"
         android:orientation="horizontal"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/rightButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/rightButton">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/unfoldedLayout"
+            android:id="@+id/unfoldingLayout"
+            android:visibility="gone"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@drawable/rounded_button_gray"
+            android:background="@drawable/leftside_rounded_gray_rectangle"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -65,14 +65,13 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
+    <ImageButton
         android:id="@+id/rightButton"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="20dp"
-        android:backgroundTint="@color/white"
-        android:text="Right"
+        android:background="@drawable/circular_button_music_player"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
