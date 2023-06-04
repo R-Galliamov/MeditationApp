@@ -57,6 +57,16 @@
     <string name="restore_purchase">Restore purchase</string>
     <string name="support">Support</string>
     <string name="terms_of_use">Terms of Use</string>
+    <string name="partners">Partners</string>
+    <string name="my_account">My account</string>
+    <string name="personal_information">Personal information</string>
+    <string name="subscription">Subscription</string>
+    <string name="subscription_hint">Subscription automatically renews at the end of the subscription period</string>
+    <string name="name">Name</string>
+    <string name="gender">Gender</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="type">Type</string>
+    <string name="premium">Premium</string>
 
 
 </resources>

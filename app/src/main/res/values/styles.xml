@@ -84,4 +84,19 @@
         <item name="android:timePickerMode">spinner</item>
     </style>
 
+    <style name="RoundedEditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:background">@drawable/rounded_ripple_button</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">40</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:textColorHint">@color/old_silver</item>
+    </style>
+
+
 </resources>

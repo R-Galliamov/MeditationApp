@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.findNavController
@@ -67,12 +68,14 @@ class MainFragment : Fragment() {
                 }
 
                 R.id.menuProfile -> {
-                    showFragment(ChoosingGoalFragment())
+                    showFragment(ProfileFragment())
                 }
             }
 
             true
         }
+
+
     }
 
     private fun updateNavBarUi(menuItemId: Int) {
@@ -119,7 +122,7 @@ class MainFragment : Fragment() {
 
     private fun showFragment(fragment: Fragment) {
         childFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainerSmall, fragment)
+            .replace(R.id.fragmentContainer, fragment)
             .commit()
     }
 
