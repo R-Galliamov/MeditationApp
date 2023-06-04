@@ -34,7 +34,7 @@
     <string name="sleep_coach">Sleep coach</string>
     <string name="tip_of_the_day">Tip of the day</string>
     <string name="sleep_settings">Sleep settings</string>
-    <string name="alarm">Alarm</string>
+    <string name="alarm">Alarm\ </string>
     <string name="alarm_sound">Alarm sound</string>
     <string name="choose">Choose</string>
     <string name="smart_alarm">\"Smart\" alarm</string>
@@ -45,6 +45,18 @@
     <string name="qustion1">How many hours before a meal do you last eat?</string>
     <string name="previous_question">Previous question</string>
     <string name="stop">Stop</string>
+    <string name="settings">Settings</string>
+    <string name="allow_notifications">Allow notifications</string>
+    <string name="english">English</string>
+    <string name="language">Language</string>
+    <string name="general">General</string>
+    <string name="notifications">Notifications</string>
+    <string name="turn_un_notifications">Turn on notifications to keep track of your sleep</string>
+    <string name="snooze_alarm">Snooze alarm</string>
+    <string name="repeat_time">Repeat time</string>
+    <string name="restore_purchase">Restore purchase</string>
+    <string name="support">Support</string>
+    <string name="terms_of_use">Terms of Use</string>
 
 
 </resources>
