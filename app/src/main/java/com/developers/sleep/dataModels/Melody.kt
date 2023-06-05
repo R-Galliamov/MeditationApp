@@ -1,4 +1,4 @@
-package com.developers.sleep
+package com.developers.sleep.dataModels
 
 data class Melody(
     val name: String,

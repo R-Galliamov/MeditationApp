@@ -1,11 +1,16 @@
 package com.developers.sleep.ui
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.developers.sleep.PrefsConstants
+import com.developers.sleep.R
+import com.developers.sleep.dataModels.QUESTION_LIST_TEST
 import com.developers.sleep.databinding.FragmentTestBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,21 +20,14 @@ class TestFragment : Fragment() {
     private val binding: FragmentTestBinding
         get() = _binding!!
 
-    companion object {
-        @Volatile
-        private var instance: TestFragment? = null
-
-        fun getInstance(): TestFragment {
-            return instance ?: synchronized(this) {
-                instance ?: TestFragment().also { instance = it }
-            }
-        }
-    }
+    private val questionList = QUESTION_LIST_TEST
+    private lateinit var userDataPreferences: SharedPreferences
+    private var userAnswersCount = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentTestBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -37,8 +35,49 @@ class TestFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonBack.setOnClickListener {
-            findNavController().navigateUp()
+        userDataPreferences = requireActivity().getSharedPreferences(
+            PrefsConstants.USER_DATA_PREFS_NAME,
+            Context.MODE_PRIVATE
+        )
+        userAnswersCount = userDataPreferences.getInt(PrefsConstants.USER_ANSWERS_COUNT, 0)
+
+        with(binding) {
+            radioGroup.setOnCheckedChangeListener { group, checkedId ->
+                buttonChoose.visibility = if (checkedId != -1) View.VISIBLE else View.GONE
+            }
+
+            buttonChoose.setOnClickListener {
+                userAnswersCount++
+                saveAnswer(userAnswersCount, getSelectedAnswer())
+                if (userAnswersCount == questionList.size) {
+                    continueText.text = getString(R.string.done)
+                }
+                if (userAnswersCount < questionList.size) {
+                    updateQuestion(userAnswersCount)
+                } else if (userAnswersCount == questionList.size) {
+                    findNavController().navigateUp()
+                }
+            }
+
+            buttonBack.setOnClickListener {
+                findNavController().navigateUp()
+            }
+
+            buttonPreviousQuestion.setOnClickListener {
+                if (userAnswersCount > 0) {
+                    userAnswersCount--
+                    updateQuestion(userAnswersCount)
+                }
+            }
+        }
+        // Check if the last question was answered and update the UI accordingly
+        if (userAnswersCount >= 0 && userAnswersCount < questionList.size) {
+            updateQuestion(userAnswersCount)
+        }
+        // If the last question was not answered or the user has completed the test, start from the beginning
+        else {
+            userAnswersCount = 0
+            updateQuestion(userAnswersCount)
         }
     }
 
@@ -47,4 +86,59 @@ class TestFragment : Fragment() {
         _binding = null
     }
 
+    private fun updateQuestion(userAnswersCount: Int) {
+        val currentQuestion = questionList[userAnswersCount]
+        with(binding) {
+            questionText.text = currentQuestion.question
+            val currentQuestionNumber = userAnswersCount + 1
+            val questionNumString =
+                getString(R.string.question_number, currentQuestionNumber, questionList.size)
+            questionNumText.text = questionNumString
+
+            answer0.text = currentQuestion.answers[0]
+            answer1.text = currentQuestion.answers[1]
+            answer2.text = currentQuestion.answers[2]
+            answer3.text = currentQuestion.answers[3]
+
+            val previousAnswer =
+                userDataPreferences.getInt(PrefsConstants.ANSWER_PREFIX + userAnswersCount, -1)
+            if (previousAnswer != -1) {
+                buttonChoose.visibility = View.VISIBLE
+                setRadioGroupSelection(previousAnswer)
+            } else {
+                buttonChoose.visibility = View.GONE
+                radioGroup.clearCheck()
+            }
+
+            buttonPreviousQuestion.visibility =
+                if (userAnswersCount == 0) View.GONE else View.VISIBLE
+        }
+    }
+
+    private fun saveAnswer(userAnswersCount: Int, selectedAnswer: Int) {
+        val editor = userDataPreferences.edit()
+        editor.putInt(PrefsConstants.USER_ANSWERS_COUNT, userAnswersCount)
+        editor.putInt(PrefsConstants.ANSWER_PREFIX + (userAnswersCount - 1), selectedAnswer)
+        editor.apply()
+    }
+
+    private fun getSelectedAnswer(): Int {
+        return when (binding.radioGroup.checkedRadioButtonId) {
+            R.id.answer0 -> 0
+            R.id.answer1 -> 1
+            R.id.answer2 -> 2
+            R.id.answer3 -> 3
+            else -> -1
+        }
+    }
+
+    private fun setRadioGroupSelection(selectedAnswer: Int) {
+        when (selectedAnswer) {
+            0 -> binding.radioGroup.check(R.id.answer0)
+            1 -> binding.radioGroup.check(R.id.answer1)
+            2 -> binding.radioGroup.check(R.id.answer2)
+            3 -> binding.radioGroup.check(R.id.answer3)
+            else -> binding.radioGroup.clearCheck()
+        }
+    }
 }

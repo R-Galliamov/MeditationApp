@@ -7,12 +7,12 @@
         app:actionLayout="@layout/bottom_nav_item" />
     <item
         android:id="@+id/menuSleep"
-        android:icon="@drawable/menu_moon_selector"
+        android:icon="@drawable/menu_sleep_selector"
         android:title="@string/sleep"
         app:actionLayout="@layout/bottom_nav_item" />
     <item
         android:id="@+id/menuMelodies"
-        android:icon="@drawable/menu_music_selector"
+        android:icon="@drawable/menu_melodies_selector"
         android:title="@string/melodies"
         app:actionLayout="@layout/bottom_nav_item" />
     <item

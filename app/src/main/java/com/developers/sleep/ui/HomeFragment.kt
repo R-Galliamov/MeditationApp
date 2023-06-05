@@ -1,5 +1,6 @@
 package com.developers.sleep.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +8,9 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.developers.sleep.PrefsConstants
 import com.developers.sleep.R
+import com.developers.sleep.dataModels.QUESTION_LIST_TEST
 import com.developers.sleep.databinding.FragmentHomeBinding
 
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,24 +43,34 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val sharedPreferences = requireActivity().getSharedPreferences(
+            PrefsConstants.USER_DATA_PREFS_NAME,
+            Context.MODE_PRIVATE
+        )
 
-        var userprogress = 0f
-        var angle = 0f
+        val userAnswersCount = sharedPreferences.getInt(PrefsConstants.USER_ANSWERS_COUNT, 0)
+        val userProgress = userAnswersCount.toFloat()
+        val questionList = QUESTION_LIST_TEST
+        val maxUserProgress = questionList.size.toFloat()
+        val nextQuestion =
+            if (userAnswersCount < questionList.size) questionList[userAnswersCount].question
+            else "Test completed!" //TODO replace
+
+
+        if (userProgress == maxUserProgress) {
+            binding.checkbox.visibility = View.VISIBLE
+        }
+
+        binding.nextQuestionText.text = nextQuestion
+        val angle = (-45f * userProgress)
         val circularProgressBar = binding.circularProgressBar
         circularProgressBar.apply {
-            progress = userprogress
-            progressMax = 6f
+            progress = userProgress
+            progressMax = maxUserProgress
+            startAngle = angle
+            setProgressWithAnimation(userProgress, 1000)
         }
 
-        binding.buttonGoToTest.setOnClickListener {
-            userprogress += 1f
-            angle -= 45f
-            circularProgressBar.apply {
-                progress = userprogress
-                startAngle = angle
-                setProgressWithAnimation(userprogress, 1000)
-            }
-        }
 
         binding.buttonGoToTest.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_testFragment)
@@ -67,11 +80,13 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_mainFragment_to_sleepSettingsFragment)
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                requireActivity().finish()
-            }
-        })
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    requireActivity().finish()
+                }
+            })
 
     }
 

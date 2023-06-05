@@ -69,6 +69,8 @@
     <string name="premium">Premium</string>
     <string name="selectDate">Select date</string>
     <string name="during">During</string>
+    <string name="question_number">Question %1$d of %2$d</string>
+    <string name="done">Done</string>
 
 
 </resources>

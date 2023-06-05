@@ -1,4 +1,4 @@
-package com.developers.sleep
+package com.developers.sleep.dataModels
 
 data class PlayList(
     val name: String,

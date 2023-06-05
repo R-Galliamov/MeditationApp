@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.developers.sleep.Melody
+import com.developers.sleep.dataModels.Melody
 import com.developers.sleep.MelodyRepository
 import com.developers.sleep.PrefsConstants
 import com.developers.sleep.alarmService.AlarmHelper

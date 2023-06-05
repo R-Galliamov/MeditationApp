@@ -11,10 +11,12 @@ import android.view.Window
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.developers.sleep.ColorConstants
 import com.developers.sleep.R
 import com.developers.sleep.databinding.FragmentMainBinding
+import com.developers.sleep.viewModel.MenuViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,6 +28,7 @@ class MainFragment : Fragment() {
         get() = _binding!!
 
     private lateinit var bottomNavView: BottomNavigationView
+    private val menuViewModel: MenuViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,41 +48,39 @@ class MainFragment : Fragment() {
 
         bottomNavView = binding.bottomNavView
         bottomNavView.itemIconTintList = null
-        val selectedItem = bottomNavView.selectedItemId
 
-        showFragment(HomeFragment())
-        updateNavBarUi(selectedItem)
-
-        findNavController().addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.sleepDiverFragment) {
-                print("")
-            }
-            if (destination.id == R.id.playerFragment) {
-                print("")
-            }
+        showFragment(menuViewModel.currentFragment)
+        if (menuViewModel.currentFragment is HomeFragment) {
+            updateNavBarUi(R.id.menuHome)
         }
-
 
         bottomNavView.setOnItemSelectedListener { menuItem ->
             updateNavBarUi(menuItem.itemId)
             when (menuItem.itemId) {
                 R.id.menuHome -> {
-                    showFragment(HomeFragment())
+                    val fragment = HomeFragment()
+                    menuViewModel.currentFragment = fragment
+                    showFragment(fragment)
                 }
 
                 R.id.menuSleep -> {
+                    val fragment = HomeFragment()
+                    menuViewModel.currentFragment = fragment
                     findNavController().navigate(R.id.action_mainFragment_to_sleepSettingsFragment)
                 }
 
                 R.id.menuMelodies -> {
+                    val fragment = MelodiesFragment()
+                    menuViewModel.currentFragment = fragment
                     showFragment(MelodiesFragment())
                 }
 
                 R.id.menuProfile -> {
+                    val fragment = ProfileFragment()
+                    menuViewModel.currentFragment = fragment
                     showFragment(ProfileFragment())
                 }
             }
-
             true
         }
 
@@ -92,10 +93,6 @@ class MainFragment : Fragment() {
             val menuSleepItem = menu.findItem(R.id.menuSleep)
 
             if (menuItemId == R.id.menuHome) {
-                print("")
-            }
-
-            if (menuItemId == R.id.menuSleep) {
                 menuHomeItem.setIcon(R.drawable.menuhome_selected)
                 val spannableStringSelected = SpannableString(menuHomeItem.title)
                 spannableStringSelected.setSpan(

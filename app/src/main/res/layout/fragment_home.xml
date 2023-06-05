@@ -173,7 +173,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/sleepCoachDescriptionText"
+            android:id="@+id/nextQuestionText"
             style="@style/SecondarySmallTextStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -184,11 +184,13 @@
             app:layout_constraintTop_toBottomOf="@id/sleepCoachTitleText" />
 
         <ImageView
+            android:id="@+id/checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/checkbox"
+            android:visibility="gone"
+            android:src="@drawable/checkbox_on"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -214,7 +216,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/goToTestText"
-            app:layout_constraintTop_toBottomOf="@id/sleepCoachDescriptionText" />
+            app:layout_constraintTop_toBottomOf="@id/nextQuestionText" />
 
         <TextView
             android:id="@+id/goToTestText"

@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.developers.sleep.Melody
+import com.developers.sleep.dataModels.Melody
 import com.developers.sleep.PACKAGE_NAME
-import com.developers.sleep.PlayList
+import com.developers.sleep.dataModels.PlayList
 import com.developers.sleep.R
 import com.developers.sleep.adapter.MelodyAdapter
 import com.developers.sleep.adapter.PlayListAdapter

@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.developers.sleep.Melody
+import com.developers.sleep.dataModels.Melody
 import com.developers.sleep.MediaPlayerHelper
 import com.developers.sleep.PrefsConstants
 import com.developers.sleep.adapter.AlarmSoundAdapter
