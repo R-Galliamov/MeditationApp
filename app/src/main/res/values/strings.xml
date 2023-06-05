@@ -67,6 +67,8 @@
     <string name="date_of_birth">Date of birth</string>
     <string name="type">Type</string>
     <string name="premium">Premium</string>
+    <string name="selectDate">Select date</string>
+    <string name="during">During</string>
 
 
 </resources>

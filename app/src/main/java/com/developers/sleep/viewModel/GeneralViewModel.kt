@@ -1,7 +1,8 @@
-package com.developers.sleep
+package com.developers.sleep.viewModel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.developers.sleep.Melody
+import com.developers.sleep.MelodyRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -11,7 +12,7 @@ class GeneralViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    fun getAlarmSoundsList(): List<AlarmSound>{
+    fun getAlarmSoundsList(): List<Melody>{
         return repository.alarmSoundsList
     }
 

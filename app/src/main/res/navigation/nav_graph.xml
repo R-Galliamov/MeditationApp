@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_mainFragment_to_testFragment"
             app:destination="@id/testFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
     </fragment>
     <fragment
         android:id="@+id/sleepSettingsFragment"
@@ -81,6 +84,10 @@
         android:name="com.developers.sleep.ui.SleepDiverFragment"
         android:label="fragment_sleep_diver"
         tools:layout="@layout/fragment_sleep_diver" />
+    <fragment
+        android:id="@+id/playerFragment"
+        android:name="com.developers.sleep.ui.PlayerFragment"
+        android:label="PlayerFragment" />
 
 
 </navigation>

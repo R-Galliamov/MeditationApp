@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.findNavController
@@ -46,12 +45,21 @@ class MainFragment : Fragment() {
 
         bottomNavView = binding.bottomNavView
         bottomNavView.itemIconTintList = null
+        val selectedItem = bottomNavView.selectedItemId
 
-        updateNavBarUi(R.id.menuHome)
         showFragment(HomeFragment())
+        updateNavBarUi(selectedItem)
+
+        findNavController().addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.sleepDiverFragment) {
+                print("")
+            }
+            if (destination.id == R.id.playerFragment) {
+                print("")
+            }
+        }
 
 
-        //TODO check what fragment is now shown
         bottomNavView.setOnItemSelectedListener { menuItem ->
             updateNavBarUi(menuItem.itemId)
             when (menuItem.itemId) {
@@ -64,7 +72,7 @@ class MainFragment : Fragment() {
                 }
 
                 R.id.menuMelodies -> {
-                    showFragment(ChoosingGoalFragment())
+                    showFragment(MelodiesFragment())
                 }
 
                 R.id.menuProfile -> {
@@ -84,6 +92,10 @@ class MainFragment : Fragment() {
             val menuSleepItem = menu.findItem(R.id.menuSleep)
 
             if (menuItemId == R.id.menuHome) {
+                print("")
+            }
+
+            if (menuItemId == R.id.menuSleep) {
                 menuHomeItem.setIcon(R.drawable.menuhome_selected)
                 val spannableStringSelected = SpannableString(menuHomeItem.title)
                 spannableStringSelected.setSpan(

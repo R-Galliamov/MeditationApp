@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.developers.sleep.GeneralViewModel
+import com.developers.sleep.viewModel.GeneralViewModel
 import com.developers.sleep.PrefsConstants
 import com.developers.sleep.R
 import com.developers.sleep.databinding.FragmentSplashBinding

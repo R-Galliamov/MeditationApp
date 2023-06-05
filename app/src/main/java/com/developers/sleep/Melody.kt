@@ -1,8 +1,6 @@
 package com.developers.sleep
 
-import java.io.File
-
-data class AlarmSound(
+data class Melody(
     val name: String,
     val fileName: String,
 )

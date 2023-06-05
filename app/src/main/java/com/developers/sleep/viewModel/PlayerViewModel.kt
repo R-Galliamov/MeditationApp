@@ -15,7 +15,7 @@ import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class AlarmViewModel @Inject constructor(
+class PlayerViewModel @Inject constructor(
     private val application: Application,
     private val repository: MelodyRepository
 ) : AndroidViewModel(application) {
