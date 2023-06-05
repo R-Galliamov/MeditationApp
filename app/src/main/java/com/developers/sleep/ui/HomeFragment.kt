@@ -56,7 +56,6 @@ class HomeFragment : Fragment() {
             if (userAnswersCount < questionList.size) questionList[userAnswersCount].question
             else "Test completed!" //TODO replace
 
-
         if (userProgress == maxUserProgress) {
             binding.checkbox.visibility = View.VISIBLE
         }
