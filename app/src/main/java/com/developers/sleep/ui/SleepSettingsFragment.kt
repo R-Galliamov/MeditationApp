@@ -106,7 +106,7 @@ class SleepSettingsFragment : Fragment() {
                 showNumberPicker()
             }
 
-            val musicDuration = sharedPreferences.getInt(AlarmPrefs.MUSIC_DURATION, 30)
+            var musicDuration = sharedPreferences.getInt(AlarmPrefs.MUSIC_DURATION, 30)
 
             numberPicker.apply {
                 minValue = 1
@@ -116,13 +116,16 @@ class SleepSettingsFragment : Fragment() {
 
             sleepingTimeText.text = getString(R.string.min, musicDuration)
 
+
+
             numberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
-                sleepingTimeText.text = getString(R.string.min, newVal)
-                saveMusicDuration(newVal)
+                musicDuration = newVal
             }
 
             screenOverlaying.setOnClickListener {
                 numberPickerContainer.visibility = View.GONE
+                sleepingTimeText.text = getString(R.string.min, musicDuration)
+                saveMusicDuration(musicDuration)
             }
 
             buttonFallIntoADream.setOnClickListener {
@@ -145,7 +148,7 @@ class SleepSettingsFragment : Fragment() {
 
     private fun saveMusicDuration(musicDuration: Int) {
         val editor = sharedPreferences.edit()
-        editor.putInt(AlarmPrefs.IS_MUSIC_FOR_SLEEP_0N, musicDuration)
+        editor.putInt(AlarmPrefs.MUSIC_DURATION, musicDuration)
         editor.apply()
     }
 
