@@ -23,6 +23,11 @@ object AlarmPrefs {
     const val STANDARD_ALARM_SOUND = "Sound 1"
     const val SELECTED_ALARM_MELODY_INDEX = "selectedAlarmMelodyIndex"
     const val SELECTED_ALARM_MELODY_NAME = "selectedAlarmMelodyName"
+}
+
+object PlayerPrefs {
+    const val PREFS_NAME = "PlayerPrefs"
+    const val SELECTED_MELODY = "selectedMelody"
     const val MUSIC_DURATION = "musicDuration"
 }
 

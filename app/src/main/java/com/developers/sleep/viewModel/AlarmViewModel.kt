@@ -1,6 +1,7 @@
 package com.developers.sleep.viewModel
 
 import android.app.Application
+import android.content.Context
 import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
@@ -22,9 +23,9 @@ class AlarmViewModel @Inject constructor(
 ) : AndroidViewModel(application) {
 
     private val sharedPreferences: SharedPreferences =
-        application.getSharedPreferences(AlarmPrefs.PREFS_NAME, 0)
+        application.getSharedPreferences(AlarmPrefs.PREFS_NAME, Context.MODE_PRIVATE)
 
-    private val _alarmTime = MutableLiveData<Calendar>()
+    val _alarmTime = MutableLiveData<Calendar>()
     val alarmTime: LiveData<Calendar>
         get() = _alarmTime
 
@@ -41,12 +42,13 @@ class AlarmViewModel @Inject constructor(
             calendar.timeInMillis = alarmMillis
             _alarmTime.value = calendar
         } else {
-            val defaultTime = Calendar.getInstance()
-            defaultTime.set(Calendar.HOUR_OF_DAY, 7)
-            defaultTime.set(Calendar.MINUTE, 30)
-            defaultTime.add(Calendar.DAY_OF_YEAR, 1)
+            val defaultTime = getDefaultAlarmTime()
             _alarmTime.value = defaultTime
         }
+    }
+
+    fun isMusicOn(): Boolean {
+        return sharedPreferences.getBoolean(AlarmPrefs.IS_MUSIC_FOR_SLEEP_0N, true)
     }
 
     fun getAlarmSoundsList(): List<Melody> {
@@ -79,6 +81,15 @@ class AlarmViewModel @Inject constructor(
         val editor = sharedPreferences.edit()
         editor.putLong(AlarmPrefs.ALARM_TIME, time.timeInMillis)
         editor.apply()
+    }
+
+    private fun getDefaultAlarmTime(): Calendar {
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, 1)
+        calendar.set(Calendar.HOUR_OF_DAY, 7)
+        calendar.set(Calendar.MINUTE, 30)
+        calendar.set(Calendar.SECOND, 0)
+        return calendar
     }
 
 }

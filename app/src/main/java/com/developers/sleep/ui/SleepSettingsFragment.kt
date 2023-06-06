@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.developers.sleep.AlarmPrefs
+import com.developers.sleep.PlayerPrefs
 import com.developers.sleep.R
 import com.developers.sleep.databinding.FragmentSleepSettingsBinding
 import com.developers.sleep.viewModel.AlarmViewModel
@@ -23,7 +24,8 @@ class SleepSettingsFragment : Fragment() {
     private val binding: FragmentSleepSettingsBinding
         get() = _binding!!
 
-    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var alarmSharedPreferences: SharedPreferences
+    private lateinit var playerSharedPreferences: SharedPreferences
 
     private val alarmViewModel: AlarmViewModel by activityViewModels()
 
@@ -38,10 +40,12 @@ class SleepSettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedPreferences = requireActivity().getSharedPreferences(
+        alarmSharedPreferences = requireActivity().getSharedPreferences(
             AlarmPrefs.PREFS_NAME,
             Context.MODE_PRIVATE
         )
+        playerSharedPreferences =
+            requireActivity().getSharedPreferences(PlayerPrefs.PREFS_NAME, Context.MODE_PRIVATE)
 
 
         binding.alarmTime.setOnClickListener {
@@ -90,9 +94,11 @@ class SleepSettingsFragment : Fragment() {
             }
 
             switcher.isChecked =
-                sharedPreferences.getBoolean(AlarmPrefs.IS_MUSIC_FOR_SLEEP_0N, true)
+                alarmSharedPreferences.getBoolean(AlarmPrefs.IS_MUSIC_FOR_SLEEP_0N, true)
             updateDiveIntoSleepCardUi(switcher.isChecked)
+
             saveSwitcherState(switcher.isChecked)
+
             switcher.setOnCheckedChangeListener { _, isChecked ->
                 updateDiveIntoSleepCardUi(isChecked)
                 saveSwitcherState(isChecked)
@@ -106,7 +112,7 @@ class SleepSettingsFragment : Fragment() {
                 showNumberPicker()
             }
 
-            var musicDuration = sharedPreferences.getInt(AlarmPrefs.MUSIC_DURATION, 30)
+            var musicDuration = playerSharedPreferences.getInt(PlayerPrefs.MUSIC_DURATION, 30)
 
             numberPicker.apply {
                 minValue = 1
@@ -139,7 +145,6 @@ class SleepSettingsFragment : Fragment() {
         binding.numberPickerContainer.visibility = View.VISIBLE
     }
 
-
     private fun updateDiveIntoSleepCardUi(isChecked: Boolean) = with(binding) {
         overlaying.visibility = if (isChecked) View.GONE else View.VISIBLE
         buttonSongChooser.isEnabled = isChecked
@@ -147,13 +152,13 @@ class SleepSettingsFragment : Fragment() {
     }
 
     private fun saveMusicDuration(musicDuration: Int) {
-        val editor = sharedPreferences.edit()
-        editor.putInt(AlarmPrefs.MUSIC_DURATION, musicDuration)
+        val editor = playerSharedPreferences.edit()
+        editor.putInt(PlayerPrefs.MUSIC_DURATION, musicDuration)
         editor.apply()
     }
 
     private fun saveSwitcherState(value: Boolean) {
-        val editor = sharedPreferences.edit()
+        val editor = alarmSharedPreferences.edit()
         editor.putBoolean(AlarmPrefs.IS_MUSIC_FOR_SLEEP_0N, value)
         editor.apply()
     }

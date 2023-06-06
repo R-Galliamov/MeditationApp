@@ -16,13 +16,22 @@ class MediaPlayerHelper @Inject constructor(
 ) {
     private val mediaPlayer = MediaPlayer()
 
+    private var _isPlaying = false
+
+    val isPlaying: Boolean
+        get() = _isPlaying
+
     fun getAlarmSoundAssetFileDescriptor(alarmSoundFileName: String): AssetFileDescriptor {
         val assetFileDescriptor: AssetFileDescriptor =
             application.assets.openFd("alarmSounds/${alarmSoundFileName}")
         return assetFileDescriptor
     }
 
-    fun playLoopingAlarmSound(alarmSoundFileName: String) {
+    fun playLoopingMelody() {
+        //TODO not yet implemented
+    }
+
+    fun startPlayLoopingAlarmSound(alarmSoundFileName: String) {
         stopPlaying()
         val assetFileDescriptor: AssetFileDescriptor =
             getAlarmSoundAssetFileDescriptor(alarmSoundFileName)
@@ -35,8 +44,23 @@ class MediaPlayerHelper @Inject constructor(
         mediaPlayer.isLooping = true
         mediaPlayer.prepare()
         mediaPlayer.start()
+        _isPlaying = mediaPlayer.isPlaying
+    }
 
+    fun continuePlaying() {
+        mediaPlayer.apply {
+            mediaPlayer.start()
+        }
+        _isPlaying = true
+    }
 
+    fun pausePlaying() {
+        mediaPlayer.apply {
+            if (isPlaying) {
+                pause()
+            }
+            _isPlaying = mediaPlayer.isPlaying
+        }
     }
 
     fun stopPlaying() {
@@ -46,6 +70,7 @@ class MediaPlayerHelper @Inject constructor(
             }
             reset()
         }
+        _isPlaying = mediaPlayer.isPlaying
     }
 }
 

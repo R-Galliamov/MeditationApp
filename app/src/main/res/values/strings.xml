@@ -79,6 +79,7 @@
     <string name="weekly">Weekly</string>
 
     <string name="min">%1$d min</string>
+    <string name="next_question">Next question:</string>
 
 
 </resources>

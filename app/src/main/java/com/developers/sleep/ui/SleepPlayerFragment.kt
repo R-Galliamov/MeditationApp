@@ -3,6 +3,7 @@ package com.developers.sleep.ui
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +18,17 @@ import com.developers.sleep.MediaPlayerHelper
 import com.developers.sleep.R
 import com.developers.sleep.databinding.FragmentSleepPlayerBinding
 import com.developers.sleep.viewModel.AlarmViewModel
+import com.developers.sleep.viewModel.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.Calendar
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -28,6 +39,11 @@ class SleepPlayerFragment : Fragment() {
         get() = _binding!!
 
     private val alarmViewModel: AlarmViewModel by activityViewModels()
+    private val playerViewModel: PlayerViewModel by activityViewModels()
+
+    private val timeFormat = SimpleDateFormat("hh:mm", Locale.getDefault())
+    private var updateTimeJob: Job? = null
+
 
     @Inject
     lateinit var mediaPlayerHelper: MediaPlayerHelper
@@ -38,29 +54,75 @@ class SleepPlayerFragment : Fragment() {
     ): View? {
         _binding = FragmentSleepPlayerBinding.inflate(inflater, container, false)
         return binding.root
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setBackground()
+        val currentMelody = playerViewModel.currentMelody //TODO pass it to the mediaPlayer
 
-        // TODO show player to user
-        //binding.unfoldingLayout.visibility = View.VISIBLE
-        //Handler().postDelayed({
-        //toggleUnfoldedLayout()}, 3000)
-
-        binding.buttonStop.setOnClickListener {
-            mediaPlayerHelper.stopPlaying()
-            findNavController().navigateUp()
+        if (alarmViewModel.isMusicOn()) {
+            binding.buttonMiniPlayer.visibility = View.VISIBLE
+            mediaPlayerHelper.startPlayLoopingAlarmSound("IterstellarTheme.mp3") //TODO replace with melody and duration
+            binding.buttonPlayerState.setBackgroundResource(R.drawable.circular_button_miniplayer_pause)
+        } else {
+            binding.buttonMiniPlayer.visibility = View.GONE
         }
 
-        binding.buttonMiniPlayer.setOnClickListener {
-            it.isEnabled = false
-            toggleUnfoldedLayout()
-            it.isEnabled = true
+        with(binding) {
+            buttonPlayerState.setOnClickListener {
+                if (mediaPlayerHelper.isPlaying) {
+                    mediaPlayerHelper.pausePlaying()
+                    buttonPlayerState.setBackgroundResource(R.drawable.circular_button_miniplayer_play)
+                } else {
+                    mediaPlayerHelper.continuePlaying()
+                    buttonPlayerState.setBackgroundResource(R.drawable.circular_button_miniplayer_pause)
+                }
+            }
+            songTitle.text = currentMelody.value?.name ?: "Interstellar" //TODO remove
         }
+
+        with(binding) {
+            currentTimeText.text = getCurrentTime()
+            val alarmTime = alarmViewModel.alarmTime.value
+            alarmTimeText.text = timeFormat.format(alarmTime?.time)
+            buttonStop.setOnClickListener {
+                mediaPlayerHelper.stopPlaying()
+                findNavController().navigateUp()
+            }
+            buttonMiniPlayer.setOnClickListener {
+                it.isEnabled = false
+                toggleUnfoldedLayout()
+                it.isEnabled = true
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateTimeJob = startUpdatingTime()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        updateTimeJob?.cancel()
+    }
+
+    private fun startUpdatingTime(): Job {
+        return CoroutineScope(Dispatchers.Default).launch {
+            while (isActive) {
+                val formattedTime = getCurrentTime()
+                withContext(Dispatchers.Main) {
+                    binding.currentTimeText.text = formattedTime
+                }
+                delay(1000)
+            }
+        }
+    }
+
+    private fun getCurrentTime(): String {
+        val calendar = Calendar.getInstance()
+        return timeFormat.format(calendar.time)
     }
 
     private fun setBackground() {
@@ -76,7 +138,6 @@ class SleepPlayerFragment : Fragment() {
         window.setBackgroundDrawableResource(R.drawable.sleep_diver_background)
     }
 
-
     //TODO test if margins to small
     private fun removeBackground() {
         val window: Window = requireActivity().window
@@ -88,7 +149,6 @@ class SleepPlayerFragment : Fragment() {
         val rootView = requireActivity().window.decorView.rootView
         rootView.setBackgroundColor(ColorConstants.EERIE_BLACK)
     }
-
 
     private fun toggleUnfoldedLayout() {
         val unfoldedLayout = binding.unfoldingLayout
@@ -119,7 +179,6 @@ class SleepPlayerFragment : Fragment() {
                 .start()
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

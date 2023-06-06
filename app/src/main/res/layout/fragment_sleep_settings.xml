@@ -285,7 +285,7 @@
             android:id="@+id/overlaying"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:alpha="0.75"
+            android:alpha="0.6"
             android:src="@drawable/rounded_overlaying_black"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
