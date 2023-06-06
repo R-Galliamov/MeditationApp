@@ -1,9 +1,9 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="@color/yankees_blue">
+    android:color="@color/eerie_black">
     <item android:id="@android:id/mask">
         <shape android:shape="rectangle">
             <corners android:radius="28dp" />
-            <solid android:color="@color/yankees_blue" />
+            <solid android:color="@color/eerie_black" />
         </shape>
     </item>
 

@@ -21,11 +21,14 @@
         <action
             android:id="@+id/action_splashFragment_to_choosingGoalFragment"
             app:destination="@id/choosingGoalFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_paywallFragment"
+            app:destination="@id/paywallFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/onboardingFragment"
-        android:name="com.developers.sleep.ui.OnboardingFragment"
+        android:name="com.developers.sleep.ui.onboarding.OnboardingFragment"
         android:label="fragment_onboarding"
         tools:layout="@layout/fragment_onboarding" >
 
@@ -33,6 +36,18 @@
             android:id="@+id/action_onboardingFragment_to_choosingGoalFragment"
             app:destination="@id/choosingGoalFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/paywallFragment"
+        android:name="com.developers.sleep.ui.onboarding.PaywallFragment"
+        android:label="fragment_payeall"
+        tools:layout="@layout/fragment_paywall" >
+        <action
+            android:id="@+id/action_paywallFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+
+
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.developers.sleep.ui.MainFragment"
@@ -44,6 +59,9 @@
         <action
             android:id="@+id/action_mainFragment_to_testFragment"
             app:destination="@id/testFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
     </fragment>
     <fragment
         android:id="@+id/sleepSettingsFragment"
@@ -54,17 +72,20 @@
             android:id="@+id/action_sleepSettingsFragment_to_choosingAlarmFragment"
             app:destination="@id/choosingAlarmFragment" />
         <action
-            android:id="@+id/action_sleepSettingsFragment_to_sleepDiverFragment"
-            app:destination="@id/sleepDiverFragment" />
+            android:id="@+id/action_sleepSettingsFragment_to_sleepPlayerFragment"
+            app:destination="@id/sleepPlayerFragment" />
+        <action
+            android:id="@+id/action_sleepSettingsFragment_to_melodyChooserFragment"
+            app:destination="@id/melodyChooserFragment" />
     </fragment>
     <fragment
         android:id="@+id/choosingGoalFragment"
-        android:name="com.developers.sleep.ui.ChoosingGoalFragment"
+        android:name="com.developers.sleep.ui.onboarding.ChoosingGoalFragment"
         android:label="fragment_choosing_goal"
         tools:layout="@layout/fragment_choosing_goal" >
         <action
-            android:id="@+id/action_choosingGoalFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            android:id="@+id/action_choosingGoalFragment_to_paywallFragment"
+            app:destination="@id/paywallFragment" />
     </fragment>
     <fragment
         android:id="@+id/testFragment"
@@ -77,10 +98,18 @@
         android:label="fragment_choosing_alarm"
         tools:layout="@layout/fragment_choosing_alarm" />
     <fragment
-        android:id="@+id/sleepDiverFragment"
-        android:name="com.developers.sleep.ui.SleepDiverFragment"
-        android:label="fragment_sleep_diver"
-        tools:layout="@layout/fragment_sleep_diver" />
+        android:id="@+id/sleepPlayerFragment"
+        android:name="com.developers.sleep.ui.SleepPlayerFragment"
+        android:label="fragment_sleep_player" />
+    <fragment
+        android:id="@+id/playerFragment"
+        android:name="com.developers.sleep.ui.PlayerFragment"
+        android:label="PlayerFragment" />
+    <fragment
+        android:id="@+id/melodyChooserFragment"
+        android:name="com.developers.sleep.ui.MelodyChooserFragment"
+        android:label="fragment_melody_chooser"
+        tools:layout="@layout/fragment_melody_chooser" />
 
 
 </navigation>

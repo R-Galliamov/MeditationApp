@@ -21,6 +21,7 @@
     <color name="bright_yellow">#FFF500</color>
 
     <color name="transparent">#00FFFFFF</color>
+    <color name="transparent_black">#90000000</color>
 
 
 
@@ -30,4 +31,5 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="slider_color">#9994f5</color>
 </resources>

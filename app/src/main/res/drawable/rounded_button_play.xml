@@ -1,0 +1,49 @@
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/yankees_blue">
+    <item android:id="@android:id/mask">
+        <shape android:shape="oval">
+
+            <solid android:color="@color/yankees_blue" />
+        </shape>
+    </item>
+
+    <item android:id="@android:id/background">
+        <layer-list>
+            <item
+                android:width="100dp"
+                android:height="100dp">
+                <shape android:shape="oval">
+                    <solid android:color="@color/eerie_black" />
+                </shape>
+            </item>
+
+           <item>
+
+               <vector xmlns:android="http://schemas.android.com/apk/res/android"
+                   xmlns:aapt="http://schemas.android.com/aapt"
+                   android:width="100dp"
+                   android:height="100dp"
+                   android:viewportWidth="100"
+                   android:viewportHeight="100">
+                   <path
+                       android:pathData="M68,46.54C70.67,48.08 70.67,51.92 68,53.46L44,67.32C41.33,68.86 38,66.94 38,63.86L38,36.14C38,33.06 41.33,31.14 44,32.68L68,46.54Z">
+                       <aapt:attr name="android:fillColor">
+                           <gradient
+                               android:startX="57.2"
+                               android:startY="28.26"
+                               android:endX="52.09"
+                               android:endY="72.03"
+                               android:type="linear">
+                               <item android:offset="0" android:color="#FF443AEE"/>
+                               <item android:offset="1" android:color="#FF5777E4"/>
+                           </gradient>
+                       </aapt:attr>
+                   </path>
+               </vector>
+           </item>
+
+
+
+        </layer-list>
+    </item>
+</ripple>

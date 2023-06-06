@@ -7,11 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.developers.sleep.GeneralViewModel
-import com.developers.sleep.PrefsConstants
+import com.developers.sleep.GeneralPrefs
 import com.developers.sleep.R
+import com.developers.sleep.UserDataPrefs
 import com.developers.sleep.databinding.FragmentSplashBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,19 +22,8 @@ class SplashFragment : Fragment() {
     private val binding: FragmentSplashBinding
         get() = _binding!!
 
-    private val viewModel: GeneralViewModel by activityViewModels()
-    private lateinit var sharedPreferences: SharedPreferences
-
-    companion object {
-        @Volatile
-        private var instance: SplashFragment? = null
-
-        fun getInstance(): SplashFragment {
-            return instance ?: synchronized(this) {
-                instance ?: SplashFragment().also { instance = it }
-            }
-        }
-    }
+    private lateinit var generalSharedPreferences: SharedPreferences
+    private lateinit var userDataSharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,21 +36,33 @@ class SplashFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedPreferences = requireActivity().getSharedPreferences(PrefsConstants.PREFS_GENERAL_NAME, Context.MODE_PRIVATE)
+        generalSharedPreferences = requireActivity().getSharedPreferences(
+            GeneralPrefs.PREFS_NAME,
+            Context.MODE_PRIVATE
+        )
+        userDataSharedPreferences = requireActivity().getSharedPreferences(
+            UserDataPrefs.PREFS_NAME,
+            Context.MODE_PRIVATE
+        )
 
-        val isFirstLaunch = sharedPreferences.getBoolean(PrefsConstants.IS_FIRST_LAUNCH, true)
-        val isGoalChosen = sharedPreferences.getBoolean(PrefsConstants.IS_GOAL_CHOSEN, false)
+        val isFirstLaunch =
+            generalSharedPreferences.getBoolean(GeneralPrefs.IS_FIRST_LAUNCH, true)
+        val isGoalChosen = generalSharedPreferences.getBoolean(GeneralPrefs.IS_GOAL_CHOSEN, false)
+
+        val isPremium = userDataSharedPreferences.getBoolean(UserDataPrefs.IS_PREMIUM, false)
 
         if (isFirstLaunch) {
             findNavController().navigate(R.id.action_splashFragment_to_onboardingFragment)
         } else if (!isGoalChosen) {
             findNavController().navigate(R.id.action_splashFragment_to_choosingGoalFragment)
         } else {
-            findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
+            if (isPremium) {
+                findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
+            } else {
+                findNavController().navigate(R.id.action_splashFragment_to_paywallFragment)
+            }
         }
     }
-
-
 
 
     override fun onDestroyView() {

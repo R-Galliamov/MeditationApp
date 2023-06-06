@@ -1,4 +1,4 @@
-package com.developers.sleep.ui
+package com.developers.sleep.ui.onboarding
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.developers.sleep.PrefsConstants
+import com.developers.sleep.GeneralPrefs
 import com.developers.sleep.R
 import com.developers.sleep.databinding.FragmentOnboardingBinding
 
@@ -46,7 +46,7 @@ class OnboardingFragment : Fragment() {
         var screenPosition = 0
 
         sharedPreferences =
-            requireActivity().getSharedPreferences(PrefsConstants.PREFS_GENERAL_NAME, Context.MODE_PRIVATE)
+            requireActivity().getSharedPreferences(GeneralPrefs.PREFS_NAME, Context.MODE_PRIVATE)
 
         with(binding) {
             image.setImageResource(R.drawable.worky_yoga_woman)
@@ -155,7 +155,7 @@ class OnboardingFragment : Fragment() {
 
     private fun setFirstLaunch(value: Boolean) {
         val editor = sharedPreferences.edit()
-        editor.putBoolean(PrefsConstants.IS_FIRST_LAUNCH, value)
+        editor.putBoolean(GeneralPrefs.IS_FIRST_LAUNCH, value)
         editor.apply()
     }
 

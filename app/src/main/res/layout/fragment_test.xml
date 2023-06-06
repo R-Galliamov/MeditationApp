@@ -8,6 +8,7 @@
     tools:context=".ui.TestFragment">
 
     <ImageButton
+        android:layout_marginTop="32dp"
         android:id="@+id/buttonBack"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -20,6 +21,7 @@
 
     <TextView
         android:id="@+id/questionNumText"
+        android:layout_marginTop="16dp"
         style="@style/SecondarySmallTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -52,14 +54,14 @@
         app:layout_constraintTop_toBottomOf="@id/questionText">
 
         <RadioButton
-            android:id="@+id/answer1"
+            android:id="@+id/answer0"
             style="@style/RadioButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Answer 1" />
 
         <RadioButton
-            android:id="@+id/answer2"
+            android:id="@+id/answer1"
             style="@style/RadioButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,7 +69,7 @@
             android:text="Answer 2" />
 
         <RadioButton
-            android:id="@+id/answer3"
+            android:id="@+id/answer2"
             style="@style/RadioButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,7 +77,7 @@
             android:text="Answer 3" />
 
         <RadioButton
-            android:id="@+id/answer4"
+            android:id="@+id/answer3"
             style="@style/RadioButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,7 +87,8 @@
     </RadioGroup>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonGoToTest"
+        android:visibility="gone"
+        android:id="@+id/buttonPreviousQuestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
@@ -100,24 +103,20 @@
         app:rippleColor="@color/yankees_blue" />
 
     <FrameLayout
-        android:id="@+id/buttonContainer"
+        android:id="@+id/buttonChoose"
+        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_marginStart="48dp"
         android:layout_marginEnd="48dp"
+        android:background="@drawable/rounded_button_blue"
         android:layout_marginBottom="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <ImageButton
-            android:id="@+id/buttonChoose"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@drawable/rounded_button_blue" />
-
         <TextView
-            android:id="@+id/buttonText"
+            android:id="@+id/continueText"
             style="@style/PrimaryTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

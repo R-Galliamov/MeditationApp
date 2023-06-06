@@ -4,12 +4,9 @@ import android.app.Application
 import android.app.DownloadManager
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.res.AssetFileDescriptor
-import android.media.MediaPlayer
 import android.os.Environment
 import androidx.core.net.toUri
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.developers.sleep.dataModels.Melody
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,35 +20,28 @@ class MelodyRepository @Inject constructor(
     private val downloadManager: DownloadManager,
     private val application: Application
 ) {
-
-
     val alarmSharedPreferences: SharedPreferences =
-        application.getSharedPreferences(PrefsConstants.ALARM_PREFS_NAME, Context.MODE_PRIVATE)
+        application.getSharedPreferences(AlarmPrefs.PREFS_NAME, Context.MODE_PRIVATE)
 
-    val mediaPlayer = MediaPlayer()
     val alarmSoundsList = getMp3SoundsFromAssets()
-    val alarmSoundsNames = getAlarmSoundFileNamesFromAssets()
 
     val chosenAlarmSound = getChosenAlarmSoundName()
 
 
     fun getChosenAlarmSoundName(): String {
         val name = alarmSharedPreferences.getString(
-            PrefsConstants.SELECTED_ALARM_MELODY_NAME,
-            PrefsConstants.STANDARD_ALARM_SOUND
+            AlarmPrefs.SELECTED_ALARM_MELODY_NAME,
+            AlarmPrefs.STANDARD_ALARM_SOUND
         ).toString()
         return name
     }
 
-    fun getChosenAlarmSound(): AlarmSound {
+    fun getChosenAlarmSound(): Melody {
         return alarmSoundsList.first { it.name == chosenAlarmSound }
     }
-
-
-
-    fun saveChosenAlarmSound(alarmSound: AlarmSound) {
+    fun saveChosenAlarmSound(alarmSound: Melody) {
         val editor = alarmSharedPreferences.edit()
-        editor.putString(PrefsConstants.SELECTED_ALARM_MELODY_NAME, alarmSound.name)
+        editor.putString(AlarmPrefs.SELECTED_ALARM_MELODY_NAME, alarmSound.name)
         editor.apply()
     }
 
@@ -64,14 +54,14 @@ class MelodyRepository @Inject constructor(
         }
     }
 
-    private fun getMp3SoundsFromAssets(): List<AlarmSound> {
-        val alarmSounds = mutableListOf<AlarmSound>()
+    private fun getMp3SoundsFromAssets(): List<Melody> {
+        val alarmSounds = mutableListOf<Melody>()
         try {
             val soundFiles = application.assets.list("alarmSounds") ?: emptyArray()
             var name = 1
 
             for (fileName in soundFiles) {
-                alarmSounds.add(AlarmSound("Sound $name", fileName))
+                alarmSounds.add(Melody("Sound $name", fileName))
                 name++ //TODO Just for test
             }
         } catch (e: IOException) {
@@ -94,7 +84,6 @@ class MelodyRepository @Inject constructor(
             downloadManager.enqueue(request)
         }
     }
-
 
 }
 

@@ -6,15 +6,15 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.developers.sleep.PrefsConstants
+import androidx.navigation.fragment.findNavController
+import com.developers.sleep.AlarmPrefs
+import com.developers.sleep.PlayerPrefs
 import com.developers.sleep.R
 import com.developers.sleep.databinding.FragmentSleepSettingsBinding
 import com.developers.sleep.viewModel.AlarmViewModel
-
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 
@@ -24,7 +24,8 @@ class SleepSettingsFragment : Fragment() {
     private val binding: FragmentSleepSettingsBinding
         get() = _binding!!
 
-    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var alarmSharedPreferences: SharedPreferences
+    private lateinit var playerSharedPreferences: SharedPreferences
 
     private val alarmViewModel: AlarmViewModel by activityViewModels()
 
@@ -39,10 +40,12 @@ class SleepSettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedPreferences = requireActivity().getSharedPreferences(
-            PrefsConstants.PREFS_GENERAL_NAME,
+        alarmSharedPreferences = requireActivity().getSharedPreferences(
+            AlarmPrefs.PREFS_NAME,
             Context.MODE_PRIVATE
         )
+        playerSharedPreferences =
+            requireActivity().getSharedPreferences(PlayerPrefs.PREFS_NAME, Context.MODE_PRIVATE)
 
 
         binding.alarmTime.setOnClickListener {
@@ -91,34 +94,72 @@ class SleepSettingsFragment : Fragment() {
             }
 
             switcher.isChecked =
-                sharedPreferences.getBoolean(PrefsConstants.IS_MUSIC_FOR_SLEEP_0N, true)
+                alarmSharedPreferences.getBoolean(AlarmPrefs.IS_MUSIC_FOR_SLEEP_0N, true)
             updateDiveIntoSleepCardUi(switcher.isChecked)
+
             saveSwitcherState(switcher.isChecked)
+
             switcher.setOnCheckedChangeListener { _, isChecked ->
                 updateDiveIntoSleepCardUi(isChecked)
                 saveSwitcherState(isChecked)
             }
 
-            buttonDiveIntoSleep.setOnClickListener {
-                findNavController().navigate(R.id.action_sleepSettingsFragment_to_sleepDiverFragment)
+            buttonSongChooser.setOnClickListener {
+                findNavController().navigate(R.id.action_sleepSettingsFragment_to_melodyChooserFragment)
+            }
+
+            buttonSleepingTime.setOnClickListener {
+                showNumberPicker()
+            }
+
+            var musicDuration = playerSharedPreferences.getInt(PlayerPrefs.MUSIC_DURATION, 30)
+
+            numberPicker.apply {
+                minValue = 1
+                maxValue = 59
+                value = musicDuration
+            }
+
+            sleepingTimeText.text = getString(R.string.min, musicDuration)
+
+
+
+            numberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
+                musicDuration = newVal
+            }
+
+            screenOverlaying.setOnClickListener {
+                numberPickerContainer.visibility = View.GONE
+                sleepingTimeText.text = getString(R.string.min, musicDuration)
+                saveMusicDuration(musicDuration)
             }
 
             buttonFallIntoADream.setOnClickListener {
-                findNavController().navigate(R.id.action_sleepSettingsFragment_to_sleepDiverFragment)
+                findNavController().navigate(R.id.action_sleepSettingsFragment_to_sleepPlayerFragment)
                 alarmViewModel.setAlarm()
             }
         }
     }
 
+    private fun showNumberPicker() {
+        binding.numberPickerContainer.visibility = View.VISIBLE
+    }
+
     private fun updateDiveIntoSleepCardUi(isChecked: Boolean) = with(binding) {
         overlaying.visibility = if (isChecked) View.GONE else View.VISIBLE
-        buttonDiveIntoSleep.isEnabled = isChecked
+        buttonSongChooser.isEnabled = isChecked
+        buttonSleepingTime.isEnabled = isChecked
+    }
+
+    private fun saveMusicDuration(musicDuration: Int) {
+        val editor = playerSharedPreferences.edit()
+        editor.putInt(PlayerPrefs.MUSIC_DURATION, musicDuration)
+        editor.apply()
     }
 
     private fun saveSwitcherState(value: Boolean) {
-        //TODO replace to repository
-        val editor = sharedPreferences.edit()
-        editor.putBoolean(PrefsConstants.IS_MUSIC_FOR_SLEEP_0N, value)
+        val editor = alarmSharedPreferences.edit()
+        editor.putBoolean(AlarmPrefs.IS_MUSIC_FOR_SLEEP_0N, value)
         editor.apply()
     }
 
