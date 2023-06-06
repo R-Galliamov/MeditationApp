@@ -1,46 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.OnboardingFragment">
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:src="@drawable/worky_yoga_woman"
-        app:layout_constraintBottom_toTopOf="@+id/titleText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/titleText"
-        style="@style/TitleTextStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="@string/firstWelcomeTitle"
-        app:layout_constraintBottom_toTopOf="@id/descriptionText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/descriptionText"
-        style="@style/SecondaryTextStyle"
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginEnd="64dp"
-        android:gravity="center"
-        android:text="@string/firstWelcomeText"
         app:layout_constraintBottom_toTopOf="@id/buttonContainer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="376dp"
+            android:gravity="center"
+            android:src="@drawable/worky_yoga_woman" />
+
+        <TextView
+            android:id="@+id/titleText"
+            style="@style/TitleTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="84dp"
+            android:gravity="center"
+            android:layout_marginBottom="16dp"
+            android:text="@string/firstWelcomeTitle" />
+
+        <TextView
+            android:id="@+id/descriptionText"
+            style="@style/SecondaryTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginEnd="64dp"
+            android:layout_marginBottom="36dp"
+            android:gravity="center"
+            android:text="@string/firstWelcomeText"
+        />
+
+    </LinearLayout>
+
 
     <FrameLayout
         android:id="@+id/buttonContainer"
@@ -57,8 +62,7 @@
             android:id="@+id/buttonNext"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@drawable/rounded_button_blue"
-             />
+            android:background="@drawable/rounded_button_blue" />
 
         <TextView
             android:id="@+id/buttonText"
@@ -108,7 +112,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
         android:layout_marginEnd="18dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:gravity="center_horizontal"
         android:text="@string/agreementOfUsage"
         app:layout_constraintBottom_toBottomOf="parent"

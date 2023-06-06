@@ -71,6 +71,12 @@
     <string name="during">During</string>
     <string name="question_number">Question %1$d of %2$d</string>
     <string name="done">Done</string>
+    <string name="test_completed">Test completed!</string>
+    <string name="read_tips">Read Tips</string>
+    <string name="try_it_for_free">Try it for free</string>
+    <string name="the_best_sleep_app">The best sleep app</string>
+    <string name="limited_offer">Limited\noffer</string>
+    <string name="weekly">Weekly</string>
 
 
 </resources>

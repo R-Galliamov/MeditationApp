@@ -36,10 +36,21 @@ class TestFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         userDataPreferences = requireActivity().getSharedPreferences(
-            PrefsConstants.USER_DATA_PREFS_NAME,
+            PrefsConstants.TEST_DATA_PREFS_NAME,
             Context.MODE_PRIVATE
         )
         userAnswersCount = userDataPreferences.getInt(PrefsConstants.USER_ANSWERS_COUNT, 0)
+        if (userAnswersCount == questionList.size) {
+            userAnswersCount--
+        }
+        updateQuestion(userAnswersCount)
+        if (userAnswersCount == questionList.size - 1) {
+            binding.continueText.text = getString(R.string.done)
+        }
+
+
+
+
 
         with(binding) {
             radioGroup.setOnCheckedChangeListener { group, checkedId ->
@@ -49,7 +60,7 @@ class TestFragment : Fragment() {
             buttonChoose.setOnClickListener {
                 userAnswersCount++
                 saveAnswer(userAnswersCount, getSelectedAnswer())
-                if (userAnswersCount == questionList.size) {
+                if (userAnswersCount == questionList.size - 1) {
                     continueText.text = getString(R.string.done)
                 }
                 if (userAnswersCount < questionList.size) {
@@ -68,16 +79,10 @@ class TestFragment : Fragment() {
                     userAnswersCount--
                     updateQuestion(userAnswersCount)
                 }
+                if (userAnswersCount < questionList.size - 1) {
+                    continueText.text = getString(R.string.continueText)
+                }
             }
-        }
-        // Check if the last question was answered and update the UI accordingly
-        if (userAnswersCount >= 0 && userAnswersCount < questionList.size) {
-            updateQuestion(userAnswersCount)
-        }
-        // If the last question was not answered or the user has completed the test, start from the beginning
-        else {
-            userAnswersCount = 0
-            updateQuestion(userAnswersCount)
         }
     }
 

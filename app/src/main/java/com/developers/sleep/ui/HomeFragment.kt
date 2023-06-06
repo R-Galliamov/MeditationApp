@@ -39,12 +39,11 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val sharedPreferences = requireActivity().getSharedPreferences(
-            PrefsConstants.USER_DATA_PREFS_NAME,
+            PrefsConstants.TEST_DATA_PREFS_NAME,
             Context.MODE_PRIVATE
         )
 
@@ -54,7 +53,7 @@ class HomeFragment : Fragment() {
         val maxUserProgress = questionList.size.toFloat()
         val nextQuestion =
             if (userAnswersCount < questionList.size) questionList[userAnswersCount].question
-            else "Test completed!" //TODO replace
+            else getString(R.string.test_completed) //TODO replace
 
         if (userProgress == maxUserProgress) {
             binding.checkbox.visibility = View.VISIBLE

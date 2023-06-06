@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_splashFragment_to_choosingGoalFragment"
             app:destination="@id/choosingGoalFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_paywallFragment"
+            app:destination="@id/paywallFragment" />
     </fragment>
 
     <fragment
@@ -33,6 +36,18 @@
             android:id="@+id/action_onboardingFragment_to_choosingGoalFragment"
             app:destination="@id/choosingGoalFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/paywallFragment"
+        android:name="com.developers.sleep.ui.PaywallFragment"
+        android:label="fragment_payeall"
+        tools:layout="@layout/fragment_paywall" >
+        <action
+            android:id="@+id/action_paywallFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+
+
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.developers.sleep.ui.MainFragment"
@@ -66,8 +81,8 @@
         android:label="fragment_choosing_goal"
         tools:layout="@layout/fragment_choosing_goal" >
         <action
-            android:id="@+id/action_choosingGoalFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            android:id="@+id/action_choosingGoalFragment_to_paywallFragment"
+            app:destination="@id/paywallFragment" />
     </fragment>
     <fragment
         android:id="@+id/testFragment"

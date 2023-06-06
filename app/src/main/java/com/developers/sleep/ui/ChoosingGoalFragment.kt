@@ -48,19 +48,19 @@ class ChoosingGoalFragment : Fragment() {
             requireActivity().getSharedPreferences(PrefsConstants.PREFS_GENERAL_NAME, Context.MODE_PRIVATE)
 
         binding.buttonBlueCard.setOnClickListener {
-            findNavController().navigate(R.id.action_choosingGoalFragment_to_mainFragment)
+            findNavController().navigate(R.id.action_choosingGoalFragment_to_paywallFragment)
             setGoalIsChosen(true)
         }
         binding.buttonGreenCard.setOnClickListener {
-            findNavController().navigate(R.id.action_choosingGoalFragment_to_mainFragment)
+            findNavController().navigate(R.id.action_choosingGoalFragment_to_paywallFragment)
             setGoalIsChosen(true)
         }
         binding.buttonCrimsonCard.setOnClickListener {
-            findNavController().navigate(R.id.action_choosingGoalFragment_to_mainFragment)
+            findNavController().navigate(R.id.action_choosingGoalFragment_to_paywallFragment)
             setGoalIsChosen(true)
         }
         binding.buttonYellowCard.setOnClickListener {
-            findNavController().navigate(R.id.action_choosingGoalFragment_to_mainFragment)
+            findNavController().navigate(R.id.action_choosingGoalFragment_to_paywallFragment)
             setGoalIsChosen(true)
         }
     }

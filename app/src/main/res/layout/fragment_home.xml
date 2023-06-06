@@ -1,267 +1,336 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/titleText"
-        style="@style/TitleTextStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/today"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cardFallIntoADream"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleText">
+        android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/buttonFallIntoADream"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/titleText"
+            style="@style/TitleTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/today"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cardFallIntoADream"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleText">
+
+            <ImageButton
+                android:id="@+id/buttonFallIntoADream"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:background="@drawable/rounded_button_blue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/nightText"
+                style="@style/SecondarySmallTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/night"
+                app:layout_constraintBottom_toTopOf="@id/cardMainText"
+                app:layout_constraintStart_toStartOf="@id/cardMainText" />
+
+            <TextView
+                style="@style/SecondarySmallTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                app:layout_constraintStart_toEndOf="@id/nightText"
+                app:layout_constraintTop_toTopOf="@id/nightText" />
+
+            <TextView
+                android:id="@+id/cardMainText"
+                style="@style/PrimaryTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/fall_into_a_dream"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="34dp"
+                android:src="@drawable/star"
+                app:layout_constraintEnd_toEndOf="@id/buttonFallIntoADream"
+                app:layout_constraintTop_toTopOf="@id/buttonFallIntoADream"
+                app:tint="@color/milk" />
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="19dp"
+                android:layout_marginEnd="104dp"
+                android:src="@drawable/star"
+                app:layout_constraintEnd_toEndOf="@id/buttonFallIntoADream"
+                app:layout_constraintTop_toTopOf="@id/buttonFallIntoADream"
+                app:tint="@color/milk" />
+
+            <ImageView
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:layout_marginTop="68dp"
+                android:layout_marginEnd="45dp"
+                android:src="@drawable/star"
+                app:layout_constraintEnd_toEndOf="@id/buttonFallIntoADream"
+                app:layout_constraintTop_toTopOf="@id/buttonFallIntoADream"
+                app:tint="@color/milk" />
+
+            <ImageView
+                android:layout_width="53dp"
+                android:layout_height="53dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="64dp"
+                android:src="@drawable/young_moon"
+                app:layout_constraintEnd_toEndOf="@id/buttonFallIntoADream"
+                app:layout_constraintTop_toTopOf="@id/buttonFallIntoADream"
+                app:tint="@color/milk" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="13dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/arrow"
+                app:layout_constraintBottom_toBottomOf="@id/cardMainText"
+                app:layout_constraintEnd_toEndOf="@id/buttonFallIntoADream"
+                app:layout_constraintTop_toTopOf="@id/cardMainText"
+                app:tint="@color/milk" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/sleepCoachText"
+            style="@style/PrimaryTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/sleep_coach"
+            app:layout_constraintStart_toStartOf="@id/cardFallIntoADream"
+            app:layout_constraintTop_toBottomOf="@id/cardFallIntoADream" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cardSleepCoach"
+            android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:background="@drawable/rounded_button_blue"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/nightText"
-            style="@style/SecondarySmallTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/night"
-            app:layout_constraintBottom_toTopOf="@id/cardMainText"
-            app:layout_constraintStart_toStartOf="@id/cardMainText" />
-
-        <TextView
-            style="@style/SecondarySmallTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1"
-            app:layout_constraintStart_toEndOf="@id/nightText"
-            app:layout_constraintTop_toTopOf="@id/nightText" />
-
-        <TextView
-            android:id="@+id/cardMainText"
-            style="@style/PrimaryTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginBottom="16dp"
-            android:text="@string/fall_into_a_dream"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <ImageView
-            android:layout_width="21dp"
-            android:layout_height="21dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginEnd="34dp"
-            android:src="@drawable/star"
-            app:layout_constraintEnd_toEndOf="@id/buttonFallIntoADream"
-            app:layout_constraintTop_toTopOf="@id/buttonFallIntoADream"
-            app:tint="@color/milk" />
-
-        <ImageView
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginTop="19dp"
-            android:layout_marginEnd="104dp"
-            android:src="@drawable/star"
-            app:layout_constraintEnd_toEndOf="@id/buttonFallIntoADream"
-            app:layout_constraintTop_toTopOf="@id/buttonFallIntoADream"
-            app:tint="@color/milk" />
-
-        <ImageView
-            android:layout_width="21dp"
-            android:layout_height="21dp"
-            android:layout_marginTop="68dp"
-            android:layout_marginEnd="45dp"
-            android:src="@drawable/star"
-            app:layout_constraintEnd_toEndOf="@id/buttonFallIntoADream"
-            app:layout_constraintTop_toTopOf="@id/buttonFallIntoADream"
-            app:tint="@color/milk" />
-
-        <ImageView
-            android:layout_width="53dp"
-            android:layout_height="53dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="64dp"
-            android:src="@drawable/young_moon"
-            app:layout_constraintEnd_toEndOf="@id/buttonFallIntoADream"
-            app:layout_constraintTop_toTopOf="@id/buttonFallIntoADream"
-            app:tint="@color/milk" />
-
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="13dp"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/arrow"
-            app:layout_constraintBottom_toBottomOf="@id/cardMainText"
-            app:layout_constraintEnd_toEndOf="@id/buttonFallIntoADream"
-            app:layout_constraintTop_toTopOf="@id/cardMainText"
-            app:tint="@color/milk" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/sleepCoachText"
-        style="@style/PrimaryTextStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/sleep_coach"
-        app:layout_constraintStart_toStartOf="@id/cardFallIntoADream"
-        app:layout_constraintTop_toBottomOf="@id/cardFallIntoADream" />
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cardSleepCoach"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/rounded_button_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sleepCoachText">
-
-        <com.mikhaellopez.circularprogressbar.CircularProgressBar
-            android:id="@+id/circularProgressBar"
-            android:layout_width="34dp"
-            android:layout_height="34dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="28dp"
-            app:cpb_background_progressbar_color="@color/old_silver"
-            app:cpb_background_progressbar_width="2dp"
-            app:cpb_progress="0"
-            app:cpb_progress_direction="to_right"
-            app:cpb_progress_max="6"
-            app:cpb_progressbar_color_direction="top_to_bottom"
-            app:cpb_progressbar_color_end="@color/blue_light"
-            app:cpb_progressbar_color_start="@color/blue"
-            app:cpb_progressbar_width="2dp"
-            app:cpb_round_border="false"
-            app:cpb_start_angle="0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/sleepCoachTitleText"
-            style="@style/PrimaryTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="68dp"
             android:layout_marginTop="16dp"
-            android:text="@string/gadgets_before_bed"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/rounded_button_gray"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/sleepCoachText">
+
+            <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                android:id="@+id/circularProgressBar"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="28dp"
+                app:cpb_background_progressbar_color="@color/old_silver"
+                app:cpb_background_progressbar_width="2dp"
+                app:cpb_progress="0"
+                app:cpb_progress_direction="to_right"
+                app:cpb_progress_max="6"
+                app:cpb_progressbar_color_direction="top_to_bottom"
+                app:cpb_progressbar_color_end="@color/blue_light"
+                app:cpb_progressbar_color_start="@color/blue"
+                app:cpb_progressbar_width="2dp"
+                app:cpb_round_border="false"
+                app:cpb_start_angle="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/sleepCoachTitleText"
+                style="@style/PrimaryTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="68dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/gadgets_before_bed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/nextQuestionText"
+                style="@style/SecondarySmallTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="58dp"
+                android:text="@string/gadges_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/sleepCoachTitleText"
+                app:layout_constraintTop_toBottomOf="@id/sleepCoachTitleText" />
+
+            <ImageView
+                android:id="@+id/checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/checkbox_on"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/buttonGoToTest"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/rounded_ripple_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/line" />
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/old_silver"
+                app:layout_constraintBottom_toTopOf="@id/goToTestText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/nextQuestionText" />
+
+            <TextView
+                android:id="@+id/goToTestText"
+                style="@style/PrimaryTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="12dp"
+                android:text="@string/go_to_test"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="13dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/arrow"
+                app:layout_constraintBottom_toBottomOf="@id/goToTestText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/goToTestText" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/nextQuestionText"
-            style="@style/SecondarySmallTextStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="58dp"
-            android:text="@string/gadges_description"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/sleepCoachTitleText"
-            app:layout_constraintTop_toBottomOf="@id/sleepCoachTitleText" />
-
-        <ImageView
-            android:id="@+id/checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="20dp"
-            android:visibility="gone"
-            android:src="@drawable/checkbox_on"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/buttonGoToTest"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/rounded_ripple_button"
-            app:layout_constraintTop_toBottomOf="@id/line"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-             />
-
-        <View
-            android:id="@+id/line"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@color/old_silver"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/goToTestText"
-            app:layout_constraintTop_toBottomOf="@id/nextQuestionText" />
-
-        <TextView
-            android:id="@+id/goToTestText"
+            android:id="@+id/TipOfTheDay"
             style="@style/PrimaryTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/tip_of_the_day"
+            app:layout_constraintStart_toStartOf="@id/cardSleepCoach"
+            app:layout_constraintTop_toBottomOf="@id/cardSleepCoach" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/imageTip"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
             android:layout_marginStart="20dp"
-            android:text="@string/go_to_test"
-            android:layout_marginBottom="12dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="13dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/arrow"
-            app:layout_constraintBottom_toBottomOf="@id/goToTestText"
+            android:background="@drawable/tip_sample"
+            android:clickable="true"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/goToTestText" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/TipOfTheDay">
+
+            <ImageView
+                android:id="@+id/coloredRectangle"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/rectangle_half_green"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/tipText"
+                style="@style/PrimaryTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:text="Bedroom interior"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/coloredRectangle" />
+
+            <ImageButton
+                android:id="@+id/buttonTip"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/transparent_rounded_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/readTipsButton"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/rounded_ripple_button"
+            android:clickable="true"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageTip">
+
+            <TextView
+                style="@style/PrimaryTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/read_tips" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="13dp"
+                android:layout_gravity="center"
+                android:background="@drawable/arrow" />
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/tipText"
-        style="@style/PrimaryTextStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/tip_of_the_day"
-        app:layout_constraintStart_toStartOf="@id/cardSleepCoach"
-        app:layout_constraintTop_toBottomOf="@id/cardSleepCoach" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cardTip"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/rounded_button_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tipText">
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

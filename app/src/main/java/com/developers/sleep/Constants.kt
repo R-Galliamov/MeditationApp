@@ -23,9 +23,12 @@ object PrefsConstants {
 
     const val STANDARD_ALARM_SOUND = "Sound 1"
 
-    const val USER_DATA_PREFS_NAME = "userDataPrefs"
+    const val TEST_DATA_PREFS_NAME = "userDataPrefs"
     const val USER_ANSWERS_COUNT = "userAnswersCount"
     const val ANSWER_PREFIX = "userAnswerOnQuestion"
+
+    const val USER_DATA_PREFS_NAME = "userDataPrefs"
+    const val IS_PREMIUM = "isPremium"
 }
 
 const val EXTRA_ALARM_SOUND = "extraAlarmSound"
