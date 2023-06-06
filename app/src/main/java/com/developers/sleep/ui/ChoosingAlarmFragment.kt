@@ -9,9 +9,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.developers.sleep.AlarmPrefs
 import com.developers.sleep.dataModels.Melody
 import com.developers.sleep.MediaPlayerHelper
-import com.developers.sleep.PrefsConstants
+import com.developers.sleep.GeneralPrefs
 import com.developers.sleep.adapter.AlarmSoundAdapter
 import com.developers.sleep.databinding.FragmentChoosingAlarmBinding
 import com.developers.sleep.viewModel.AlarmViewModel
@@ -37,7 +38,7 @@ class ChoosingAlarmFragment : Fragment() {
         _binding = FragmentChoosingAlarmBinding.inflate(inflater, container, false)
 
         sharedPreferences = requireActivity().getSharedPreferences(
-            PrefsConstants.PREFS_GENERAL_NAME,
+            AlarmPrefs.PREFS_NAME,
             Context.MODE_PRIVATE
         )
 
@@ -74,14 +75,14 @@ class ChoosingAlarmFragment : Fragment() {
     }
 
     private fun getSelectedMelodyIndex(): Int? {
-        return sharedPreferences.getInt(PrefsConstants.SELECTED_ALARM_MELODY_INDEX, -1)
+        return sharedPreferences.getInt(AlarmPrefs.SELECTED_ALARM_MELODY_INDEX, -1)
             .takeIf { it >= 0 }
     }
 
     private fun saveSelectedMelody(alarmSound: Melody, position: Int) {
         val selectedPosition = if (position >= 0) position else 0
         val editor = sharedPreferences.edit()
-        editor.putInt(PrefsConstants.SELECTED_ALARM_MELODY_INDEX, selectedPosition)
+        editor.putInt(AlarmPrefs.SELECTED_ALARM_MELODY_INDEX, selectedPosition)
         editor.apply()
 
         alarmViewModel.setChosenAlarmSound(alarmSound)

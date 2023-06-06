@@ -8,8 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.developers.sleep.PrefsConstants
+import com.developers.sleep.GeneralPrefs
 import com.developers.sleep.R
+import com.developers.sleep.UserDataPrefs
 import com.developers.sleep.databinding.FragmentSplashBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,19 +37,19 @@ class SplashFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         generalSharedPreferences = requireActivity().getSharedPreferences(
-            PrefsConstants.PREFS_GENERAL_NAME,
+            GeneralPrefs.PREFS_NAME,
             Context.MODE_PRIVATE
         )
         userDataSharedPreferences = requireActivity().getSharedPreferences(
-            PrefsConstants.USER_DATA_PREFS_NAME,
+            UserDataPrefs.PREFS_NAME,
             Context.MODE_PRIVATE
         )
 
         val isFirstLaunch =
-            generalSharedPreferences.getBoolean(PrefsConstants.IS_FIRST_LAUNCH, true)
-        val isGoalChosen = generalSharedPreferences.getBoolean(PrefsConstants.IS_GOAL_CHOSEN, false)
+            generalSharedPreferences.getBoolean(GeneralPrefs.IS_FIRST_LAUNCH, true)
+        val isGoalChosen = generalSharedPreferences.getBoolean(GeneralPrefs.IS_GOAL_CHOSEN, false)
 
-        val isPremium = userDataSharedPreferences.getBoolean(PrefsConstants.IS_PREMIUM, false)
+        val isPremium = userDataSharedPreferences.getBoolean(UserDataPrefs.IS_PREMIUM, false)
 
         if (isFirstLaunch) {
             findNavController().navigate(R.id.action_splashFragment_to_onboardingFragment)
@@ -60,8 +61,6 @@ class SplashFragment : Fragment() {
             } else {
                 findNavController().navigate(R.id.action_splashFragment_to_paywallFragment)
             }
-
-
         }
     }
 

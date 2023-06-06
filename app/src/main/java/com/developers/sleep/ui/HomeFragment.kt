@@ -8,8 +8,9 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.developers.sleep.PrefsConstants
 import com.developers.sleep.R
+import com.developers.sleep.TestPrefs
+import com.developers.sleep.UserDataPrefs
 import com.developers.sleep.dataModels.QUESTION_LIST_TEST
 import com.developers.sleep.databinding.FragmentHomeBinding
 
@@ -21,17 +22,6 @@ class HomeFragment : Fragment() {
     private val binding: FragmentHomeBinding
         get() = _binding!!
 
-    companion object {
-        @Volatile
-        private var instance: HomeFragment? = null
-
-        fun getInstance(): HomeFragment {
-            return instance ?: synchronized(this) {
-                instance ?: HomeFragment().also { instance = it }
-            }
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,12 +32,21 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedPreferences = requireActivity().getSharedPreferences(
-            PrefsConstants.TEST_DATA_PREFS_NAME,
+        val userDataSharedPreferences =  requireActivity().getSharedPreferences(
+            UserDataPrefs.PREFS_NAME,
             Context.MODE_PRIVATE
         )
 
-        val userAnswersCount = sharedPreferences.getInt(PrefsConstants.USER_ANSWERS_COUNT, 0)
+        val nightsCount = userDataSharedPreferences.getInt(UserDataPrefs.NIGHTS_COUNT, 1)
+
+        binding.nightsCountText.text = getString(R.string.night, nightsCount)
+
+        val testSharedPreferences = requireActivity().getSharedPreferences(
+            TestPrefs.PREFS_NAME,
+            Context.MODE_PRIVATE
+        )
+
+        val userAnswersCount = testSharedPreferences.getInt(TestPrefs.USER_ANSWERS_COUNT, 0)
         val userProgress = userAnswersCount.toFloat()
         val questionList = QUESTION_LIST_TEST
         val maxUserProgress = questionList.size.toFloat()

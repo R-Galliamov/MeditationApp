@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/onboardingFragment"
-        android:name="com.developers.sleep.ui.OnboardingFragment"
+        android:name="com.developers.sleep.ui.onboarding.OnboardingFragment"
         android:label="fragment_onboarding"
         tools:layout="@layout/fragment_onboarding" >
 
@@ -39,7 +39,7 @@
 
     <fragment
         android:id="@+id/paywallFragment"
-        android:name="com.developers.sleep.ui.PaywallFragment"
+        android:name="com.developers.sleep.ui.onboarding.PaywallFragment"
         android:label="fragment_payeall"
         tools:layout="@layout/fragment_paywall" >
         <action
@@ -72,12 +72,15 @@
             android:id="@+id/action_sleepSettingsFragment_to_choosingAlarmFragment"
             app:destination="@id/choosingAlarmFragment" />
         <action
-            android:id="@+id/action_sleepSettingsFragment_to_sleepDiverFragment"
-            app:destination="@id/sleepDiverFragment" />
+            android:id="@+id/action_sleepSettingsFragment_to_sleepPlayerFragment"
+            app:destination="@id/sleepPlayerFragment" />
+        <action
+            android:id="@+id/action_sleepSettingsFragment_to_melodyChooserFragment"
+            app:destination="@id/melodyChooserFragment" />
     </fragment>
     <fragment
         android:id="@+id/choosingGoalFragment"
-        android:name="com.developers.sleep.ui.ChoosingGoalFragment"
+        android:name="com.developers.sleep.ui.onboarding.ChoosingGoalFragment"
         android:label="fragment_choosing_goal"
         tools:layout="@layout/fragment_choosing_goal" >
         <action
@@ -95,14 +98,18 @@
         android:label="fragment_choosing_alarm"
         tools:layout="@layout/fragment_choosing_alarm" />
     <fragment
-        android:id="@+id/sleepDiverFragment"
-        android:name="com.developers.sleep.ui.SleepDiverFragment"
-        android:label="fragment_sleep_diver"
-        tools:layout="@layout/fragment_sleep_diver" />
+        android:id="@+id/sleepPlayerFragment"
+        android:name="com.developers.sleep.ui.SleepPlayerFragment"
+        android:label="fragment_sleep_player" />
     <fragment
         android:id="@+id/playerFragment"
         android:name="com.developers.sleep.ui.PlayerFragment"
         android:label="PlayerFragment" />
+    <fragment
+        android:id="@+id/melodyChooserFragment"
+        android:name="com.developers.sleep.ui.MelodyChooserFragment"
+        android:label="fragment_melody_chooser"
+        tools:layout="@layout/fragment_melody_chooser" />
 
 
 </navigation>

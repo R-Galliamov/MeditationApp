@@ -43,21 +43,13 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/nightText"
+                android:id="@+id/nightsCountText"
                 style="@style/SecondarySmallTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/night"
                 app:layout_constraintBottom_toTopOf="@id/cardMainText"
                 app:layout_constraintStart_toStartOf="@id/cardMainText" />
-
-            <TextView
-                style="@style/SecondarySmallTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1"
-                app:layout_constraintStart_toEndOf="@id/nightText"
-                app:layout_constraintTop_toTopOf="@id/nightText" />
 
             <TextView
                 android:id="@+id/cardMainText"

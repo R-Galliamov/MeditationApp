@@ -27,7 +27,7 @@
     <string name="profile">Profile</string>
     <string name="today">Today</string>
     <string name="fall_into_a_dream">Fall into a dream</string>
-    <string name="night">Night\ </string>
+    <string name="night">Night %1$d</string>
     <string name="go_to_test">Go to test</string>
     <string name="gadgets_before_bed">Gadgets before bed</string>
     <string name="gadges_description">Elit nec pulvinar fames convallis mauris volutpat arcu volutpat.</string>
@@ -77,6 +77,8 @@
     <string name="the_best_sleep_app">The best sleep app</string>
     <string name="limited_offer">Limited\noffer</string>
     <string name="weekly">Weekly</string>
+
+    <string name="min">%1$d min</string>
 
 
 </resources>

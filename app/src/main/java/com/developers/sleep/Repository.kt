@@ -4,7 +4,6 @@ import android.app.Application
 import android.app.DownloadManager
 import android.content.Context
 import android.content.SharedPreferences
-import android.media.MediaPlayer
 import android.os.Environment
 import androidx.core.net.toUri
 import com.developers.sleep.dataModels.Melody
@@ -22,7 +21,7 @@ class MelodyRepository @Inject constructor(
     private val application: Application
 ) {
     val alarmSharedPreferences: SharedPreferences =
-        application.getSharedPreferences(PrefsConstants.ALARM_PREFS_NAME, Context.MODE_PRIVATE)
+        application.getSharedPreferences(AlarmPrefs.PREFS_NAME, Context.MODE_PRIVATE)
 
     val alarmSoundsList = getMp3SoundsFromAssets()
 
@@ -31,8 +30,8 @@ class MelodyRepository @Inject constructor(
 
     fun getChosenAlarmSoundName(): String {
         val name = alarmSharedPreferences.getString(
-            PrefsConstants.SELECTED_ALARM_MELODY_NAME,
-            PrefsConstants.STANDARD_ALARM_SOUND
+            AlarmPrefs.SELECTED_ALARM_MELODY_NAME,
+            AlarmPrefs.STANDARD_ALARM_SOUND
         ).toString()
         return name
     }
@@ -42,7 +41,7 @@ class MelodyRepository @Inject constructor(
     }
     fun saveChosenAlarmSound(alarmSound: Melody) {
         val editor = alarmSharedPreferences.edit()
-        editor.putString(PrefsConstants.SELECTED_ALARM_MELODY_NAME, alarmSound.name)
+        editor.putString(AlarmPrefs.SELECTED_ALARM_MELODY_NAME, alarmSound.name)
         editor.apply()
     }
 

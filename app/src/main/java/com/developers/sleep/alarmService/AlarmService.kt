@@ -25,6 +25,7 @@ class AlarmService: Service() {
         if (alarmSoundFileName != null) {
             mediaPlayerHelper.playLoopingAlarmSound(alarmSoundFileName)
         }
+
         return START_STICKY
     }
 

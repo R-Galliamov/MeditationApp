@@ -14,12 +14,13 @@ import com.developers.sleep.R
 import com.developers.sleep.adapter.MelodyAdapter
 import com.developers.sleep.adapter.PlayListAdapter
 import com.developers.sleep.databinding.FragmentMelodiesBinding
+import com.developers.sleep.databinding.FragmentMelodyChooserBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MelodiesFragment : Fragment() {
-    private var _binding: FragmentMelodiesBinding? = null
-    private val binding: FragmentMelodiesBinding
+class MelodyChooserFragment : Fragment() {
+    private var _binding: FragmentMelodyChooserBinding? = null
+    private val binding: FragmentMelodyChooserBinding
         get() = _binding!!
 
     private lateinit var melodiesRecyclerView: RecyclerView
@@ -29,7 +30,7 @@ class MelodiesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMelodiesBinding.inflate(inflater, container, false)
+        _binding = FragmentMelodyChooserBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -69,7 +70,8 @@ class MelodiesFragment : Fragment() {
         melodiesRecyclerView = binding.recyclerViewMelodies
         melodyAdapter = MelodyAdapter(object : MelodyAdapter.OnMelodyClickListener {
             override fun onMelodyClick(melody: Melody) {
-                findNavController().navigate(R.id.action_mainFragment_to_playerFragment)            }
+                findNavController().navigate(R.id.action_mainFragment_to_playerFragment)
+            }
         })
         melodiesRecyclerView.adapter = melodyAdapter
 
@@ -78,6 +80,10 @@ class MelodiesFragment : Fragment() {
         val tagRecyclerView = binding.recyclerViewTags
         tagRecyclerView.adapter = playListAdapter
         playListAdapter.submitList(playlistsList)
+
+        binding.buttonBack.setOnClickListener{
+            findNavController().navigateUp()
+        }
 
     }
 

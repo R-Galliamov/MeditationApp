@@ -1,4 +1,4 @@
-package com.developers.sleep.ui
+package com.developers.sleep.ui.onboarding
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.developers.sleep.PrefsConstants
+import com.developers.sleep.GeneralPrefs
 import com.developers.sleep.R
 import com.developers.sleep.databinding.FragmentChoosingGoalBinding
 
@@ -45,7 +45,7 @@ class ChoosingGoalFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         sharedPreferences =
-            requireActivity().getSharedPreferences(PrefsConstants.PREFS_GENERAL_NAME, Context.MODE_PRIVATE)
+            requireActivity().getSharedPreferences(GeneralPrefs.PREFS_NAME, Context.MODE_PRIVATE)
 
         binding.buttonBlueCard.setOnClickListener {
             findNavController().navigate(R.id.action_choosingGoalFragment_to_paywallFragment)
@@ -67,7 +67,7 @@ class ChoosingGoalFragment : Fragment() {
 
     private fun setGoalIsChosen(value: Boolean) {
         val editor = sharedPreferences.edit()
-        editor.putBoolean(PrefsConstants.IS_GOAL_CHOSEN, value)
+        editor.putBoolean(GeneralPrefs.IS_GOAL_CHOSEN, value)
         editor.apply()
     }
 

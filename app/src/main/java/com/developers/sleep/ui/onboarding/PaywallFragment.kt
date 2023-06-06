@@ -1,4 +1,4 @@
-package com.developers.sleep.ui
+package com.developers.sleep.ui.onboarding
 
 import android.os.Bundle
 import android.view.LayoutInflater

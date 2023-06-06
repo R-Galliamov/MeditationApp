@@ -6,9 +6,10 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.developers.sleep.AlarmPrefs
 import com.developers.sleep.dataModels.Melody
 import com.developers.sleep.MelodyRepository
-import com.developers.sleep.PrefsConstants
+import com.developers.sleep.GeneralPrefs
 import com.developers.sleep.alarmService.AlarmHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
@@ -21,7 +22,7 @@ class AlarmViewModel @Inject constructor(
 ) : AndroidViewModel(application) {
 
     private val sharedPreferences: SharedPreferences =
-        application.getSharedPreferences(PrefsConstants.ALARM_PREFS_NAME, 0)
+        application.getSharedPreferences(AlarmPrefs.PREFS_NAME, 0)
 
     private val _alarmTime = MutableLiveData<Calendar>()
     val alarmTime: LiveData<Calendar>
@@ -34,7 +35,7 @@ class AlarmViewModel @Inject constructor(
     init {
         _chosenAlarmSound.value = repository.getChosenAlarmSound()
 
-        val alarmMillis = sharedPreferences.getLong(PrefsConstants.ALARM_TIME, 0)
+        val alarmMillis = sharedPreferences.getLong(AlarmPrefs.ALARM_TIME, 0)
         if (alarmMillis != 0L) {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = alarmMillis
@@ -76,7 +77,7 @@ class AlarmViewModel @Inject constructor(
         _alarmTime.value = testTime
 
         val editor = sharedPreferences.edit()
-        editor.putLong(PrefsConstants.ALARM_TIME, time.timeInMillis)
+        editor.putLong(AlarmPrefs.ALARM_TIME, time.timeInMillis)
         editor.apply()
     }
 

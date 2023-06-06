@@ -4,8 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    tools:context=".ui.SleepSettingsFragment"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ui.SleepSettingsFragment">
+
 
     <TextView
         android:id="@+id/titleText"
@@ -22,12 +23,12 @@
         android:id="@+id/buttonBack"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_marginStart="20dp"
         android:layout_marginEnd="8dp"
-        android:scaleX="-1"
         android:background="@drawable/rounded_button_gray_arrow_back"
+        android:scaleX="-1"
         app:layout_constraintBottom_toBottomOf="@id/titleText"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="20dp"
         app:layout_constraintTop_toTopOf="@id/titleText" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -101,8 +102,8 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
             android:background="@color/cornflower_blue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -136,8 +137,8 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
             android:background="@color/cornflower_blue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -173,32 +174,34 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
+        android:background="@drawable/transparent_button"
+        android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardAlarmSettings">
 
-        <ImageButton
-            android:id="@+id/buttonDiveIntoSleep"
+
+        <ImageView
+            android:id="@+id/musicCardImage"
             android:layout_width="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_height="0dp"
-            android:scaleType="fitXY"
+            android:layout_height="150dp"
             android:background="@drawable/sleep_waves_button_back"
-            android:foreground="?attr/selectableItemBackgroundBorderless"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="fitXY"
             app:layout_constraintBaseline_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/halfRectangle"
-             />
+            app:layout_constraintTop_toBottomOf="@id/halfRectangle" />
+
 
         <ImageView
             android:id="@+id/halfRectangle"
             android:layout_width="0dp"
             android:layout_height="63dp"
             android:src="@drawable/rounded_rectangle_half"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/musicForSleep"
@@ -211,73 +214,95 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/diveIntoSleepText"
-            style="@style/PrimaryTextStyle"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/buttonSongChooser"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/dive_into_sleep"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/halfRectangle" />
-
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="13dp"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/arrow"
-            app:layout_constraintBottom_toBottomOf="@id/diveIntoSleepText"
+            android:paddingStart="20dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/diveIntoSleepText"
-            />
-
-        <TextView
-            android:id="@+id/dreamText"
-            style="@style/SecondarySmallTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/dream"
-            android:layout_marginEnd="-2dp"
-            app:layout_constraintTop_toBottomOf="@id/diveIntoSleepText"
-            app:layout_constraintStart_toStartOf="@id/diveIntoSleepText" />
-
-        <TextView
-            android:id="@+id/sleepingTimeText"
-            style="@style/PrimaryTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="42dp"
-            android:paddingBottom="24dp"
-            android:text="30 min"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dreamText" />
+            app:layout_constraintTop_toBottomOf="@id/halfRectangle">
+
+            <TextView
+                android:id="@+id/songNameText"
+                style="@style/PrimaryTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dive_into_sleep"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="13dp"
+                android:src="@drawable/arrow"
+                app:layout_constraintBottom_toBottomOf="@id/songNameText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/songNameText" />
+
+            <TextView
+                android:id="@+id/playlistNameText"
+                style="@style/SecondarySmallTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="-2dp"
+                android:text="@string/dream"
+                app:layout_constraintStart_toStartOf="@id/songNameText"
+                app:layout_constraintTop_toBottomOf="@id/songNameText" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <FrameLayout
+            android:id="@+id/buttonSleepingTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="21dp"
+            android:background="@drawable/transparent_rounded_button"
+            android:clickable="true"
+            android:paddingStart="20dp"
+            android:paddingTop="21dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/sleepingTimeText"
+                style="@style/PrimaryTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="30 min" />
+
+        </FrameLayout>
+
 
         <ImageView
-            android:visibility="gone"
             android:id="@+id/overlaying"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/rounded_overlaying_black"
-            app:layout_constraintEnd_toEndOf="parent"
             android:alpha="0.75"
+            android:src="@drawable/rounded_overlaying_black"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switcher"
+            style="@style/Widget.App.Switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Widget.App.Switch"
-            android:checked="true"
             android:layout_marginEnd="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:checked="true"
             app:layout_constraintBottom_toBottomOf="@id/musicForSleep"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/musicForSleep" />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -297,8 +322,7 @@
             android:id="@+id/buttonFallIntoADream"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@drawable/rounded_button_blue"
-            />
+            android:background="@drawable/rounded_button_blue" />
 
         <TextView
             android:id="@+id/buttonText"
@@ -307,6 +331,58 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/fall_into_a_dream" />
+
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/numberPickerContainer"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/screenOverlaying"
+            android:background="@color/transparent_black"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_ripple_button"
+            android:clickable="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="8dp">
+
+            <TextView
+                style="@style/PrimaryTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/during" />
+
+            <NumberPicker
+                android:id="@+id/numberPicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/AppTheme.Picker" />
+
+            <TextView
+                style="@style/PrimarySmallTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-6dp"
+                android:paddingBottom="6dp"
+                android:text="min" />
+
+        </LinearLayout>
 
     </FrameLayout>
 

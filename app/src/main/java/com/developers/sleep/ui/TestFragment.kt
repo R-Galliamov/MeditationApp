@@ -8,8 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.developers.sleep.PrefsConstants
+import com.developers.sleep.GeneralPrefs
 import com.developers.sleep.R
+import com.developers.sleep.TestPrefs
 import com.developers.sleep.dataModels.QUESTION_LIST_TEST
 import com.developers.sleep.databinding.FragmentTestBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,10 +37,10 @@ class TestFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         userDataPreferences = requireActivity().getSharedPreferences(
-            PrefsConstants.TEST_DATA_PREFS_NAME,
+            TestPrefs.PREFS_NAME,
             Context.MODE_PRIVATE
         )
-        userAnswersCount = userDataPreferences.getInt(PrefsConstants.USER_ANSWERS_COUNT, 0)
+        userAnswersCount = userDataPreferences.getInt(TestPrefs.USER_ANSWERS_COUNT, 0)
         if (userAnswersCount == questionList.size) {
             userAnswersCount--
         }
@@ -47,10 +48,6 @@ class TestFragment : Fragment() {
         if (userAnswersCount == questionList.size - 1) {
             binding.continueText.text = getString(R.string.done)
         }
-
-
-
-
 
         with(binding) {
             radioGroup.setOnCheckedChangeListener { group, checkedId ->
@@ -106,7 +103,7 @@ class TestFragment : Fragment() {
             answer3.text = currentQuestion.answers[3]
 
             val previousAnswer =
-                userDataPreferences.getInt(PrefsConstants.ANSWER_PREFIX + userAnswersCount, -1)
+                userDataPreferences.getInt(TestPrefs.ANSWER_PREFIX + userAnswersCount, -1)
             if (previousAnswer != -1) {
                 buttonChoose.visibility = View.VISIBLE
                 setRadioGroupSelection(previousAnswer)
@@ -122,8 +119,8 @@ class TestFragment : Fragment() {
 
     private fun saveAnswer(userAnswersCount: Int, selectedAnswer: Int) {
         val editor = userDataPreferences.edit()
-        editor.putInt(PrefsConstants.USER_ANSWERS_COUNT, userAnswersCount)
-        editor.putInt(PrefsConstants.ANSWER_PREFIX + (userAnswersCount - 1), selectedAnswer)
+        editor.putInt(TestPrefs.USER_ANSWERS_COUNT, userAnswersCount)
+        editor.putInt(TestPrefs.ANSWER_PREFIX + (userAnswersCount - 1), selectedAnswer)
         editor.apply()
     }
 

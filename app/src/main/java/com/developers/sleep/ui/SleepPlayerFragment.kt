@@ -15,16 +15,16 @@ import androidx.navigation.fragment.findNavController
 import com.developers.sleep.ColorConstants
 import com.developers.sleep.MediaPlayerHelper
 import com.developers.sleep.R
-import com.developers.sleep.databinding.FragmentSleepDiverBinding
+import com.developers.sleep.databinding.FragmentSleepPlayerBinding
 import com.developers.sleep.viewModel.AlarmViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SleepDiverFragment : Fragment() {
+class SleepPlayerFragment : Fragment() {
 
-    private var _binding: FragmentSleepDiverBinding? = null
-    private val binding: FragmentSleepDiverBinding
+    private var _binding: FragmentSleepPlayerBinding? = null
+    private val binding: FragmentSleepPlayerBinding
         get() = _binding!!
 
     private val alarmViewModel: AlarmViewModel by activityViewModels()
@@ -36,7 +36,7 @@ class SleepDiverFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentSleepDiverBinding.inflate(inflater, container, false)
+        _binding = FragmentSleepPlayerBinding.inflate(inflater, container, false)
         return binding.root
 
 
