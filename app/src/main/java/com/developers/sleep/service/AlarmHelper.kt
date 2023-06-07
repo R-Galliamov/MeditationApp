@@ -1,4 +1,4 @@
-package com.developers.sleep.alarmService
+package com.developers.sleep.service
 
 import android.app.AlarmManager
 import android.app.PendingIntent

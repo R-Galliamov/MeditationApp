@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.developers.sleep.GeneralPrefs
 import com.developers.sleep.R
@@ -59,7 +60,10 @@ class SplashFragment : Fragment() {
             if (isPremium) {
                 findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
             } else {
-                findNavController().navigate(R.id.action_splashFragment_to_paywallFragment)
+                val navController = findNavController()
+                val navOptions = NavOptions.Builder().setPopUpTo(navController.currentDestination?.id ?: 0, true).build()
+                navController.navigate(R.id.action_splashFragment_to_paywallFragment, null, navOptions)
+
             }
         }
     }

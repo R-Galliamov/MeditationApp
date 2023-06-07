@@ -16,7 +16,7 @@ import java.io.File
 import java.io.IOException
 import javax.inject.Inject
 
-class MelodyRepository @Inject constructor(
+class AlarmRepository @Inject constructor(
     private val downloadManager: DownloadManager,
     private val application: Application
 ) {
@@ -98,12 +98,12 @@ object DownloadManagerModule {
 
 @Module
 @InstallIn(SingletonComponent::class)
-object MelodyRepositoryModule {
+object AlarmRepositoryModule {
     @Provides
-    fun provideMelodyRepository(
+    fun provideAlarmRepository(
         downloadManager: DownloadManager,
         application: Application
-    ): MelodyRepository {
-        return MelodyRepository(downloadManager, application)
+    ): AlarmRepository {
+        return AlarmRepository(downloadManager, application)
     }
 }

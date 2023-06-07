@@ -54,6 +54,8 @@ class PaywallFragment : Fragment() {
             buttonClose.setOnClickListener {
                 if (isFragmentShownOnAppStart()) {
                     findNavController().navigate(R.id.action_paywallFragment_to_mainFragment)
+                } else {
+                    findNavController().navigateUp()
                 }
             }
         }
@@ -68,13 +70,11 @@ class PaywallFragment : Fragment() {
                     }
                 }
             })
-
-
     }
 
     private fun isFragmentShownOnAppStart(): Boolean {
         val backStackCount = findNavController().backStack.size
-        return backStackCount == 3
+        return backStackCount == 2
     }
 
     override fun onDestroyView() {

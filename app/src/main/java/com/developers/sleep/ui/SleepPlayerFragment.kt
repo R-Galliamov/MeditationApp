@@ -14,11 +14,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.developers.sleep.ColorConstants
-import com.developers.sleep.MediaPlayerHelper
+import com.developers.sleep.service.MediaPlayerHelper
 import com.developers.sleep.R
 import com.developers.sleep.databinding.FragmentSleepPlayerBinding
 import com.developers.sleep.viewModel.AlarmViewModel
-import com.developers.sleep.viewModel.PlayerViewModel
+import com.developers.sleep.viewModel.AlarmPlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -39,7 +39,7 @@ class SleepPlayerFragment : Fragment() {
         get() = _binding!!
 
     private val alarmViewModel: AlarmViewModel by activityViewModels()
-    private val playerViewModel: PlayerViewModel by activityViewModels()
+    private val alarmPlayerViewModel: AlarmPlayerViewModel by activityViewModels()
 
     private val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
     private var updateTimeJob: Job? = null
@@ -59,7 +59,7 @@ class SleepPlayerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setBackground()
-        val currentMelody = playerViewModel.currentMelody //TODO pass it to the mediaPlayer
+        val currentMelody = alarmPlayerViewModel.currentMelody //TODO pass it to the mediaPlayer
 
         if (alarmViewModel.isMusicOn()) {
             binding.buttonMiniPlayer.visibility = View.VISIBLE

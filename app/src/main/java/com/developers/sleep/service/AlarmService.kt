@@ -1,11 +1,10 @@
-package com.developers.sleep.alarmService
+package com.developers.sleep.service
 
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
 import com.developers.sleep.EXTRA_ALARM_SOUND
-import com.developers.sleep.MediaPlayerHelper
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

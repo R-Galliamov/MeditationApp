@@ -8,10 +8,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.developers.sleep.AlarmPrefs
+import com.developers.sleep.AlarmRepository
 import com.developers.sleep.dataModels.Melody
-import com.developers.sleep.MelodyRepository
-import com.developers.sleep.GeneralPrefs
-import com.developers.sleep.alarmService.AlarmHelper
+import com.developers.sleep.service.AlarmHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
 import javax.inject.Inject
@@ -19,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AlarmViewModel @Inject constructor(
     private val application: Application,
-    private val repository: MelodyRepository
+    private val repository: AlarmRepository
 ) : AndroidViewModel(application) {
 
     private val sharedPreferences: SharedPreferences =

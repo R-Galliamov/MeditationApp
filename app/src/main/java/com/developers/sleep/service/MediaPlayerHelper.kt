@@ -1,4 +1,4 @@
-package com.developers.sleep
+package com.developers.sleep.service
 
 import android.app.Application
 import android.content.res.AssetFileDescriptor
@@ -27,8 +27,16 @@ class MediaPlayerHelper @Inject constructor(
         return assetFileDescriptor
     }
 
-    fun playLoopingMelody() {
-        //TODO not yet implemented
+    fun startPlayMelodyFromInternet(melodyUrl: String) {
+        stopPlaying()
+        mediaPlayer.apply {
+            setDataSource(melodyUrl)
+            prepareAsync()
+            setOnPreparedListener { mp ->
+                // Start playing the melody once it's prepared
+                mp.start()
+            }
+        }
     }
 
     fun startPlayLoopingAlarmSound(alarmSoundFileName: String) {

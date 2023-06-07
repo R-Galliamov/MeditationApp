@@ -37,8 +37,8 @@
 
         </activity>
 
-        <receiver android:name=".alarmService.AlarmReceiver" />
-        <service android:name=".alarmService.AlarmService" />
+        <receiver android:name=".service.AlarmReceiver" />
+        <service android:name=".service.AlarmService" />
 
         <meta-data
             android:name="preloaded_fonts"
