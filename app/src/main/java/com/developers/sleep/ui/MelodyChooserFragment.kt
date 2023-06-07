@@ -5,16 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.developers.sleep.dataModels.Melody
 import com.developers.sleep.PACKAGE_NAME
-import com.developers.sleep.dataModels.PlayList
 import com.developers.sleep.R
 import com.developers.sleep.adapter.MelodyAdapter
 import com.developers.sleep.adapter.PlayListAdapter
-import com.developers.sleep.databinding.FragmentMelodiesBinding
+import com.developers.sleep.dataModels.Melody
+import com.developers.sleep.dataModels.PlayList
 import com.developers.sleep.databinding.FragmentMelodyChooserBinding
+import com.developers.sleep.viewModel.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,6 +26,7 @@ class MelodyChooserFragment : Fragment() {
 
     private lateinit var melodiesRecyclerView: RecyclerView
     private lateinit var melodyAdapter: MelodyAdapter
+    private val playerViewModel: PlayerViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,11 +68,11 @@ class MelodyChooserFragment : Fragment() {
             }
         }, playlist1)
 
-
         melodiesRecyclerView = binding.recyclerViewMelodies
         melodyAdapter = MelodyAdapter(object : MelodyAdapter.OnMelodyClickListener {
             override fun onMelodyClick(melody: Melody) {
-                findNavController().navigate(R.id.action_mainFragment_to_playerFragment)
+                playerViewModel.setCurrentMelody(melody)
+                findNavController().navigateUp()
             }
         })
         melodiesRecyclerView.adapter = melodyAdapter
@@ -81,7 +83,7 @@ class MelodyChooserFragment : Fragment() {
         tagRecyclerView.adapter = playListAdapter
         playListAdapter.submitList(playlistsList)
 
-        binding.buttonBack.setOnClickListener{
+        binding.buttonBack.setOnClickListener {
             findNavController().navigateUp()
         }
 

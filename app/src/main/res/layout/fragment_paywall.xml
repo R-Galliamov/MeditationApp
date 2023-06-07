@@ -8,6 +8,17 @@
     android:orientation="vertical"
     tools:context=".ui.onboarding.PaywallFragment">
 
+    <ImageButton
+        android:id="@+id/buttonClose"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_button_gray_cross"
+        android:scaleX="-1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -122,8 +133,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/buttonYearPayment"
                 android:layout_width="168dp"
-                android:layout_marginStart="16dp"
                 android:layout_height="110dp"
+                android:layout_marginStart="16dp"
                 android:background="@drawable/rounded_button_blue"
                 android:clickable="true">
 

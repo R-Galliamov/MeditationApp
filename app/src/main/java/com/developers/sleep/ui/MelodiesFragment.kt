@@ -69,7 +69,8 @@ class MelodiesFragment : Fragment() {
         melodiesRecyclerView = binding.recyclerViewMelodies
         melodyAdapter = MelodyAdapter(object : MelodyAdapter.OnMelodyClickListener {
             override fun onMelodyClick(melody: Melody) {
-                findNavController().navigate(R.id.action_mainFragment_to_playerFragment)            }
+                findNavController().navigateUp()
+            }
         })
         melodiesRecyclerView.adapter = melodyAdapter
 
@@ -78,7 +79,6 @@ class MelodiesFragment : Fragment() {
         val tagRecyclerView = binding.recyclerViewTags
         tagRecyclerView.adapter = playListAdapter
         playListAdapter.submitList(playlistsList)
-
     }
 
     private fun getDrawableResourceByName(name: String): Int {
@@ -90,7 +90,6 @@ class MelodiesFragment : Fragment() {
             R.drawable.sleepwaves
         }
     }
-
 
     private fun showPlaylist(playList: PlayList) {
         melodyAdapter.submitList(playList.melodiesList)

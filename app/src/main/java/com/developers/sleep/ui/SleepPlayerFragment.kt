@@ -41,7 +41,7 @@ class SleepPlayerFragment : Fragment() {
     private val alarmViewModel: AlarmViewModel by activityViewModels()
     private val playerViewModel: PlayerViewModel by activityViewModels()
 
-    private val timeFormat = SimpleDateFormat("hh:mm", Locale.getDefault())
+    private val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
     private var updateTimeJob: Job? = null
 
 
@@ -108,6 +108,7 @@ class SleepPlayerFragment : Fragment() {
         updateTimeJob?.cancel()
     }
 
+
     private fun startUpdatingTime(): Job {
         return CoroutineScope(Dispatchers.Default).launch {
             while (isActive) {
@@ -145,7 +146,6 @@ class SleepPlayerFragment : Fragment() {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
         window.decorView.systemUiVisibility = 0
-        window.setBackgroundDrawable(null)
         val rootView = requireActivity().window.decorView.rootView
         rootView.setBackgroundColor(ColorConstants.EERIE_BLACK)
     }

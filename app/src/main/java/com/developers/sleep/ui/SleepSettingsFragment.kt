@@ -95,12 +95,12 @@ class SleepSettingsFragment : Fragment() {
 
             switcher.isChecked =
                 alarmSharedPreferences.getBoolean(AlarmPrefs.IS_MUSIC_FOR_SLEEP_0N, true)
-            updateDiveIntoSleepCardUi(switcher.isChecked)
+            updateMusicForSleepCardUi(switcher.isChecked)
 
             saveSwitcherState(switcher.isChecked)
 
             switcher.setOnCheckedChangeListener { _, isChecked ->
-                updateDiveIntoSleepCardUi(isChecked)
+                updateMusicForSleepCardUi(isChecked)
                 saveSwitcherState(isChecked)
             }
 
@@ -121,8 +121,6 @@ class SleepSettingsFragment : Fragment() {
             }
 
             sleepingTimeText.text = getString(R.string.min, musicDuration)
-
-
 
             numberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
                 musicDuration = newVal
@@ -145,7 +143,7 @@ class SleepSettingsFragment : Fragment() {
         binding.numberPickerContainer.visibility = View.VISIBLE
     }
 
-    private fun updateDiveIntoSleepCardUi(isChecked: Boolean) = with(binding) {
+    private fun updateMusicForSleepCardUi(isChecked: Boolean) = with(binding) {
         overlaying.visibility = if (isChecked) View.GONE else View.VISIBLE
         buttonSongChooser.isEnabled = isChecked
         buttonSleepingTime.isEnabled = isChecked
