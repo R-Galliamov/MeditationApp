@@ -1,11 +1,10 @@
-package com.developers.sleep.alarmService
+package com.developers.sleep.service
 
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
 import com.developers.sleep.EXTRA_ALARM_SOUND
-import com.developers.sleep.MediaPlayerHelper
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -23,7 +22,7 @@ class AlarmService: Service() {
         Log.d("APP_LOG", "AlarmService started")
         val alarmSoundFileName = intent?.getStringExtra(EXTRA_ALARM_SOUND)
         if (alarmSoundFileName != null) {
-            mediaPlayerHelper.startPlayLoopingAlarmSound(alarmSoundFileName)
+            mediaPlayerHelper.playAlarmSound(alarmSoundFileName)
         }
 
         return START_STICKY

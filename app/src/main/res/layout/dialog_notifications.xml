@@ -1,0 +1,70 @@
+<!-- custom_dialog_layout.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_button_gray"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingTop="26dp">
+
+    <TextView
+        android:id="@+id/dialog_title"
+        style="@style/TitleTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="36dp"
+        android:gravity="center"
+        android:lines="2"
+        android:text="@string/wake_up_notifications" />
+
+    <TextView
+        android:layout_marginTop="12dp"
+        android:id="@+id/dialog_message"
+        style="@style/SecondaryTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingStart="54dp"
+        android:paddingEnd="54dp"
+        android:text="@string/notifications_descriptor" />
+
+    <FrameLayout
+        android:id="@+id/buttonAllow"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="26dp"
+        android:background="@drawable/rounded_button_blue"
+        android:clickable="true">
+
+        <TextView
+            style="@style/PrimaryTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/allow" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/buttonNotNow"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="26dp"
+        android:layout_marginEnd="26dp"
+        android:background="@drawable/rounded_ripple_button"
+        android:clickable="true">
+
+        <TextView
+            style="@style/PrimaryTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/not_now" />
+    </FrameLayout>
+
+</LinearLayout>

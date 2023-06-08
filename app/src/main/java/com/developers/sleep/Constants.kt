@@ -1,6 +1,8 @@
 package com.developers.sleep
 
 import android.graphics.Color
+import com.developers.sleep.dataModels.Melody
+import com.developers.sleep.dataModels.Playlist
 
 object ColorConstants {
     val YANKEES_BLUE: Int = Color.parseColor("#FF21273C")
@@ -25,9 +27,17 @@ object AlarmPrefs {
     const val SELECTED_ALARM_MELODY_NAME = "selectedAlarmMelodyName"
 }
 
+object AlarmPlayerPrefs {
+    const val PREFS_NAME = "AlarmPrefs"
+    const val SELECTED_MELODY = "selectedMelody"
+    const val SELECTED_PLAYLIST_NAME = "selectedPlaylistName"
+    const val MUSIC_DURATION = "musicDuration"
+}
+
 object PlayerPrefs {
     const val PREFS_NAME = "PlayerPrefs"
     const val SELECTED_MELODY = "selectedMelody"
+    const val SELECTED_PLAYLIST = "selectedPlaylist"
     const val MUSIC_DURATION = "musicDuration"
 }
 
@@ -46,3 +56,27 @@ object UserDataPrefs {
 const val EXTRA_ALARM_SOUND = "extraAlarmSound"
 const val BASE_URL = "https://www.learningcontainer.com/wp-content/uploads/2020/02/" //TODO add url
 const val PACKAGE_NAME = "com.developers.sleep" //TODO fix if changed
+const val ACTION_ALARM_TRIGGERED = "actionAlarmTriggered"
+
+val melody1 = Melody("Song 1", "file1.mp3")
+val melody2 = Melody("Song 2", "file2.mp3")
+val playlist2 = Playlist("Relaxation", listOf(melody2))
+val melody3 = Melody("Nature", "file3.mp3")
+val playlist3 = Playlist("Nature", listOf(melody3))
+val playlist4 = Playlist("Delta waves", listOf(melody3))
+val playlist5 = Playlist("Bedtime stories", listOf(melody3))
+val playlist6 = Playlist("For kids", listOf(melody3))
+val playlist7 = Playlist("ASMR", listOf(melody3))
+val playlist8 = Playlist("Sleep", listOf(melody3))
+val playlist1 = Playlist("Top", listOf(melody1, melody2, melody3))
+
+val PLAYLIST_LIST = listOf(
+    playlist1,
+    playlist2,
+    playlist3,
+    playlist4,
+    playlist5,
+    playlist6,
+    playlist7,
+    playlist8
+)

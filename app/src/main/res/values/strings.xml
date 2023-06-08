@@ -80,6 +80,11 @@
 
     <string name="min">%1$d min</string>
     <string name="next_question">Next question:</string>
+    <string name="wake_up">Wake up</string>
+    <string name="wake_up_notifications">Wake up notifications</string>
+    <string name="notifications_descriptor">Turn on notifications so that our alarm clock wakes you up</string>
+    <string name="allow">Allow</string>
+    <string name="not_now">Not now</string>
 
 
 </resources>

@@ -3,22 +3,34 @@ package com.developers.sleep.ui
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.graphics.Color
 import android.icu.text.SimpleDateFormat
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.developers.sleep.ACTION_ALARM_TRIGGERED
+import com.developers.sleep.BASE_URL
 import com.developers.sleep.ColorConstants
-import com.developers.sleep.MediaPlayerHelper
 import com.developers.sleep.R
 import com.developers.sleep.databinding.FragmentSleepPlayerBinding
+import com.developers.sleep.service.MediaPlayerHelper
+import com.developers.sleep.viewModel.AlarmPlayerViewModel
 import com.developers.sleep.viewModel.AlarmViewModel
-import com.developers.sleep.viewModel.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -39,14 +51,20 @@ class SleepPlayerFragment : Fragment() {
         get() = _binding!!
 
     private val alarmViewModel: AlarmViewModel by activityViewModels()
-    private val playerViewModel: PlayerViewModel by activityViewModels()
+    private val alarmPlayerViewModel: AlarmPlayerViewModel by activityViewModels()
 
-    private val timeFormat = SimpleDateFormat("hh:mm", Locale.getDefault())
+    private val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
     private var updateTimeJob: Job? = null
 
 
     @Inject
     lateinit var mediaPlayerHelper: MediaPlayerHelper
+
+    private val alarmTriggeredReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            onAlarmTriggered()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,34 +77,49 @@ class SleepPlayerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setBackground()
-        val currentMelody = playerViewModel.currentMelody //TODO pass it to the mediaPlayer
+        val currentMelody = alarmPlayerViewModel.currentMelody //TODO pass it to the mediaPlayer
+        val musicDuration = alarmPlayerViewModel.musicDurationInMinutes.value ?: 30
 
         if (alarmViewModel.isMusicOn()) {
+            //TODO check if no internet
             binding.buttonMiniPlayer.visibility = View.VISIBLE
-            mediaPlayerHelper.startPlayLoopingAlarmSound("IterstellarTheme.mp3") //TODO replace with melody and duration
+
+            mediaPlayerHelper.setDuration(musicDuration)
+            mediaPlayerHelper.playMelodyByUrl(BASE_URL + "Kalimba.mp3") //TODO replace
             binding.buttonPlayerState.setBackgroundResource(R.drawable.circular_button_miniplayer_pause)
         } else {
             binding.buttonMiniPlayer.visibility = View.GONE
         }
 
-        with(binding) {
-            buttonPlayerState.setOnClickListener {
-                if (mediaPlayerHelper.isPlaying) {
-                    mediaPlayerHelper.pausePlaying()
-                    buttonPlayerState.setBackgroundResource(R.drawable.circular_button_miniplayer_play)
-                } else {
-                    mediaPlayerHelper.continuePlaying()
-                    buttonPlayerState.setBackgroundResource(R.drawable.circular_button_miniplayer_pause)
-                }
+        mediaPlayerHelper.isPlaying.observe(viewLifecycleOwner) { isPlaying ->
+            if (isPlaying) {
+                binding.buttonPlayerState.setBackgroundResource(R.drawable.circular_button_miniplayer_pause)
+            } else {
+                binding.buttonPlayerState.setBackgroundResource(R.drawable.circular_button_miniplayer_play)
+
             }
-            songTitle.text = currentMelody.value?.name ?: "Interstellar" //TODO remove
         }
 
         with(binding) {
+            buttonPlayerState.setOnClickListener {
+                if (mediaPlayerHelper.isPlaying.value == true) {
+                    mediaPlayerHelper.pausePlaying()
+                } else {
+                    mediaPlayerHelper.resumePlaying()
+                }
+            }
+            songTitle.text = currentMelody.value?.name ?: "Interstellar" //TODO remove
+
             currentTimeText.text = getCurrentTime()
             val alarmTime = alarmViewModel.alarmTime.value
             alarmTimeText.text = timeFormat.format(alarmTime?.time)
             buttonStop.setOnClickListener {
+                createNotificationChannel(requireContext())
+                val notification = buildNotification(requireContext())
+                val notificationManager =
+                    context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                notificationManager.notify(NOTIFICATION_ID, notification)
+
                 mediaPlayerHelper.stopPlaying()
                 findNavController().navigateUp()
             }
@@ -101,11 +134,15 @@ class SleepPlayerFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         updateTimeJob = startUpdatingTime()
+
+        val filter = IntentFilter(ACTION_ALARM_TRIGGERED)
+        requireContext().registerReceiver(alarmTriggeredReceiver, filter)
     }
 
     override fun onPause() {
         super.onPause()
         updateTimeJob?.cancel()
+        requireContext().unregisterReceiver(alarmTriggeredReceiver)
     }
 
     private fun startUpdatingTime(): Job {
@@ -145,7 +182,6 @@ class SleepPlayerFragment : Fragment() {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
         window.decorView.systemUiVisibility = 0
-        window.setBackgroundDrawable(null)
         val rootView = requireActivity().window.decorView.rootView
         rootView.setBackgroundColor(ColorConstants.EERIE_BLACK)
     }
@@ -178,12 +214,57 @@ class SleepPlayerFragment : Fragment() {
                 .setDuration(300)
                 .start()
         }
+
     }
+
+    private fun onAlarmTriggered() {
+        binding.buttonMiniPlayer.visibility = View.GONE
+        binding.buttonStop.setBackgroundResource(R.drawable.rounded_button_crimson)
+        binding.buttonText.text = getString(R.string.wake_up)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         removeBackground()
         _binding = null
+    }
+
+    private fun createNotificationChannel(context: Context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channelId = "channel"
+            val channelName = "channel_name"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+
+            val channel = NotificationChannel(channelId, channelName, importance).apply {
+                enableLights(true)
+                lightColor = Color.RED
+                enableVibration(true)
+                description = "Alarm notification channel"
+            }
+
+            val notificationManager = context.getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun buildNotification(context: Context): Notification {
+        val channelId = "alarm_channel"
+        val title = "Alarm"
+        val content = "Wake up!"
+
+        return NotificationCompat.Builder(context, channelId)
+            .setContentTitle(title)
+            .setContentText(content)
+            .setSmallIcon(R.id.menu_icon1)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_ALARM)
+            .setAutoCancel(true)
+            .build()
+    }
+
+    companion object {
+        private const val NOTIFICATION_ID = 1
     }
 
 

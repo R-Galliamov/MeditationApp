@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.developers.sleep.MediaPlayerHelper
+import com.developers.sleep.service.MediaPlayerHelper
 import com.developers.sleep.databinding.FragmentPlayerBinding
-import com.developers.sleep.viewModel.PlayerViewModel
+import com.developers.sleep.viewModel.AlarmPlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -21,7 +21,7 @@ class PlayerFragment : Fragment() {
 
     @Inject
     lateinit var mediaPlayerHelper: MediaPlayerHelper
-    private val playerViewModel: PlayerViewModel by activityViewModels()
+    private val playerViewModel: AlarmPlayerViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

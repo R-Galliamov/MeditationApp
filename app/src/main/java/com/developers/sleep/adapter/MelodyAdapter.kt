@@ -12,7 +12,6 @@ class MelodyAdapter(
     private val onMelodyClickListener: OnMelodyClickListener
 ) :
     ListAdapter<Melody, MelodyAdapter.MelodyViewHolder>(MelodyDiffCallback()) {
-
     interface OnMelodyClickListener {
         fun onMelodyClick(melody: Melody)
     }

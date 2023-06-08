@@ -1,20 +1,30 @@
 package com.developers.sleep.ui
 
+import android.app.AlertDialog
+import android.app.AlertDialog.THEME_HOLO_DARK
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.FrameLayout
+import android.widget.TextView
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.developers.sleep.AlarmPrefs
-import com.developers.sleep.PlayerPrefs
+import com.developers.sleep.AlarmPlayerPrefs
 import com.developers.sleep.R
 import com.developers.sleep.databinding.FragmentSleepSettingsBinding
 import com.developers.sleep.viewModel.AlarmViewModel
+import com.developers.sleep.viewModel.AlarmPlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 
@@ -28,6 +38,7 @@ class SleepSettingsFragment : Fragment() {
     private lateinit var playerSharedPreferences: SharedPreferences
 
     private val alarmViewModel: AlarmViewModel by activityViewModels()
+    private val alarmPlayerViewModel: AlarmPlayerViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,8 +56,10 @@ class SleepSettingsFragment : Fragment() {
             Context.MODE_PRIVATE
         )
         playerSharedPreferences =
-            requireActivity().getSharedPreferences(PlayerPrefs.PREFS_NAME, Context.MODE_PRIVATE)
-
+            requireActivity().getSharedPreferences(
+                AlarmPlayerPrefs.PREFS_NAME,
+                Context.MODE_PRIVATE
+            )
 
         binding.alarmTime.setOnClickListener {
             val previousCalendar = alarmViewModel.alarmTime.value
@@ -56,6 +69,7 @@ class SleepSettingsFragment : Fragment() {
             //TODO make custom dialog or change background
             val timePickerDialog = TimePickerDialog(
                 requireContext(),
+                THEME_HOLO_DARK,
                 TimePickerDialog.OnTimeSetListener { _, selectedHour, selectedMinute ->
                     val selectedTime = Calendar.getInstance().apply {
                         set(Calendar.HOUR_OF_DAY, selectedHour)
@@ -95,12 +109,12 @@ class SleepSettingsFragment : Fragment() {
 
             switcher.isChecked =
                 alarmSharedPreferences.getBoolean(AlarmPrefs.IS_MUSIC_FOR_SLEEP_0N, true)
-            updateDiveIntoSleepCardUi(switcher.isChecked)
+            updateMusicForSleepCardUi(switcher.isChecked)
 
             saveSwitcherState(switcher.isChecked)
 
             switcher.setOnCheckedChangeListener { _, isChecked ->
-                updateDiveIntoSleepCardUi(isChecked)
+                updateMusicForSleepCardUi(isChecked)
                 saveSwitcherState(isChecked)
             }
 
@@ -112,7 +126,9 @@ class SleepSettingsFragment : Fragment() {
                 showNumberPicker()
             }
 
-            var musicDuration = playerSharedPreferences.getInt(PlayerPrefs.MUSIC_DURATION, 30)
+
+            //TODO replace with viewmodel
+            var musicDuration = playerSharedPreferences.getInt(AlarmPlayerPrefs.MUSIC_DURATION, 30)
 
             numberPicker.apply {
                 minValue = 1
@@ -122,8 +138,6 @@ class SleepSettingsFragment : Fragment() {
 
             sleepingTimeText.text = getString(R.string.min, musicDuration)
 
-
-
             numberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
                 musicDuration = newVal
             }
@@ -131,8 +145,11 @@ class SleepSettingsFragment : Fragment() {
             screenOverlaying.setOnClickListener {
                 numberPickerContainer.visibility = View.GONE
                 sleepingTimeText.text = getString(R.string.min, musicDuration)
-                saveMusicDuration(musicDuration)
+                alarmPlayerViewModel.setMusicDurationInMinutes(musicDuration)
             }
+
+            songNameText.text = alarmPlayerViewModel.currentMelody.value?.name
+            playlistNameText.text = alarmPlayerViewModel.currentPlaylist.value?.name
 
             buttonFallIntoADream.setOnClickListener {
                 findNavController().navigate(R.id.action_sleepSettingsFragment_to_sleepPlayerFragment)
@@ -145,16 +162,10 @@ class SleepSettingsFragment : Fragment() {
         binding.numberPickerContainer.visibility = View.VISIBLE
     }
 
-    private fun updateDiveIntoSleepCardUi(isChecked: Boolean) = with(binding) {
+    private fun updateMusicForSleepCardUi(isChecked: Boolean) = with(binding) {
         overlaying.visibility = if (isChecked) View.GONE else View.VISIBLE
         buttonSongChooser.isEnabled = isChecked
         buttonSleepingTime.isEnabled = isChecked
-    }
-
-    private fun saveMusicDuration(musicDuration: Int) {
-        val editor = playerSharedPreferences.edit()
-        editor.putInt(PlayerPrefs.MUSIC_DURATION, musicDuration)
-        editor.apply()
     }
 
     private fun saveSwitcherState(value: Boolean) {

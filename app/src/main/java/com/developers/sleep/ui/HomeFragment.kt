@@ -1,11 +1,16 @@
 package com.developers.sleep.ui
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.activity.OnBackPressedCallback
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.developers.sleep.R
@@ -31,6 +36,11 @@ class HomeFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        //TODO Test if it works
+        if (!areNotificationsEnabled()) {
+            showNotificationDialog()
+        }
 
         val userDataSharedPreferences =  requireActivity().getSharedPreferences(
             UserDataPrefs.PREFS_NAME,
@@ -84,7 +94,29 @@ class HomeFragment : Fragment() {
                     requireActivity().finish()
                 }
             })
+    }
 
+    private fun areNotificationsEnabled(): Boolean {
+        val notificationManager = NotificationManagerCompat.from(requireContext())
+        return notificationManager.areNotificationsEnabled()
+    }
+
+    private fun showNotificationDialog() {
+        val dialogView =
+            LayoutInflater.from(requireContext()).inflate(R.layout.dialog_notifications, null)
+        val allowButton = dialogView.findViewById<FrameLayout>(R.id.buttonAllow)
+        allowButton.setOnClickListener {
+            val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+            startActivity(intent)
+        }
+        val builder = AlertDialog.Builder(requireContext(), R.style.TransparentDialog)
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        val dialog = builder.create()
+        val notNowButton = dialogView.findViewById<FrameLayout>(R.id.buttonNotNow)
+        notNowButton.setOnClickListener { dialog.dismiss() }
+        dialog.show()
     }
 
     override fun onDestroyView() {

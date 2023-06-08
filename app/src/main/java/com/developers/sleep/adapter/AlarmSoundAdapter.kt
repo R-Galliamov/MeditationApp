@@ -7,17 +7,17 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.developers.sleep.dataModels.Melody
 import com.developers.sleep.R
+import com.developers.sleep.dataModels.AlarmSound
 import com.developers.sleep.databinding.AlarmSoundItemBinding
 
 class AlarmSoundAdapter(
-    private val onAlarmSoundClickListener: OnAlarmSoundClickListener, private var selectedMelodyIndex : Int
+    private val onAlarmSoundClickListener: OnAlarmSoundClickListener, private var selectedAlarmIndex : Int
 ) :
-    ListAdapter<Melody, AlarmSoundAdapter.AlarmSoundViewHolder>(AlarmSoundDiffCallback()) {
+    ListAdapter<AlarmSound, AlarmSoundAdapter.AlarmSoundViewHolder>(AlarmSoundDiffCallback()) {
 
     interface OnAlarmSoundClickListener {
-        fun onMelodyClick(alarmSound: Melody, position: Int)
+        fun onMelodyClick(alarmSound: AlarmSound, position: Int)
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlarmSoundViewHolder {
         val binding =
@@ -26,8 +26,8 @@ class AlarmSoundAdapter(
     }
 
     override fun onBindViewHolder(holder: AlarmSoundViewHolder, position: Int) {
-        val melody = getItem(position)
-        holder.bind(melody)
+        val alarmSound = getItem(position)
+        holder.bind(alarmSound)
     }
 
     inner class AlarmSoundViewHolder(private val binding: AlarmSoundItemBinding) :
@@ -37,17 +37,17 @@ class AlarmSoundAdapter(
             itemView.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    val melody = getItem(position)
-                    onAlarmSoundClickListener.onMelodyClick(melody, position)
-                    selectMelody(position)
+                    val alarmSound = getItem(position)
+                    onAlarmSoundClickListener.onMelodyClick(alarmSound, position)
+                    selectAlarm(position)
                 }
             }
         }
 
-        fun bind(alarmSound: Melody) {
+        fun bind(alarmSound: AlarmSound) {
             binding.melodyName.text = alarmSound.name
 
-            if (adapterPosition == selectedMelodyIndex) {
+            if (adapterPosition == selectedAlarmIndex) {
                 binding.radioImage.setImageResource(R.drawable.radio_selected)
             } else {
                 binding.radioImage.setImageResource(R.drawable.radio_unselected)
@@ -55,24 +55,24 @@ class AlarmSoundAdapter(
 
         }
 
-        private fun selectMelody(position: Int) {
+        private fun selectAlarm(position: Int) {
             //TODO rewrite with melody name
-            val previousSelectedIndex = selectedMelodyIndex
-            selectedMelodyIndex = position
+            val previousSelectedIndex = selectedAlarmIndex
+            selectedAlarmIndex = position
             if (previousSelectedIndex != RecyclerView.NO_POSITION) {
                 notifyItemChanged(previousSelectedIndex)
             }
-            notifyItemChanged(selectedMelodyIndex)
+            notifyItemChanged(selectedAlarmIndex)
         }
     }
 }
 
-class AlarmSoundDiffCallback : DiffUtil.ItemCallback<Melody>() {
-    override fun areItemsTheSame(oldItem: Melody, newItem: Melody): Boolean {
+class AlarmSoundDiffCallback : DiffUtil.ItemCallback<AlarmSound>() {
+    override fun areItemsTheSame(oldItem: AlarmSound, newItem: AlarmSound): Boolean {
         return oldItem.name == newItem.name
     }
 
-    override fun areContentsTheSame(oldItem: Melody, newItem: Melody): Boolean {
+    override fun areContentsTheSame(oldItem: AlarmSound, newItem: AlarmSound): Boolean {
         return oldItem == newItem
     }
 }

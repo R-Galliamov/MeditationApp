@@ -5,17 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.developers.sleep.dataModels.PlayList
+import com.developers.sleep.dataModels.Playlist
 import com.developers.sleep.R
 import com.developers.sleep.databinding.PlaylistTagItemBinding
 
 class PlayListAdapter(
-    private val onTagClickListener: OnTagClickListener, private var selectedPlayList: PlayList
+    private val onTagClickListener: OnTagClickListener, private var selectedPlaylist: Playlist
 ) :
-    ListAdapter<PlayList, PlayListAdapter.PlayListViewHolder>(PlayListDiffCallback()) {
+    ListAdapter<Playlist, PlayListAdapter.PlayListViewHolder>(PlayListDiffCallback()) {
 
     interface OnTagClickListener {
-        fun onTagClick(playList: PlayList)
+        fun onTagClick(playList: Playlist)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayListViewHolder {
@@ -37,29 +37,29 @@ class PlayListAdapter(
             itemView.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    selectedPlayList = getItem(position)
+                    selectedPlaylist = getItem(position)
                     notifyDataSetChanged()
-                    onTagClickListener.onTagClick(selectedPlayList)
+                    onTagClickListener.onTagClick(selectedPlaylist)
                 }
             }
         }
 
-        fun bind(playList: PlayList) {
+        fun bind(playList: Playlist) {
             binding.playListNameText.text = playList.name
             binding.itemBackground.background = null
-            if (playList.name == selectedPlayList.name) {
+            if (playList.name == selectedPlaylist.name) {
                 binding.itemBackground.setBackgroundResource(R.drawable.rounded_button_blue)
             }
         }
     }
 }
 
-class PlayListDiffCallback : DiffUtil.ItemCallback<PlayList>() {
-    override fun areItemsTheSame(oldItem: PlayList, newItem: PlayList): Boolean {
+class PlayListDiffCallback : DiffUtil.ItemCallback<Playlist>() {
+    override fun areItemsTheSame(oldItem: Playlist, newItem: Playlist): Boolean {
         return oldItem.name == newItem.name
     }
 
-    override fun areContentsTheSame(oldItem: PlayList, newItem: PlayList): Boolean {
+    override fun areContentsTheSame(oldItem: Playlist, newItem: Playlist): Boolean {
         return oldItem == newItem
     }
 }

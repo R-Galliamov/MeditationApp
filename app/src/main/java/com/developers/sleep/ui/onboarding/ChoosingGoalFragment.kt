@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.developers.sleep.GeneralPrefs
 import com.developers.sleep.R
@@ -21,17 +22,6 @@ class ChoosingGoalFragment : Fragment() {
         get() = _binding!!
 
     private lateinit var sharedPreferences: SharedPreferences
-
-    companion object {
-        @Volatile
-        private var instance: ChoosingGoalFragment? = null
-
-        fun getInstance(): ChoosingGoalFragment {
-            return instance ?: synchronized(this) {
-                instance ?: ChoosingGoalFragment().also { instance = it }
-            }
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,21 +38,29 @@ class ChoosingGoalFragment : Fragment() {
             requireActivity().getSharedPreferences(GeneralPrefs.PREFS_NAME, Context.MODE_PRIVATE)
 
         binding.buttonBlueCard.setOnClickListener {
-            findNavController().navigate(R.id.action_choosingGoalFragment_to_paywallFragment)
-            setGoalIsChosen(true)
+            navigateToMainFragment()
         }
         binding.buttonGreenCard.setOnClickListener {
-            findNavController().navigate(R.id.action_choosingGoalFragment_to_paywallFragment)
-            setGoalIsChosen(true)
+            navigateToMainFragment()
         }
         binding.buttonCrimsonCard.setOnClickListener {
-            findNavController().navigate(R.id.action_choosingGoalFragment_to_paywallFragment)
-            setGoalIsChosen(true)
+            navigateToMainFragment()
         }
         binding.buttonYellowCard.setOnClickListener {
-            findNavController().navigate(R.id.action_choosingGoalFragment_to_paywallFragment)
-            setGoalIsChosen(true)
+            navigateToMainFragment()
         }
+    }
+
+    private fun navigateToMainFragment() {
+        val navController = findNavController()
+        val navOptions =
+            NavOptions.Builder().setPopUpTo(navController.currentDestination?.id ?: 0, true).build()
+        navController.navigate(
+            R.id.action_choosingGoalFragment_to_paywallFragment,
+            null,
+            navOptions
+        )
+        setGoalIsChosen(true)
     }
 
     private fun setGoalIsChosen(value: Boolean) {

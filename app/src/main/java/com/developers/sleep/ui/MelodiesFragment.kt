@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.developers.sleep.dataModels.Melody
 import com.developers.sleep.PACKAGE_NAME
-import com.developers.sleep.dataModels.PlayList
+import com.developers.sleep.dataModels.Playlist
 import com.developers.sleep.R
 import com.developers.sleep.adapter.MelodyAdapter
 import com.developers.sleep.adapter.PlayListAdapter
@@ -38,15 +38,15 @@ class MelodiesFragment : Fragment() {
 
         val melody1 = Melody("Song 1", "file1.mp3")
         val melody2 = Melody("Song 2", "file2.mp3")
-        val playlist2 = PlayList("Relaxation", listOf(melody2))
+        val playlist2 = Playlist("Relaxation", listOf(melody2))
         val melody3 = Melody("Nature", "file3.mp3")
-        val playlist3 = PlayList("Nature", listOf(melody3))
-        val playlist4 = PlayList("Delta waves", listOf(melody3))
-        val playlist5 = PlayList("Bedtime stories", listOf(melody3))
-        val playlist6 = PlayList("For kids", listOf(melody3))
-        val playlist7 = PlayList("ASMR", listOf(melody3))
-        val playlist8 = PlayList("Sleep", listOf(melody3))
-        val playlist1 = PlayList("Top", listOf(melody1, melody2, melody3))
+        val playlist3 = Playlist("Nature", listOf(melody3))
+        val playlist4 = Playlist("Delta waves", listOf(melody3))
+        val playlist5 = Playlist("Bedtime stories", listOf(melody3))
+        val playlist6 = Playlist("For kids", listOf(melody3))
+        val playlist7 = Playlist("ASMR", listOf(melody3))
+        val playlist8 = Playlist("Sleep", listOf(melody3))
+        val playlist1 = Playlist("Top", listOf(melody1, melody2, melody3))
 
         val playlistsList = listOf(
             playlist1,
@@ -60,7 +60,7 @@ class MelodiesFragment : Fragment() {
         )
 
         val playListAdapter = PlayListAdapter(object : PlayListAdapter.OnTagClickListener {
-            override fun onTagClick(playList: PlayList) {
+            override fun onTagClick(playList: Playlist) {
                 showPlaylist(playList)
             }
         }, playlist1)
@@ -69,7 +69,8 @@ class MelodiesFragment : Fragment() {
         melodiesRecyclerView = binding.recyclerViewMelodies
         melodyAdapter = MelodyAdapter(object : MelodyAdapter.OnMelodyClickListener {
             override fun onMelodyClick(melody: Melody) {
-                findNavController().navigate(R.id.action_mainFragment_to_playerFragment)            }
+                findNavController().navigate(R.id.action_mainFragment_to_playerFragment)
+            }
         })
         melodiesRecyclerView.adapter = melodyAdapter
 
@@ -78,7 +79,6 @@ class MelodiesFragment : Fragment() {
         val tagRecyclerView = binding.recyclerViewTags
         tagRecyclerView.adapter = playListAdapter
         playListAdapter.submitList(playlistsList)
-
     }
 
     private fun getDrawableResourceByName(name: String): Int {
@@ -91,8 +91,7 @@ class MelodiesFragment : Fragment() {
         }
     }
 
-
-    private fun showPlaylist(playList: PlayList) {
+    private fun showPlaylist(playList: Playlist) {
         melodyAdapter.submitList(playList.melodiesList)
         binding.playListImage.setBackgroundResource(getDrawableResourceByName(playList.name))
     }

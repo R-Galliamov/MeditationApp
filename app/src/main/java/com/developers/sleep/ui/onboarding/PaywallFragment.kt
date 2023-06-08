@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.developers.sleep.R
@@ -27,10 +28,53 @@ class PaywallFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonNext.setOnClickListener {
-            findNavController().navigate(R.id.action_paywallFragment_to_mainFragment)
+        val yearPayment = true
+
+        with(binding) {
+            buttonWeeklyPayment.setOnClickListener {
+                it.setBackgroundResource(R.drawable.rounded_button_blue)
+                buttonYearPayment.setBackgroundResource(R.drawable.rounded_ripple_button)
+            }
+            buttonYearPayment.setOnClickListener {
+                it.setBackgroundResource(R.drawable.rounded_button_blue)
+                buttonWeeklyPayment.setBackgroundResource(R.drawable.rounded_ripple_button)
+            }
+
+
+            buttonNext.setOnClickListener {
+                if (yearPayment) {
+                    //TODO implement navigation
+                } else {
+
+                }
+
+
+            }
+
+            buttonClose.setOnClickListener {
+                if (isFragmentShownOnAppStart()) {
+                    findNavController().navigate(R.id.action_paywallFragment_to_mainFragment)
+                } else {
+                    findNavController().navigateUp()
+                }
+            }
         }
 
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (isFragmentShownOnAppStart()) {
+                        requireActivity().finish()
+                    }
+                }
+            })
+    }
+
+    private fun isFragmentShownOnAppStart(): Boolean {
+        val backStackCount = findNavController().backStack.size
+        return backStackCount == 2
     }
 
     override fun onDestroyView() {
