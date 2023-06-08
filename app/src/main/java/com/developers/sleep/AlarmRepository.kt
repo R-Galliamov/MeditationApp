@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Environment
 import androidx.core.net.toUri
+import com.developers.sleep.dataModels.AlarmSound
 import com.developers.sleep.dataModels.Melody
 import dagger.Module
 import dagger.Provides
@@ -20,7 +21,7 @@ class AlarmRepository @Inject constructor(
     private val downloadManager: DownloadManager,
     private val application: Application
 ) {
-    val alarmSharedPreferences: SharedPreferences =
+    private val alarmSharedPreferences: SharedPreferences =
         application.getSharedPreferences(AlarmPrefs.PREFS_NAME, Context.MODE_PRIVATE)
 
     val alarmSoundsList = getMp3SoundsFromAssets()
@@ -36,10 +37,10 @@ class AlarmRepository @Inject constructor(
         return name
     }
 
-    fun getChosenAlarmSound(): Melody {
+    fun getChosenAlarmSound(): AlarmSound {
         return alarmSoundsList.first { it.name == chosenAlarmSound }
     }
-    fun saveChosenAlarmSound(alarmSound: Melody) {
+    fun saveChosenAlarmSound(alarmSound: AlarmSound) {
         val editor = alarmSharedPreferences.edit()
         editor.putString(AlarmPrefs.SELECTED_ALARM_MELODY_NAME, alarmSound.name)
         editor.apply()
@@ -54,14 +55,14 @@ class AlarmRepository @Inject constructor(
         }
     }
 
-    private fun getMp3SoundsFromAssets(): List<Melody> {
-        val alarmSounds = mutableListOf<Melody>()
+    private fun getMp3SoundsFromAssets(): List<AlarmSound> {
+        val alarmSounds = mutableListOf<AlarmSound>()
         try {
             val soundFiles = application.assets.list("alarmSounds") ?: emptyArray()
             var name = 1
 
             for (fileName in soundFiles) {
-                alarmSounds.add(Melody("Sound $name", fileName))
+                alarmSounds.add(AlarmSound("Sound $name", fileName))
                 name++ //TODO Just for test
             }
         } catch (e: IOException) {

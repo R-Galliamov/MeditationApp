@@ -13,6 +13,7 @@ import com.developers.sleep.AlarmPrefs
 import com.developers.sleep.dataModels.Melody
 import com.developers.sleep.service.MediaPlayerHelper
 import com.developers.sleep.adapter.AlarmSoundAdapter
+import com.developers.sleep.dataModels.AlarmSound
 import com.developers.sleep.databinding.FragmentChoosingAlarmBinding
 import com.developers.sleep.viewModel.AlarmViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,8 +43,8 @@ class ChoosingAlarmFragment : Fragment() {
         )
 
         val adapter = AlarmSoundAdapter(object : AlarmSoundAdapter.OnAlarmSoundClickListener {
-            override fun onMelodyClick(alarmSound: Melody, position: Int) {
-                mediaPlayerHelper.startPlayLoopingAlarmSound(alarmSound.fileName)
+            override fun onMelodyClick(alarmSound: AlarmSound, position: Int) {
+                mediaPlayerHelper.playAlarmSound(alarmSound.fileName)
                 saveSelectedMelody(alarmSound, position)
             }
         }, getSelectedMelodyIndex() ?: 0)
@@ -78,7 +79,7 @@ class ChoosingAlarmFragment : Fragment() {
             .takeIf { it >= 0 }
     }
 
-    private fun saveSelectedMelody(alarmSound: Melody, position: Int) {
+    private fun saveSelectedMelody(alarmSound: AlarmSound, position: Int) {
         val selectedPosition = if (position >= 0) position else 0
         val editor = sharedPreferences.edit()
         editor.putInt(AlarmPrefs.SELECTED_ALARM_MELODY_INDEX, selectedPosition)

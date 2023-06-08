@@ -117,5 +117,8 @@
         <item name="android:showDividers">none</item>
     </style>
 
+    <style name="TransparentDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 
 </resources>

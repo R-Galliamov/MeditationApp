@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.developers.sleep.AlarmPrefs
 import com.developers.sleep.AlarmRepository
+import com.developers.sleep.dataModels.AlarmSound
 import com.developers.sleep.dataModels.Melody
 import com.developers.sleep.service.AlarmHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,8 +29,8 @@ class AlarmViewModel @Inject constructor(
     val alarmTime: LiveData<Calendar>
         get() = _alarmTime
 
-    private val _chosenAlarmSound = MutableLiveData<Melody>()
-    val chosenAlarmSound: LiveData<Melody>
+    private val _chosenAlarmSound = MutableLiveData<AlarmSound>()
+    val chosenAlarmSound: LiveData<AlarmSound>
         get() = _chosenAlarmSound
 
     init {
@@ -50,11 +51,11 @@ class AlarmViewModel @Inject constructor(
         return sharedPreferences.getBoolean(AlarmPrefs.IS_MUSIC_FOR_SLEEP_0N, true)
     }
 
-    fun getAlarmSoundsList(): List<Melody> {
+    fun getAlarmSoundsList(): List<AlarmSound> {
         return repository.alarmSoundsList
     }
 
-    fun setChosenAlarmSound(alarmSound: Melody) {
+    fun setChosenAlarmSound(alarmSound: AlarmSound) {
         _chosenAlarmSound.value = alarmSound
         repository.saveChosenAlarmSound(alarmSound)
     }

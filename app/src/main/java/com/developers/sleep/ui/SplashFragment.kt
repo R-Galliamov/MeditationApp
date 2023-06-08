@@ -18,7 +18,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SplashFragment : Fragment() {
 
-
     private var _binding: FragmentSplashBinding? = null
     private val binding: FragmentSplashBinding
         get() = _binding!!

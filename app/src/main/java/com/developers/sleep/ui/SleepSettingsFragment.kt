@@ -1,13 +1,21 @@
 package com.developers.sleep.ui
 
+import android.app.AlertDialog
 import android.app.AlertDialog.THEME_HOLO_DARK
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.FrameLayout
+import android.widget.TextView
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -52,7 +60,6 @@ class SleepSettingsFragment : Fragment() {
                 AlarmPlayerPrefs.PREFS_NAME,
                 Context.MODE_PRIVATE
             )
-
 
         binding.alarmTime.setOnClickListener {
             val previousCalendar = alarmViewModel.alarmTime.value

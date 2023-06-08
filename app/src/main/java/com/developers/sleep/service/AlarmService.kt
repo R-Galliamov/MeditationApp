@@ -22,7 +22,7 @@ class AlarmService: Service() {
         Log.d("APP_LOG", "AlarmService started")
         val alarmSoundFileName = intent?.getStringExtra(EXTRA_ALARM_SOUND)
         if (alarmSoundFileName != null) {
-            mediaPlayerHelper.startPlayLoopingAlarmSound(alarmSoundFileName)
+            mediaPlayerHelper.playAlarmSound(alarmSoundFileName)
         }
 
         return START_STICKY
