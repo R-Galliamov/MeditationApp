@@ -85,6 +85,7 @@
     <string name="notifications_descriptor">Turn on notifications so that our alarm clock wakes you up</string>
     <string name="allow">Allow</string>
     <string name="not_now">Not now</string>
+    <string name="turn_off">TURN OFF</string>
 
 
 </resources>

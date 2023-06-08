@@ -58,6 +58,12 @@ const val BASE_URL = "https://www.learningcontainer.com/wp-content/uploads/2020/
 const val PACKAGE_NAME = "com.developers.sleep" //TODO fix if changed
 const val ACTION_ALARM_TRIGGERED = "actionAlarmTriggered"
 
+object NotificationsConsts {
+    const val ALARM_CHANNEL = "Alarm"
+    const val TURN_OFF_ACTION = "TURN_OFF_ACTION"
+}
+
+
 val melody1 = Melody("Song 1", "file1.mp3")
 val melody2 = Melody("Song 2", "file2.mp3")
 val playlist2 = Playlist("Relaxation", listOf(melody2))

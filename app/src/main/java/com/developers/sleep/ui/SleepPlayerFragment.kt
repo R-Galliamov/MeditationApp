@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -26,8 +27,10 @@ import androidx.navigation.fragment.findNavController
 import com.developers.sleep.ACTION_ALARM_TRIGGERED
 import com.developers.sleep.BASE_URL
 import com.developers.sleep.ColorConstants
+import com.developers.sleep.NotificationsConsts
 import com.developers.sleep.R
 import com.developers.sleep.databinding.FragmentSleepPlayerBinding
+import com.developers.sleep.service.AlarmReceiver
 import com.developers.sleep.service.MediaPlayerHelper
 import com.developers.sleep.viewModel.AlarmPlayerViewModel
 import com.developers.sleep.viewModel.AlarmViewModel
@@ -91,7 +94,7 @@ class SleepPlayerFragment : Fragment() {
             binding.buttonMiniPlayer.visibility = View.GONE
         }
 
-        mediaPlayerHelper.isPlaying.observe(viewLifecycleOwner) { isPlaying ->
+        mediaPlayerHelper.isMelodyPlaying.observe(viewLifecycleOwner) { isPlaying ->
             if (isPlaying) {
                 binding.buttonPlayerState.setBackgroundResource(R.drawable.circular_button_miniplayer_pause)
             } else {
@@ -102,7 +105,7 @@ class SleepPlayerFragment : Fragment() {
 
         with(binding) {
             buttonPlayerState.setOnClickListener {
-                if (mediaPlayerHelper.isPlaying.value == true) {
+                if (mediaPlayerHelper.isMelodyPlaying.value == true) {
                     mediaPlayerHelper.pausePlaying()
                 } else {
                     mediaPlayerHelper.resumePlaying()
@@ -114,12 +117,6 @@ class SleepPlayerFragment : Fragment() {
             val alarmTime = alarmViewModel.alarmTime.value
             alarmTimeText.text = timeFormat.format(alarmTime?.time)
             buttonStop.setOnClickListener {
-                createNotificationChannel(requireContext())
-                val notification = buildNotification(requireContext())
-                val notificationManager =
-                    context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                notificationManager.notify(NOTIFICATION_ID, notification)
-
                 mediaPlayerHelper.stopPlaying()
                 findNavController().navigateUp()
             }
@@ -228,39 +225,6 @@ class SleepPlayerFragment : Fragment() {
         super.onDestroyView()
         removeBackground()
         _binding = null
-    }
-
-    private fun createNotificationChannel(context: Context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelId = "channel"
-            val channelName = "channel_name"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-
-            val channel = NotificationChannel(channelId, channelName, importance).apply {
-                enableLights(true)
-                lightColor = Color.RED
-                enableVibration(true)
-                description = "Alarm notification channel"
-            }
-
-            val notificationManager = context.getSystemService(NotificationManager::class.java)
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
-
-    private fun buildNotification(context: Context): Notification {
-        val channelId = "alarm_channel"
-        val title = "Alarm"
-        val content = "Wake up!"
-
-        return NotificationCompat.Builder(context, channelId)
-            .setContentTitle(title)
-            .setContentText(content)
-            .setSmallIcon(R.id.menu_icon1)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setCategory(NotificationCompat.CATEGORY_ALARM)
-            .setAutoCancel(true)
-            .build()
     }
 
     companion object {

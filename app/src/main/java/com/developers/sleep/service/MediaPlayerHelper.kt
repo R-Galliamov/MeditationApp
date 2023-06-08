@@ -24,11 +24,11 @@ class MediaPlayerHelper @Inject constructor(
     private val application: Application,
 ) {
     private val mediaPlayer = MediaPlayer()
-    private var _isPlaying = MutableLiveData<Boolean>()
-    val isPlaying: LiveData<Boolean>
-        get() = _isPlaying
+    private var _isMelodyPlaying = MutableLiveData<Boolean>()
+    val isMelodyPlaying: LiveData<Boolean>
+        get() = _isMelodyPlaying
 
-
+    private var isAlarmPlaying = false
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
     private var playbackJob: Job? = null
     private var elapsedMillis: Long = 0L
@@ -53,10 +53,13 @@ class MediaPlayerHelper @Inject constructor(
             )
             assetFileDescriptor.close()
             isLooping = true
+            setAudioAttributes(
+                AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build()
+            )
             prepare()
             start()
         }
-        _isPlaying.value = mediaPlayer.isPlaying
+        isAlarmPlaying = mediaPlayer.isPlaying
     }
 
     fun setDuration(durationInMinutes: Int) {
@@ -82,10 +85,10 @@ class MediaPlayerHelper @Inject constructor(
             }
             mediaPlayer.seekTo(elapsedMillis.toInt())
             mediaPlayer.start()
-            _isPlaying.value = mediaPlayer.isPlaying
+            _isMelodyPlaying.value = mediaPlayer.isPlaying
             delay(duration)
             mediaPlayer.stop()
-            _isPlaying.value = mediaPlayer.isPlaying
+            _isMelodyPlaying.value = mediaPlayer.isPlaying
         }
     }
 
@@ -93,24 +96,25 @@ class MediaPlayerHelper @Inject constructor(
         if (melodyUrl != null) {
             playMelodyByUrl(melodyUrl!!)
         }
-        _isPlaying.value = mediaPlayer.isPlaying
+        _isMelodyPlaying.value = mediaPlayer.isPlaying
     }
 
     fun pausePlaying() {
         playbackJob?.cancel()
         elapsedMillis = mediaPlayer.currentPosition.toLong()
         mediaPlayer.pause()
-        _isPlaying.value = mediaPlayer.isPlaying
+        _isMelodyPlaying.value = mediaPlayer.isPlaying
     }
 
     fun stopPlaying() {
         mediaPlayer.apply {
-            if (isPlaying) {
+            if (isPlaying || isAlarmPlaying) {
                 stop()
             }
             reset()
         }
-        _isPlaying.value = mediaPlayer.isPlaying
+        _isMelodyPlaying.value = mediaPlayer.isPlaying
+        isAlarmPlaying = mediaPlayer.isPlaying
     }
 }
 

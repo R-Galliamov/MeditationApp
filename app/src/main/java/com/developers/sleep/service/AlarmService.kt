@@ -10,7 +10,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class AlarmService: Service() {
-
     override fun onCreate() {
         super.onCreate()
     }

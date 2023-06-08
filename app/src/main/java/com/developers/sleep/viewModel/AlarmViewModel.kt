@@ -74,7 +74,7 @@ class AlarmViewModel @Inject constructor(
 
         //TODO remove in main
         val testTime = Calendar.getInstance()
-        testTime.add(Calendar.MINUTE, 1)
+        testTime.add(Calendar.SECOND, 35)
 
         _alarmTime.value = testTime
 
