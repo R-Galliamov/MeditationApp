@@ -88,7 +88,7 @@ class SleepPlayerFragment : Fragment() {
             binding.buttonMiniPlayer.visibility = View.VISIBLE
 
             mediaPlayerHelper.setDuration(musicDuration)
-            mediaPlayerHelper.playMelodyByUrl(BASE_URL + "Kalimba.mp3") //TODO replace
+            mediaPlayerHelper.playMelodyByUrl(currentMelody.value?.uri.toString()) //TODO replace
             binding.buttonPlayerState.setBackgroundResource(R.drawable.circular_button_miniplayer_pause)
         } else {
             binding.buttonMiniPlayer.visibility = View.GONE
@@ -223,13 +223,8 @@ class SleepPlayerFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        mediaPlayerHelper.stopPlaying()
         removeBackground()
         _binding = null
     }
-
-    companion object {
-        private const val NOTIFICATION_ID = 1
-    }
-
-
 }

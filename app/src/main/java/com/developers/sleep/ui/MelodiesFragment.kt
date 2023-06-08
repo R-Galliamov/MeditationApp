@@ -5,15 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.developers.sleep.dataModels.Melody
 import com.developers.sleep.PACKAGE_NAME
+import com.developers.sleep.PLAYLIST_LIST
 import com.developers.sleep.dataModels.Playlist
 import com.developers.sleep.R
 import com.developers.sleep.adapter.MelodyAdapter
 import com.developers.sleep.adapter.PlayListAdapter
 import com.developers.sleep.databinding.FragmentMelodiesBinding
+import com.developers.sleep.viewModel.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,6 +27,7 @@ class MelodiesFragment : Fragment() {
 
     private lateinit var melodiesRecyclerView: RecyclerView
     private lateinit var melodyAdapter: MelodyAdapter
+    private val playerViewModel: PlayerViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,42 +40,23 @@ class MelodiesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val melody1 = Melody("Song 1", "file1.mp3")
-        val melody2 = Melody("Song 2", "file2.mp3")
-        val playlist2 = Playlist("Relaxation", listOf(melody2))
-        val melody3 = Melody("Nature", "file3.mp3")
-        val playlist3 = Playlist("Nature", listOf(melody3))
-        val playlist4 = Playlist("Delta waves", listOf(melody3))
-        val playlist5 = Playlist("Bedtime stories", listOf(melody3))
-        val playlist6 = Playlist("For kids", listOf(melody3))
-        val playlist7 = Playlist("ASMR", listOf(melody3))
-        val playlist8 = Playlist("Sleep", listOf(melody3))
-        val playlist1 = Playlist("Top", listOf(melody1, melody2, melody3))
-
-        val playlistsList = listOf(
-            playlist1,
-            playlist2,
-            playlist3,
-            playlist4,
-            playlist5,
-            playlist6,
-            playlist7,
-            playlist8
-        )
-
+        val playlistsList = PLAYLIST_LIST
         val playListAdapter = PlayListAdapter(object : PlayListAdapter.OnTagClickListener {
-            override fun onTagClick(playList: Playlist) {
-                showPlaylist(playList)
+            override fun onTagClick(playlist: Playlist) {
+                showPlaylist(playlist)
+                playerViewModel.setCurrentPlaylist(playlist)
             }
-        }, playlist1)
+        }, playlistsList[0])
 
 
         melodiesRecyclerView = binding.recyclerViewMelodies
         melodyAdapter = MelodyAdapter(object : MelodyAdapter.OnMelodyClickListener {
             override fun onMelodyClick(melody: Melody) {
+                playerViewModel.setCurrentMelody(melody)
                 findNavController().navigate(R.id.action_mainFragment_to_playerFragment)
             }
         })
+
         melodiesRecyclerView.adapter = melodyAdapter
 
         showPlaylist(playlistsList.first { it.name == "Top" })

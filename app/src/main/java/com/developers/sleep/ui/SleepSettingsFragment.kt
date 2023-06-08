@@ -148,8 +148,12 @@ class SleepSettingsFragment : Fragment() {
                 alarmPlayerViewModel.setMusicDurationInMinutes(musicDuration)
             }
 
-            songNameText.text = alarmPlayerViewModel.currentMelody.value?.name
-            playlistNameText.text = alarmPlayerViewModel.currentPlaylist.value?.name
+            alarmPlayerViewModel.currentMelody.observe(viewLifecycleOwner){
+                songNameText.text = it.name
+            }
+            alarmPlayerViewModel.currentPlaylist.observe(viewLifecycleOwner){
+                playlistNameText.text = it.name
+            }
 
             buttonFallIntoADream.setOnClickListener {
                 findNavController().navigate(R.id.action_sleepSettingsFragment_to_sleepPlayerFragment)

@@ -6,6 +6,7 @@ import android.media.AudioAttributes
 import android.media.MediaPlayer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.developers.sleep.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,7 +34,8 @@ class MediaPlayerHelper @Inject constructor(
     private var playbackJob: Job? = null
     private var elapsedMillis: Long = 0L
     private var melodyUrl: String? = null
-    private var melodyDuration: Long = 0
+    private var melodyDurationMillis: Long = 0
+    private var trackPositionMillis: Long = 0
 
     private fun getAlarmSoundAssetFileDescriptor(alarmSoundFileName: String): AssetFileDescriptor {
         val assetFileDescriptor: AssetFileDescriptor =
@@ -64,12 +66,11 @@ class MediaPlayerHelper @Inject constructor(
 
     fun setDuration(durationInMinutes: Int) {
         elapsedMillis = 0L
-        melodyDuration = durationInMinutes.toLong() * 60 * 1000
+        melodyDurationMillis = durationInMinutes.toLong() * 60 * 1000
     }
 
     fun playMelodyByUrl(melodyUrl: String) {
         this.melodyUrl = melodyUrl
-        val duration = (melodyDuration - elapsedMillis).coerceAtLeast(0)
         stopPlaying()
         playbackJob = coroutineScope.launch {
             withContext(Dispatchers.IO) {
@@ -78,15 +79,21 @@ class MediaPlayerHelper @Inject constructor(
                         AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                             .build()
                     )
-                    setDataSource(melodyUrl)
+                    setDataSource(BASE_URL + melodyUrl)
                     isLooping = true
                     prepare()
                 }
             }
-            mediaPlayer.seekTo(elapsedMillis.toInt())
+            mediaPlayer.seekTo(trackPositionMillis.toInt())
             mediaPlayer.start()
             _isMelodyPlaying.value = mediaPlayer.isPlaying
-            delay(duration)
+
+            while ((melodyDurationMillis - elapsedMillis) > 0) {
+                if (isMelodyPlaying.value == true) {
+                    elapsedMillis += 1000
+                }
+                delay(1000)
+            }
             mediaPlayer.stop()
             _isMelodyPlaying.value = mediaPlayer.isPlaying
         }
@@ -101,7 +108,7 @@ class MediaPlayerHelper @Inject constructor(
 
     fun pausePlaying() {
         playbackJob?.cancel()
-        elapsedMillis = mediaPlayer.currentPosition.toLong()
+        trackPositionMillis = mediaPlayer.currentPosition.toLong()
         mediaPlayer.pause()
         _isMelodyPlaying.value = mediaPlayer.isPlaying
     }
