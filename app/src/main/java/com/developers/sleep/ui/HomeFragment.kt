@@ -26,6 +26,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding: FragmentHomeBinding
         get() = _binding!!
+    private lateinit var notificationsDialog: AlertDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +35,12 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
+
+    override fun onPause() {
+        super.onPause()
+        notificationsDialog.hide()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -42,7 +49,7 @@ class HomeFragment : Fragment() {
             showNotificationDialog()
         }
 
-        val userDataSharedPreferences =  requireActivity().getSharedPreferences(
+        val userDataSharedPreferences = requireActivity().getSharedPreferences(
             UserDataPrefs.PREFS_NAME,
             Context.MODE_PRIVATE
         )
@@ -113,10 +120,10 @@ class HomeFragment : Fragment() {
         val builder = AlertDialog.Builder(requireContext(), R.style.TransparentDialog)
         builder.setView(dialogView)
         builder.setCancelable(false)
-        val dialog = builder.create()
+        notificationsDialog = builder.create()
         val notNowButton = dialogView.findViewById<FrameLayout>(R.id.buttonNotNow)
-        notNowButton.setOnClickListener { dialog.dismiss() }
-        dialog.show()
+        notNowButton.setOnClickListener { notificationsDialog.dismiss() }
+        notificationsDialog.show()
     }
 
     override fun onDestroyView() {

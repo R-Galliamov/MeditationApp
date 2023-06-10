@@ -49,6 +49,7 @@
                 android:layout_width="102dp"
                 android:layout_height="102dp"
                 android:layout_gravity="center"
+                android:layout_marginBottom="24dp"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="36dp">
 
@@ -57,15 +58,29 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:background="@drawable/avatar_sample"
+                    android:scaleType="centerCrop"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageButton
+                <FrameLayout
+                    android:id="@+id/notification"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/notification"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                        style="@style/PrimaryTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="-3dp"
+                        android:text="i" />
+
+                </FrameLayout>
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
@@ -74,10 +89,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="24dp"
                 android:text="Sonya," />
 
             <TextView
+                android:id="@+id/fragmentText"
                 style="@style/SecondaryTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -120,6 +120,7 @@ class MediaPlayerHelper @Inject constructor(
             }
             reset()
         }
+        trackPositionMillis = 0L
         _isMelodyPlaying.value = mediaPlayer.isPlaying
         isAlarmPlaying = mediaPlayer.isPlaying
     }

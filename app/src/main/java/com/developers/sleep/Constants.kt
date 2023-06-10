@@ -51,6 +51,10 @@ object UserDataPrefs {
     const val PREFS_NAME = "userDataPrefs"
     const val IS_PREMIUM = "isPremium"
     const val NIGHTS_COUNT = "nightsCount"
+    const val USER_NAME = "userName"
+    const val USER_DATE = "userDate"
+    const val USER_GENDER = "userGender"
+    const val AVATAR_URI = "avatarUri"
 }
 
 const val EXTRA_ALARM_SOUND = "extraAlarmSound"

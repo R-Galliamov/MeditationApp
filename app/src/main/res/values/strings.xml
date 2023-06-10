@@ -86,6 +86,10 @@
     <string name="allow">Allow</string>
     <string name="not_now">Not now</string>
     <string name="turn_off">TURN OFF</string>
+    <string name="fillInInformation">Click to ddd information about yourself</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="other">Other</string>
 
 
 </resources>
