@@ -3,6 +3,7 @@ package com.developers.sleep
 import android.graphics.Color
 import com.developers.sleep.dataModels.Melody
 import com.developers.sleep.dataModels.Playlist
+import com.developers.sleep.dataModels.Tip
 
 object ColorConstants {
     val YANKEES_BLUE: Int = Color.parseColor("#FF21273C")
@@ -16,6 +17,7 @@ object GeneralPrefs {
     const val PREFS_NAME = "Prefs"
     const val IS_FIRST_LAUNCH = "isFirstLaunch"
     const val IS_GOAL_CHOSEN = "isGoalChosen"
+    const val VOLUME = "volume"
 }
 
 object AlarmPrefs {
@@ -66,6 +68,19 @@ object NotificationsConsts {
     const val ALARM_CHANNEL = "Alarm"
     const val TURN_OFF_ACTION = "TURN_OFF_ACTION"
 }
+
+val TIPS_LIST = listOf(
+    Tip("Tip 1", "Content of Tip 1"),
+    Tip("Tip 2", "Content of Tip 2"),
+    Tip("Tip 3", "Content of Tip 3"),
+    Tip("Tip 4", "Content of Tip 4"),
+    Tip("Tip 5", "Content of Tip 5"),
+    Tip("Tip 6", "Content of Tip 6"),
+    Tip("Tip 7", "Content of Tip 7"),
+    Tip("Tip 8", "Content of Tip 8"),
+    Tip("Tip 9", "Content of Tip 9"),
+    Tip("Tip 10", "Content of Tip 10")
+)
 
 
 val melody1 = Melody("Kalimba test", "Kalimba.mp3")

@@ -1,4 +1,4 @@
-package com.developers.sleep
+package com.developers.sleep.repository
 
 import android.app.Application
 import android.app.DownloadManager
@@ -6,6 +6,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Environment
 import androidx.core.net.toUri
+import com.developers.sleep.AlarmPlayerPrefs
+import com.developers.sleep.BASE_URL
+import com.developers.sleep.PLAYLIST_LIST
 import com.developers.sleep.dataModels.Melody
 import com.developers.sleep.dataModels.Playlist
 import com.google.gson.Gson
@@ -16,7 +19,7 @@ import dagger.hilt.components.SingletonComponent
 import java.io.File
 import javax.inject.Inject
 
-class MelodyRepository @Inject constructor(
+class AlarmPlayerRepository @Inject constructor(
     private val downloadManager: DownloadManager,
     private val application: Application
 ) {
@@ -26,7 +29,7 @@ class MelodyRepository @Inject constructor(
     fun getLastSavedMelody(): Melody? {
         val melodyJsonString = alarmPlayerPrefs.getString(AlarmPlayerPrefs.SELECTED_MELODY, null)
         val gson = Gson()
-        return   gson.fromJson(melodyJsonString, Melody::class.java)
+        return gson.fromJson(melodyJsonString, Melody::class.java)
     }
 
     fun getLastSavedPlaylist(): Playlist? {
@@ -75,12 +78,12 @@ class MelodyRepository @Inject constructor(
 
 @Module
 @InstallIn(SingletonComponent::class)
-object MelodyRepositoryModule {
+object AlarmPlayerRepositoryModule {
     @Provides
-    fun provideMelodyRepository(
+    fun provideAlarmPlayerRepository(
         downloadManager: DownloadManager,
         application: Application
-    ): MelodyRepository {
-        return MelodyRepository(downloadManager, application)
+    ): AlarmPlayerRepository {
+        return AlarmPlayerRepository(downloadManager, application)
     }
 }

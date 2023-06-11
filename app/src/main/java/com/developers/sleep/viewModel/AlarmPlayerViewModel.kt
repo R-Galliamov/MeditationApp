@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.developers.sleep.AlarmPlayerPrefs
-import com.developers.sleep.MelodyRepository
+import com.developers.sleep.repository.AlarmPlayerRepository
 import com.developers.sleep.PLAYLIST_LIST
 import com.developers.sleep.dataModels.Melody
 import com.developers.sleep.dataModels.Playlist
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AlarmPlayerViewModel @Inject constructor(
     private val application: Application,
-    private val repository: MelodyRepository
+    private val repository: AlarmPlayerRepository
 ) : AndroidViewModel(application) {
 
     private val sharedPreferences: SharedPreferences =
@@ -67,6 +67,4 @@ class AlarmPlayerViewModel @Inject constructor(
             musicDurationInMinutes.value ?: 30
         )
     }
-
-
 }

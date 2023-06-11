@@ -62,6 +62,12 @@
         <action
             android:id="@+id/action_mainFragment_to_playerFragment"
             app:destination="@id/playerFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_tipFragment"
+            app:destination="@id/tipFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_tipsListFragment"
+            app:destination="@id/tipsListFragment" />
     </fragment>
     <fragment
         android:id="@+id/sleepSettingsFragment"
@@ -110,7 +116,18 @@
         android:name="com.developers.sleep.ui.MelodyChooserFragment"
         android:label="fragment_melody_chooser"
         tools:layout="@layout/fragment_melody_chooser" />
-
+    <fragment
+        android:id="@+id/tipFragment"
+        android:name="com.developers.sleep.ui.TipFragment"
+        android:label="TipFragment" />
+    <fragment
+        android:id="@+id/tipsListFragment"
+        android:name="com.developers.sleep.ui.TipsListFragment"
+        android:label="TipsListFragment" >
+        <action
+            android:id="@+id/action_tipsListFragment_to_tipFragment"
+            app:destination="@id/tipFragment" />
+    </fragment>
 
 
 </navigation>

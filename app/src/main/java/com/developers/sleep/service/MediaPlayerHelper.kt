@@ -1,12 +1,15 @@
 package com.developers.sleep.service
 
 import android.app.Application
+import android.content.Context
 import android.content.res.AssetFileDescriptor
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.developers.sleep.BASE_URL
+import com.developers.sleep.GeneralPrefs
+import com.developers.sleep.PlayerPrefs
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,6 +32,11 @@ class MediaPlayerHelper @Inject constructor(
     val isMelodyPlaying: LiveData<Boolean>
         get() = _isMelodyPlaying
 
+    //TODO create volume parameter in methods
+    private val generalSP =
+        application.getSharedPreferences(GeneralPrefs.PREFS_NAME, Context.MODE_PRIVATE)
+    private var volume = generalSP.getFloat(GeneralPrefs.VOLUME, 1f)
+
     private var isAlarmPlaying = false
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
     private var playbackJob: Job? = null
@@ -37,6 +45,7 @@ class MediaPlayerHelper @Inject constructor(
     private var melodyDurationMillis: Long = 0
     private var trackPositionMillis: Long = 0
 
+
     private fun getAlarmSoundAssetFileDescriptor(alarmSoundFileName: String): AssetFileDescriptor {
         val assetFileDescriptor: AssetFileDescriptor =
             application.assets.openFd("alarmSounds/${alarmSoundFileName}")
@@ -44,6 +53,7 @@ class MediaPlayerHelper @Inject constructor(
     }
 
     fun playAlarmSound(alarmSoundFileName: String) {
+        volume = generalSP.getFloat(GeneralPrefs.VOLUME, 1f)
         stopPlaying()
         val assetFileDescriptor: AssetFileDescriptor =
             getAlarmSoundAssetFileDescriptor(alarmSoundFileName)
@@ -55,6 +65,7 @@ class MediaPlayerHelper @Inject constructor(
             )
             assetFileDescriptor.close()
             isLooping = true
+            setVolume(volume, volume)
             setAudioAttributes(
                 AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build()
             )
@@ -69,8 +80,13 @@ class MediaPlayerHelper @Inject constructor(
         melodyDurationMillis = durationInMinutes.toLong() * 60 * 1000
     }
 
+    fun resetTrackProgress() {
+        trackPositionMillis = 0L
+    }
+
     fun playMelodyByUrl(melodyUrl: String) {
         this.melodyUrl = melodyUrl
+        volume = generalSP.getFloat(GeneralPrefs.VOLUME, 1f)
         stopPlaying()
         playbackJob = coroutineScope.launch {
             withContext(Dispatchers.IO) {
@@ -80,6 +96,7 @@ class MediaPlayerHelper @Inject constructor(
                             .build()
                     )
                     setDataSource(BASE_URL + melodyUrl)
+                    setVolume(volume, volume)
                     isLooping = true
                     prepare()
                 }
@@ -97,6 +114,10 @@ class MediaPlayerHelper @Inject constructor(
             mediaPlayer.stop()
             _isMelodyPlaying.value = mediaPlayer.isPlaying
         }
+    }
+
+    fun setVolume(volume: Float) {
+        mediaPlayer.setVolume(volume, volume)
     }
 
     fun resumePlaying() {
@@ -120,7 +141,6 @@ class MediaPlayerHelper @Inject constructor(
             }
             reset()
         }
-        trackPositionMillis = 0L
         _isMelodyPlaying.value = mediaPlayer.isPlaying
         isAlarmPlaying = mediaPlayer.isPlaying
     }

@@ -1,4 +1,4 @@
-package com.developers.sleep
+package com.developers.sleep.repository
 
 import android.app.Application
 import android.app.DownloadManager
@@ -6,8 +6,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Environment
 import androidx.core.net.toUri
+import com.developers.sleep.AlarmPrefs
+import com.developers.sleep.BASE_URL
 import com.developers.sleep.dataModels.AlarmSound
-import com.developers.sleep.dataModels.Melody
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +18,7 @@ import java.io.File
 import java.io.IOException
 import javax.inject.Inject
 
-class AlarmRepository @Inject constructor(
+class AlarmSoundRepository @Inject constructor(
     private val downloadManager: DownloadManager,
     private val application: Application
 ) {
@@ -99,12 +100,12 @@ object DownloadManagerModule {
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AlarmRepositoryModule {
+object AlarmSoundRepositoryModule {
     @Provides
-    fun provideAlarmRepository(
+    fun provideAlarmSoundRepository(
         downloadManager: DownloadManager,
         application: Application
-    ): AlarmRepository {
-        return AlarmRepository(downloadManager, application)
+    ): AlarmSoundRepository {
+        return AlarmSoundRepository(downloadManager, application)
     }
 }

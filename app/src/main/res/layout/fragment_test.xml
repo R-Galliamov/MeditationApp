@@ -34,12 +34,13 @@
     <TextView
         android:id="@+id/questionText"
         style="@style/TitleSmallTextStyle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:text="@string/qustion1"
+        android:gravity="start"
+        android:text="Test "
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/questionNumText" />

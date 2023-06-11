@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.developers.sleep.R
-import com.developers.sleep.service.MediaPlayerHelper
 import com.developers.sleep.databinding.FragmentPlayerBinding
-import com.developers.sleep.viewModel.AlarmPlayerViewModel
+import com.developers.sleep.service.MediaPlayerHelper
+import com.developers.sleep.viewModel.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +28,7 @@ class PlayerFragment : Fragment() {
 
     @Inject
     lateinit var mediaPlayerHelper: MediaPlayerHelper
-    private val playerViewModel: AlarmPlayerViewModel by activityViewModels()
+    private val playerViewModel: PlayerViewModel by activityViewModels()
     private lateinit var timerJob: Job
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -156,7 +156,6 @@ class PlayerFragment : Fragment() {
         }
     }
 
-
     private fun formatMinutesToMinutesSeconds(minutes: Int): String {
         val minutesPart = minutes % 60
         val secondsPart = 0
@@ -171,6 +170,7 @@ class PlayerFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         mediaPlayerHelper.stopPlaying()
+        mediaPlayerHelper.resetTrackProgress()
         timerJob.cancel()
         _binding = null
     }

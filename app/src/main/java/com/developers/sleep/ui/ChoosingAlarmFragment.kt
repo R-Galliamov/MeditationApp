@@ -16,6 +16,7 @@ import com.developers.sleep.adapter.AlarmSoundAdapter
 import com.developers.sleep.dataModels.AlarmSound
 import com.developers.sleep.databinding.FragmentChoosingAlarmBinding
 import com.developers.sleep.viewModel.AlarmViewModel
+import com.developers.sleep.viewModel.MenuViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -27,6 +28,7 @@ class ChoosingAlarmFragment : Fragment() {
 
     private lateinit var sharedPreferences: SharedPreferences
     private val alarmViewModel: AlarmViewModel by activityViewModels()
+
 
     @Inject
     lateinit var mediaPlayerHelper: MediaPlayerHelper
@@ -55,17 +57,34 @@ class ChoosingAlarmFragment : Fragment() {
         adapter.submitList(alarmSounds)
 
         binding.buttonBack.setOnClickListener {
-            findNavController().navigateUp()
+            closeFragment()
         }
         binding.buttonChoose.setOnClickListener {
-            findNavController().navigateUp()
+            closeFragment()
         }
 
         return binding.root
     }
 
+    private fun closeFragment() {
+        val backStackCount = parentFragmentManager.backStackEntryCount
+
+        if (backStackCount > 0) {
+            val lastBackStackEntry = parentFragmentManager.getBackStackEntryAt(backStackCount - 1)
+            val lastFragmentTag = lastBackStackEntry.name
+
+            if (lastFragmentTag == "Settings") {
+                parentFragmentManager.popBackStack()
+            } else {
+                findNavController().navigateUp()
+            }
+        }
+
+    }
+
     override fun onPause() {
         super.onPause()
+        mediaPlayerHelper.resetTrackProgress()
         mediaPlayerHelper.stopPlaying()
     }
 

@@ -6,7 +6,6 @@ import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.developers.sleep.MelodyRepository
 import com.developers.sleep.PLAYLIST_LIST
 import com.developers.sleep.PlayerPrefs
 import com.developers.sleep.dataModels.Melody
@@ -17,7 +16,6 @@ import javax.inject.Inject
 @HiltViewModel
 class PlayerViewModel @Inject constructor(
     private val application: Application,
-    private val repository: MelodyRepository
 ) : AndroidViewModel(application) {
 
     private val sharedPreferences: SharedPreferences =
@@ -39,34 +37,15 @@ class PlayerViewModel @Inject constructor(
     private val defaultPlayList = PLAYLIST_LIST[0] //TODO replace
     private val defaultMelody = defaultPlayList.melodiesList[0]
 
-    init {
-        _currentMelody.value = repository.getLastSavedMelody() ?: defaultMelody
-        _currentPlaylist.value = repository.getLastSavedPlaylist() ?: defaultPlayList
-        _musicDurationInMinutes.value = repository.getLastSavedDuration()
-    }
-
     fun setMusicDurationInMinutes(duration: Int) {
         _musicDurationInMinutes.value = duration
-        saveChanges()
     }
 
     fun setCurrentMelody(melody: Melody) {
         _currentMelody.value = melody
-        saveChanges()
     }
 
     fun setCurrentPlaylist(playlist: Playlist) {
         _currentPlaylist.value = playlist
-        saveChanges()
     }
-
-    private fun saveChanges() {
-        repository.saveCurrentPlayerSet(
-            currentMelody.value ?: defaultMelody,
-            currentPlaylist.value ?: defaultPlayList,
-            musicDurationInMinutes.value ?: 30
-        )
-    }
-
-
 }

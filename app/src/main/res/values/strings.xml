@@ -90,6 +90,8 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="other">Other</string>
+    <string name="tips">Tips</string>
+    <string name="sleep_basics">Sleep basics</string>
 
 
 </resources>

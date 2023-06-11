@@ -1,5 +1,6 @@
 package com.developers.sleep.ui
 
+import TipsViewModel
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -12,6 +13,7 @@ import android.widget.FrameLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.developers.sleep.R
 import com.developers.sleep.TestPrefs
@@ -26,7 +28,9 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding: FragmentHomeBinding
         get() = _binding!!
-    private lateinit var notificationsDialog: AlertDialog
+    private var notificationsDialog: AlertDialog? = null
+
+    private val tipsViewModel: TipsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,13 +42,12 @@ class HomeFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        notificationsDialog.hide()
+        notificationsDialog?.hide()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //TODO Test if it works
         if (!areNotificationsEnabled()) {
             showNotificationDialog()
         }
@@ -85,13 +88,29 @@ class HomeFragment : Fragment() {
             setProgressWithAnimation(userProgress, 1000)
         }
 
-
         binding.buttonGoToTest.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_testFragment)
         }
 
         binding.buttonFallIntoADream.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_sleepSettingsFragment)
+        }
+
+        val tipOfTheDay = tipsViewModel.tipOfTheDay.value
+        binding.tipNameText.text = tipOfTheDay?.name
+        binding.coloredRectangle.setBackgroundResource(tipOfTheDay?.drawableRes!!)
+
+        binding.buttonTip.setOnClickListener {
+            tipsViewModel.setCurrentTip(tipOfTheDay)
+            findNavController().navigate(R.id.action_mainFragment_to_tipFragment)
+        }
+
+        binding.coloredRectangle.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_tipFragment)
+        }
+
+        binding.readTipsButton.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_tipsListFragment)
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(
@@ -119,11 +138,11 @@ class HomeFragment : Fragment() {
         }
         val builder = AlertDialog.Builder(requireContext(), R.style.TransparentDialog)
         builder.setView(dialogView)
-        builder.setCancelable(false)
+        builder.setCancelable(true)
         notificationsDialog = builder.create()
         val notNowButton = dialogView.findViewById<FrameLayout>(R.id.buttonNotNow)
-        notNowButton.setOnClickListener { notificationsDialog.dismiss() }
-        notificationsDialog.show()
+        notNowButton.setOnClickListener { notificationsDialog?.dismiss() }
+        notificationsDialog?.show()
     }
 
     override fun onDestroyView() {
