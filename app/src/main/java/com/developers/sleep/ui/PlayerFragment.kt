@@ -45,7 +45,7 @@ class PlayerFragment : Fragment() {
         var durationInMinutes = playerViewModel.musicDurationInMinutes.value ?: 30
         timerJob = updatingTimerJob(durationInMinutes)
         mediaPlayerHelper.setDuration(durationInMinutes)
-        mediaPlayerHelper.playMelodyByUrl(currentMelody?.uri.toString()) //TODO its not uri. Its file name
+        mediaPlayerHelper.playMelodyByUrl(currentMelody?.url.toString())
         binding.timerText.text = formatMinutesToMinutesSeconds(durationInMinutes)
         playerViewModel.currentMelody.observe(viewLifecycleOwner)
         {
@@ -91,7 +91,7 @@ class PlayerFragment : Fragment() {
                     mediaPlayerHelper.resumePlaying()
                 } else {
                     mediaPlayerHelper.setDuration(durationInMinutes)
-                    mediaPlayerHelper.playMelodyByUrl(currentMelody?.uri.toString())
+                    mediaPlayerHelper.playMelodyByUrl(currentMelody?.url.toString())
                     timerJob.cancel()
                     timerJob = updatingTimerJob(durationInMinutes)
                     timerJob.start()

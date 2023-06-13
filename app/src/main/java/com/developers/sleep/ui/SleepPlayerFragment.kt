@@ -3,34 +3,24 @@ package com.developers.sleep.ui
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Color
 import android.icu.text.SimpleDateFormat
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
-import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.developers.sleep.ACTION_ALARM_TRIGGERED
-import com.developers.sleep.BASE_URL
 import com.developers.sleep.ColorConstants
-import com.developers.sleep.NotificationsConsts
 import com.developers.sleep.R
 import com.developers.sleep.databinding.FragmentSleepPlayerBinding
-import com.developers.sleep.service.AlarmReceiver
 import com.developers.sleep.service.MediaPlayerHelper
 import com.developers.sleep.viewModel.AlarmPlayerViewModel
 import com.developers.sleep.viewModel.AlarmViewModel
@@ -88,7 +78,7 @@ class SleepPlayerFragment : Fragment() {
             binding.buttonMiniPlayer.visibility = View.VISIBLE
 
             mediaPlayerHelper.setDuration(musicDuration)
-            mediaPlayerHelper.playMelodyByUrl(currentMelody.value?.uri.toString()) //TODO replace
+            mediaPlayerHelper.playMelodyByUrl(currentMelody.value?.url.toString()) //TODO replace
             binding.buttonPlayerState.setBackgroundResource(R.drawable.circular_button_miniplayer_pause)
         } else {
             binding.buttonMiniPlayer.visibility = View.GONE

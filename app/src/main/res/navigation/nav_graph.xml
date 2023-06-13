@@ -68,6 +68,9 @@
         <action
             android:id="@+id/action_mainFragment_to_tipsListFragment"
             app:destination="@id/tipsListFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_paywallFragment"
+            app:destination="@id/paywallFragment" />
     </fragment>
     <fragment
         android:id="@+id/sleepSettingsFragment"
@@ -115,7 +118,11 @@
         android:id="@+id/melodyChooserFragment"
         android:name="com.developers.sleep.ui.MelodyChooserFragment"
         android:label="fragment_melody_chooser"
-        tools:layout="@layout/fragment_melody_chooser" />
+        tools:layout="@layout/fragment_melody_chooser" >
+        <action
+            android:id="@+id/action_melodyChooserFragment_to_paywallFragment"
+            app:destination="@id/paywallFragment" />
+    </fragment>
     <fragment
         android:id="@+id/tipFragment"
         android:name="com.developers.sleep.ui.TipFragment"

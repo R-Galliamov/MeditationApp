@@ -6,7 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.android.billingclient.api.SkuDetails
+import com.apphud.sdk.Apphud
+import com.apphud.sdk.ApphudListener
+import com.apphud.sdk.domain.ApphudPaywall
+import com.developers.sleep.viewModel.AppHudVM
+import com.developers.sleep.PaywallConstants
 import com.developers.sleep.R
 import com.developers.sleep.databinding.FragmentPaywallBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,6 +23,8 @@ class PaywallFragment : Fragment() {
     private var _binding: FragmentPaywallBinding? = null
     private val binding: FragmentPaywallBinding
         get() = _binding!!
+
+    private val appHudVM: AppHudVM by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,27 +37,47 @@ class PaywallFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val yearPayment = true
+        appHudVM.selectedSubscription.observe(viewLifecycleOwner) {
+            when (it) {
+                PaywallConstants.WEEKLY_PAYMENT -> {
+                    binding.buttonWeeklyPayment.setBackgroundResource(R.drawable.rounded_button_blue)
+                    binding.buttonYearPayment.setBackgroundResource(R.drawable.rounded_ripple_button)
+                }
+
+                PaywallConstants.YEAR_PAYMENT -> {
+                    binding.buttonWeeklyPayment.setBackgroundResource(R.drawable.rounded_ripple_button)
+                    binding.buttonYearPayment.setBackgroundResource(R.drawable.rounded_button_blue)
+                }
+            }
+        }
 
         with(binding) {
             buttonWeeklyPayment.setOnClickListener {
-                it.setBackgroundResource(R.drawable.rounded_button_blue)
-                buttonYearPayment.setBackgroundResource(R.drawable.rounded_ripple_button)
+                appHudVM.selectSubscription(PaywallConstants.WEEKLY_PAYMENT)
             }
             buttonYearPayment.setOnClickListener {
-                it.setBackgroundResource(R.drawable.rounded_button_blue)
-                buttonWeeklyPayment.setBackgroundResource(R.drawable.rounded_ripple_button)
+                appHudVM.selectSubscription(PaywallConstants.YEAR_PAYMENT)
             }
 
-
             buttonNext.setOnClickListener {
-                if (yearPayment) {
-                    //TODO implement navigation
-                } else {
+                val product = when (appHudVM.selectedSubscription.value) {
+                    PaywallConstants.WEEKLY_PAYMENT -> {
+                        appHudVM.products.value?.get(0)
+                    }
 
+                    PaywallConstants.YEAR_PAYMENT -> {
+                        appHudVM.products.value?.get(1)
+                    }
+
+                    else -> null
                 }
 
-
+                product?.let {
+                    Apphud.purchase(requireActivity(), it) { result ->
+                        if (Apphud.hasPremiumAccess())
+                            findNavController().navigate(R.id.action_paywallFragment_to_mainFragment)
+                    }
+                }
             }
 
             buttonClose.setOnClickListener {
@@ -70,6 +99,23 @@ class PaywallFragment : Fragment() {
                     }
                 }
             })
+
+
+        Apphud.setListener(object : ApphudListener {
+            override fun apphudDidChangeUserID(userId: String) {}
+
+            override fun apphudFetchSkuDetailsProducts(details: List<SkuDetails>) {}
+
+            override fun paywallsDidFullyLoad(paywalls: List<ApphudPaywall>) {
+                val paywall = paywalls.first { it.identifier == "main" }
+                val products = paywall.products
+                if (products != null) {
+                    appHudVM.setProducts(products)
+                }
+            }
+
+            override fun userDidLoad() {}
+        })
     }
 
     private fun isFragmentShownOnAppStart(): Boolean {

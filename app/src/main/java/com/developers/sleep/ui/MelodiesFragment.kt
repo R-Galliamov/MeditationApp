@@ -40,30 +40,35 @@ class MelodiesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val playlistsList = PLAYLIST_LIST
+        val playlistsList = playerViewModel.playlistsList
+
         val playListAdapter = PlayListAdapter(object : PlayListAdapter.OnTagClickListener {
             override fun onTagClick(playlist: Playlist) {
-                showPlaylist(playlist)
                 playerViewModel.setCurrentPlaylist(playlist)
             }
-        }, playlistsList[0])
+        }, playerViewModel.currentPlaylist.value!!)
 
 
         melodiesRecyclerView = binding.recyclerViewMelodies
         melodyAdapter = MelodyAdapter(object : MelodyAdapter.OnMelodyClickListener {
             override fun onMelodyClick(melody: Melody) {
-                playerViewModel.setCurrentMelody(melody)
-                findNavController().navigate(R.id.action_mainFragment_to_playerFragment)
+                if (!melody.isPremium) {
+                    playerViewModel.setCurrentMelody(melody)
+                    findNavController().navigate(R.id.action_mainFragment_to_playerFragment)
+                } else {
+                    findNavController().navigate(R.id.action_mainFragment_to_paywallFragment)
+                }
             }
         })
 
         melodiesRecyclerView.adapter = melodyAdapter
-
-        showPlaylist(playlistsList.first { it.name == "Top" })
-
         val tagRecyclerView = binding.recyclerViewTags
         tagRecyclerView.adapter = playListAdapter
         playListAdapter.submitList(playlistsList)
+
+        playerViewModel.currentPlaylist.observe(viewLifecycleOwner) {
+            showPlaylist(it)
+        }
     }
 
     private fun getDrawableResourceByName(name: String): Int {

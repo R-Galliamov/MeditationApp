@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.developers.sleep.PACKAGE_NAME
@@ -27,7 +28,7 @@ class MelodyChooserFragment : Fragment() {
 
     private lateinit var melodiesRecyclerView: RecyclerView
     private lateinit var melodyAdapter: MelodyAdapter
-    private val playerViewModel: AlarmPlayerViewModel by activityViewModels()
+    private val alarmPlayerViewModel: AlarmPlayerViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,30 +42,34 @@ class MelodyChooserFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val playlistsList = PLAYLIST_LIST
-        var currentPlaylist = playlistsList[0] //TODO replace default playlist
 
         val playlistAdapter = PlayListAdapter(object : PlayListAdapter.OnTagClickListener {
             override fun onTagClick(playlist: Playlist) {
-                currentPlaylist = playlist
-                showPlaylist(playlist)
+                alarmPlayerViewModel.setCurrentPlaylist(playlist)
             }
-        }, playlistsList[0])
+        }, alarmPlayerViewModel.currentPlaylist.value!!)
 
         melodiesRecyclerView = binding.recyclerViewMelodies
         melodyAdapter = MelodyAdapter(object : MelodyAdapter.OnMelodyClickListener {
             override fun onMelodyClick(melody: Melody) {
-                playerViewModel.setCurrentMelody(melody)
-                playerViewModel.setCurrentPlaylist(currentPlaylist)
-                findNavController().navigateUp()
+                if (!melody.isPremium) {
+                    alarmPlayerViewModel.setCurrentMelody(melody)
+                    findNavController().navigateUp()
+                } else {
+                    findNavController().navigate(R.id.action_melodyChooserFragment_to_paywallFragment)
+                }
             }
         })
         melodiesRecyclerView.adapter = melodyAdapter
 
-        showPlaylist(playlistsList.first { it.name == "Top" })
-
         val tagRecyclerView = binding.recyclerViewTags
         tagRecyclerView.adapter = playlistAdapter
         playlistAdapter.submitList(playlistsList)
+
+        alarmPlayerViewModel.currentPlaylist.observe(viewLifecycleOwner){
+            showPlaylist(it)
+        }
+
 
         binding.buttonBack.setOnClickListener {
             findNavController().navigateUp()

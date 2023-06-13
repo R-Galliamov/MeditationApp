@@ -13,6 +13,11 @@ object ColorConstants {
     val BLUE_LIGHT: Int = Color.parseColor("#FF5777E4")
 }
 
+object PaywallConstants {
+    const val WEEKLY_PAYMENT = 0
+    const val YEAR_PAYMENT = 1
+}
+
 object GeneralPrefs {
     const val PREFS_NAME = "Prefs"
     const val IS_FIRST_LAUNCH = "isFirstLaunch"
@@ -24,7 +29,7 @@ object AlarmPrefs {
     const val PREFS_NAME = "AlarmPrefs"
     const val ALARM_TIME = "AlarmTime"
     const val IS_MUSIC_FOR_SLEEP_0N = "isMusicForSleepOn"
-    const val STANDARD_ALARM_SOUND = "Sound 1"
+    const val STANDARD_ALARM_SOUND = "Dreamy Drizzle"
     const val SELECTED_ALARM_MELODY_INDEX = "selectedAlarmMelodyIndex"
     const val SELECTED_ALARM_MELODY_NAME = "selectedAlarmMelodyName"
 }
@@ -51,7 +56,6 @@ object TestPrefs {
 
 object UserDataPrefs {
     const val PREFS_NAME = "userDataPrefs"
-    const val IS_PREMIUM = "isPremium"
     const val NIGHTS_COUNT = "nightsCount"
     const val USER_NAME = "userName"
     const val USER_DATE = "userDate"
@@ -69,39 +73,65 @@ object NotificationsConsts {
     const val TURN_OFF_ACTION = "TURN_OFF_ACTION"
 }
 
-val TIPS_LIST = listOf(
-    Tip("Tip 1", "Content of Tip 1"),
-    Tip("Tip 2", "Content of Tip 2"),
-    Tip("Tip 3", "Content of Tip 3"),
-    Tip("Tip 4", "Content of Tip 4"),
-    Tip("Tip 5", "Content of Tip 5"),
-    Tip("Tip 6", "Content of Tip 6"),
-    Tip("Tip 7", "Content of Tip 7"),
-    Tip("Tip 8", "Content of Tip 8"),
-    Tip("Tip 9", "Content of Tip 9"),
-    Tip("Tip 10", "Content of Tip 10")
-)
-
-
-val melody1 = Melody("Kalimba test", "Kalimba.mp3")
-val melody2 = Melody("Song 2", "file2.mp3")
-val playlist2 = Playlist("Relaxation", listOf(melody2))
-val melody3 = Melody("Nature", "file3.mp3")
-val playlist3 = Playlist("Nature", listOf(melody3))
-val playlist4 = Playlist("Delta waves", listOf(melody3))
-val playlist5 = Playlist("Bedtime stories", listOf(melody3))
-val playlist6 = Playlist("For kids", listOf(melody3))
-val playlist7 = Playlist("ASMR", listOf(melody3))
-val playlist8 = Playlist("Sleep", listOf(melody3))
-val playlist1 = Playlist("Top", listOf(melody1, melody2, melody3))
-
 val PLAYLIST_LIST = listOf(
-    playlist1,
-    playlist2,
-    playlist3,
-    playlist4,
-    playlist5,
-    playlist6,
-    playlist7,
-    playlist8
+    Playlist(
+        "Relaxation",
+        listOf(
+            Melody("Tranquil Serenity", "https://meditationapp.b-cdn.net/music/Melody1.mp3", false),
+            Melody("Inner Harmony", "https://meditationapp.b-cdn.net/music/Melody2.mp3", false),
+            Melody("Zen Garden Whispers", "https://meditationapp.b-cdn.net/music/Melody3.mp3"),
+            Melody("Stillness in Silence", "https://meditationapp.b-cdn.net/music/Melody4.mp3"),
+            Melody("Soothing Breeze", "https://meditationapp.b-cdn.net/music/Melody5.mp3"),
+            Melody("Calm Reflections", "https://meditationapp.b-cdn.net/music/Melody6.mp3"),
+            Melody("Mystic Melodies", "https://meditationapp.b-cdn.net/music/Melody7.mp3")
+        )
+    ),
+    Playlist(
+        "Nature",
+        listOf(
+            Melody("Ethereal Bliss", "https://meditationapp.b-cdn.net/music/Melody8.mp3", false),
+            Melody("Peaceful Oasis", "https://meditationapp.b-cdn.net/music/Melody9.mp3", false),
+            Melody("Floating in Bliss", "https://meditationapp.b-cdn.net/music/Melody10.mp3"),
+            Melody("Harmonious Journey", "https://meditationapp.b-cdn.net/music/Melody11.mp3"),
+            Melody("Gentle Resonance", "https://meditationapp.b-cdn.net/music/Melody12.mp3"),
+            Melody("Serenity Soundscape", "https://meditationapp.b-cdn.net/music/Melody13.mp3"),
+            Melody("Mindful Melodies", "https://meditationapp.b-cdn.net/music/Melody14.mp3")
+        )
+    ),
+    Playlist(
+        "ASMR",
+        listOf(
+            Melody("Healing Harmonies", "https://meditationapp.b-cdn.net/music/Melody15.mp3", false),
+            Melody("Melting into Peace", "https://meditationapp.b-cdn.net/music/Melody16.mp3", false),
+            Melody("Divine Tranquility", "https://meditationapp.b-cdn.net/music/Melody17.mp3"),
+            Melody("Nature's Lullaby", "https://meditationapp.b-cdn.net/music/Melody18.mp3"),
+            Melody("Inner Balance", "https://meditationapp.b-cdn.net/music/Melody19.mp3"),
+            Melody("Dreamy Reverie", "https://meditationapp.b-cdn.net/music/Melody20.mp3"),
+            Melody("Soulful Stillness", "https://meditationapp.b-cdn.net/music/Melody21.mp3")
+        )
+    ),
+    Playlist(
+        "Delta waves",
+        listOf(
+            Melody("Enchanted Meditation", "https://meditationapp.b-cdn.net/music/Melody22.mp3", false),
+            Melody("Celestial Harmony", "https://meditationapp.b-cdn.net/music/Melody23.mp3", false),
+            Melody("Spiritual Serenade", "https://meditationapp.b-cdn.net/music/Melody24.mp3"),
+            Melody("Silent Serenity", "https://meditationapp.b-cdn.net/music/Melody25.mp3"),
+            Melody("Deep Relaxation", "https://meditationapp.b-cdn.net/music/Melody26.mp3"),
+            Melody("Whispering Woods", "https://meditationapp.b-cdn.net/music/Melody27.mp3"),
+            Melody("Guided Meditations", "https://meditationapp.b-cdn.net/music/Melody28.mp3")
+        )
+    ),
+    Playlist(
+        "Sleep",
+        listOf(
+            Melody("Blissful Awakening", "https://meditationapp.b-cdn.net/music/Melody29.mp3", false),
+            Melody("Infinite Calm", "https://meditationapp.b-cdn.net/music/Melody30.mp3", false),
+            Melody("Melodic Meditations", "https://meditationapp.b-cdn.net/music/Melody31.mp3"),
+            Melody("Tranquil Tide", "https://meditationapp.b-cdn.net/music/Melody32.mp3"),
+            Melody("Gentle Repose", "https://meditationapp.b-cdn.net/music/Melody33.mp3"),
+            Melody("Harmony of the Heart", "https://meditationapp.b-cdn.net/music/Melody34.mp3"),
+            Melody("Soothing Sanctuary", "https://meditationapp.b-cdn.net/music/Melody35.mp3")
+        )
+    )
 )

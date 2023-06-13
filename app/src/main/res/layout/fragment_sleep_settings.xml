@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.SleepSettingsFragment">
 
-
     <TextView
         android:id="@+id/titleText"
         style="@style/TitleTextStyle"
@@ -109,29 +108,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/alarmSoundText" />
 
-        <TextView
-            android:id="@+id/alarmSmart"
-            style="@style/PrimaryTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/smart_alarm"
-            app:layout_constraintStart_toStartOf="@id/line2"
-            app:layout_constraintTop_toBottomOf="@id/line2" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/alarmSmartChooseButton"
-            style="@style/SettingsButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="-16dp"
-            android:text="@string/choose"
-            app:cornerRadius="28dp"
-            app:layout_constraintEnd_toEndOf="@id/line2"
-            app:layout_constraintTop_toBottomOf="@id/line2"
-            app:rippleColor="@color/blue_light" />
-
         <View
             android:id="@+id/line3"
             android:layout_width="0dp"
@@ -142,7 +118,7 @@
             android:background="@color/cornflower_blue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/alarmSmart" />
+            app:layout_constraintTop_toBottomOf="@id/alarmSoundText" />
 
         <TextView
             android:id="@+id/goodNightText"
@@ -223,6 +199,7 @@
             android:paddingEnd="20dp"
             android:paddingBottom="10dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/halfRectangle">
 

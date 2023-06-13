@@ -28,7 +28,6 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding: FragmentHomeBinding
         get() = _binding!!
-    private var notificationsDialog: AlertDialog? = null
 
     private val tipsViewModel: TipsViewModel by activityViewModels()
 
@@ -40,17 +39,8 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    override fun onPause() {
-        super.onPause()
-        notificationsDialog?.hide()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        if (!areNotificationsEnabled()) {
-            showNotificationDialog()
-        }
 
         val userDataSharedPreferences = requireActivity().getSharedPreferences(
             UserDataPrefs.PREFS_NAME,
@@ -72,7 +62,7 @@ class HomeFragment : Fragment() {
         val maxUserProgress = questionList.size.toFloat()
         val nextQuestion =
             if (userAnswersCount < questionList.size) questionList[userAnswersCount].question
-            else getString(R.string.test_completed) //TODO replace
+            else getString(R.string.test_completed)
 
         if (userProgress == maxUserProgress) {
             binding.checkbox.visibility = View.VISIBLE
@@ -120,29 +110,6 @@ class HomeFragment : Fragment() {
                     requireActivity().finish()
                 }
             })
-    }
-
-    private fun areNotificationsEnabled(): Boolean {
-        val notificationManager = NotificationManagerCompat.from(requireContext())
-        return notificationManager.areNotificationsEnabled()
-    }
-
-    private fun showNotificationDialog() {
-        val dialogView =
-            LayoutInflater.from(requireContext()).inflate(R.layout.dialog_notifications, null)
-        val allowButton = dialogView.findViewById<FrameLayout>(R.id.buttonAllow)
-        allowButton.setOnClickListener {
-            val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
-            intent.putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
-            startActivity(intent)
-        }
-        val builder = AlertDialog.Builder(requireContext(), R.style.TransparentDialog)
-        builder.setView(dialogView)
-        builder.setCancelable(true)
-        notificationsDialog = builder.create()
-        val notNowButton = dialogView.findViewById<FrameLayout>(R.id.buttonNotNow)
-        notNowButton.setOnClickListener { notificationsDialog?.dismiss() }
-        notificationsDialog?.show()
     }
 
     override fun onDestroyView() {

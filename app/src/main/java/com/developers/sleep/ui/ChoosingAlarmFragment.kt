@@ -10,13 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.developers.sleep.AlarmPrefs
-import com.developers.sleep.dataModels.Melody
-import com.developers.sleep.service.MediaPlayerHelper
 import com.developers.sleep.adapter.AlarmSoundAdapter
 import com.developers.sleep.dataModels.AlarmSound
 import com.developers.sleep.databinding.FragmentChoosingAlarmBinding
+import com.developers.sleep.service.AlarmSoundPlayerHelper
 import com.developers.sleep.viewModel.AlarmViewModel
-import com.developers.sleep.viewModel.MenuViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -31,7 +29,7 @@ class ChoosingAlarmFragment : Fragment() {
 
 
     @Inject
-    lateinit var mediaPlayerHelper: MediaPlayerHelper
+    lateinit var mediaPlayerHelper: AlarmSoundPlayerHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,7 +82,6 @@ class ChoosingAlarmFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        mediaPlayerHelper.resetTrackProgress()
         mediaPlayerHelper.stopPlaying()
     }
 

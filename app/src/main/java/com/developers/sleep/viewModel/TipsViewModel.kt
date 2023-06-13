@@ -2,10 +2,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.developers.sleep.R
-import com.developers.sleep.TIPS_LIST
 import com.developers.sleep.dataModels.Tip
+import com.developers.sleep.repository.TipsRepository
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -13,7 +12,9 @@ class TipsViewModel @Inject constructor(
     private val application: Application,
 ) : AndroidViewModel(application) {
 
-    val tipsList = TIPS_LIST
+    private val repository = TipsRepository()
+
+    val tipsList = repository.getTipsFromAssets(application)
 
     private val _tipOfTheDay = MutableLiveData<Tip>()
     val tipOfTheDay: LiveData<Tip>

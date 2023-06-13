@@ -81,14 +81,13 @@
                     style="@style/PrimaryTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="20dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
                     android:text="Bedroom interior"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/coloredRectangle"
-                    app:layout_constraintVertical_bias="0.916" />
+                    app:layout_constraintTop_toTopOf="@id/coloredRectangle" />
 
                 <ImageButton
                     android:id="@+id/buttonTip"
@@ -116,8 +115,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingStart="20dp"
-                android:paddingEnd="20dp">
-            </LinearLayout>
+                android:paddingEnd="20dp"></LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

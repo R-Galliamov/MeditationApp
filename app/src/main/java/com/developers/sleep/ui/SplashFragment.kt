@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import com.apphud.sdk.Apphud
 import com.developers.sleep.GeneralPrefs
 import com.developers.sleep.R
 import com.developers.sleep.UserDataPrefs
@@ -49,19 +50,23 @@ class SplashFragment : Fragment() {
             generalSharedPreferences.getBoolean(GeneralPrefs.IS_FIRST_LAUNCH, true)
         val isGoalChosen = generalSharedPreferences.getBoolean(GeneralPrefs.IS_GOAL_CHOSEN, false)
 
-        val isPremium = userDataSharedPreferences.getBoolean(UserDataPrefs.IS_PREMIUM, false)
-
         if (isFirstLaunch) {
             findNavController().navigate(R.id.action_splashFragment_to_onboardingFragment)
         } else if (!isGoalChosen) {
             findNavController().navigate(R.id.action_splashFragment_to_choosingGoalFragment)
         } else {
-            if (isPremium) {
+            if (Apphud.hasPremiumAccess()) {
                 findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
             } else {
                 val navController = findNavController()
-                val navOptions = NavOptions.Builder().setPopUpTo(navController.currentDestination?.id ?: 0, true).build()
-                navController.navigate(R.id.action_splashFragment_to_paywallFragment, null, navOptions)
+                val navOptions =
+                    NavOptions.Builder().setPopUpTo(navController.currentDestination?.id ?: 0, true)
+                        .build()
+                navController.navigate(
+                    R.id.action_splashFragment_to_paywallFragment,
+                    null,
+                    navOptions
+                )
 
             }
         }

@@ -2,7 +2,8 @@ package com.developers.sleep.dataModels
 
 data class Melody(
     val name: String,
-    val uri: String,
+    val url: String,
+    val isPremium: Boolean = true,
 )
 
 data class AlarmSound(

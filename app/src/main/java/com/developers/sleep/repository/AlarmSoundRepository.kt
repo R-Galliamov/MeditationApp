@@ -19,7 +19,6 @@ import java.io.IOException
 import javax.inject.Inject
 
 class AlarmSoundRepository @Inject constructor(
-    private val downloadManager: DownloadManager,
     private val application: Application
 ) {
     private val alarmSharedPreferences: SharedPreferences =
@@ -27,10 +26,10 @@ class AlarmSoundRepository @Inject constructor(
 
     val alarmSoundsList = getMp3SoundsFromAssets()
 
-    val chosenAlarmSound = getChosenAlarmSoundName()
+    private val chosenAlarmSound = getChosenAlarmSoundName()
 
 
-    fun getChosenAlarmSoundName(): String {
+    private fun getChosenAlarmSoundName(): String {
         val name = alarmSharedPreferences.getString(
             AlarmPrefs.SELECTED_ALARM_MELODY_NAME,
             AlarmPrefs.STANDARD_ALARM_SOUND
@@ -41,51 +40,32 @@ class AlarmSoundRepository @Inject constructor(
     fun getChosenAlarmSound(): AlarmSound {
         return alarmSoundsList.first { it.name == chosenAlarmSound }
     }
+
     fun saveChosenAlarmSound(alarmSound: AlarmSound) {
         val editor = alarmSharedPreferences.edit()
         editor.putString(AlarmPrefs.SELECTED_ALARM_MELODY_NAME, alarmSound.name)
         editor.apply()
     }
 
-    private fun getAlarmSoundFileNamesFromAssets(): Array<String> {
-        return try {
-            application.assets.list("alarmSounds") ?: emptyArray()
-        } catch (e: IOException) {
-            e.printStackTrace()
-            emptyArray()
-        }
-    }
-
     private fun getMp3SoundsFromAssets(): List<AlarmSound> {
         val alarmSounds = mutableListOf<AlarmSound>()
-        try {
-            val soundFiles = application.assets.list("alarmSounds") ?: emptyArray()
-            var name = 1
+        val soundFiles = application.assets.list("alarmSounds") ?: emptyArray()
 
-            for (fileName in soundFiles) {
-                alarmSounds.add(AlarmSound("Sound $name", fileName))
-                name++ //TODO Just for test
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-            // TODO Handle the exception
+        for (file in soundFiles) {
+            alarmSounds.add(AlarmSound(extractFileName(file), file))
         }
         return alarmSounds
     }
 
-    fun downloadMelody(fileName: String) {
-        val file = File(
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+    private fun extractFileName(fileName: String): String {
+        val extensionIndex = fileName.lastIndexOf('.')
+        return if (extensionIndex != -1) {
+            fileName.substring(0, extensionIndex)
+        } else {
             fileName
-        )
-        if (!file.exists()) {
-            val request = DownloadManager.Request((BASE_URL + fileName).toUri())
-                .setMimeType("audio/mp3")
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE) //TODO Hide it
-                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
-            downloadManager.enqueue(request)
         }
     }
+
 
 }
 
@@ -103,9 +83,8 @@ object DownloadManagerModule {
 object AlarmSoundRepositoryModule {
     @Provides
     fun provideAlarmSoundRepository(
-        downloadManager: DownloadManager,
         application: Application
     ): AlarmSoundRepository {
-        return AlarmSoundRepository(downloadManager, application)
+        return AlarmSoundRepository(application)
     }
 }

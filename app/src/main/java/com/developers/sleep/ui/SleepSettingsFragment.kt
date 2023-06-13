@@ -37,6 +37,8 @@ class SleepSettingsFragment : Fragment() {
     private lateinit var alarmSharedPreferences: SharedPreferences
     private lateinit var playerSharedPreferences: SharedPreferences
 
+    private var notificationsDialog: AlertDialog? = null
+
     private val alarmViewModel: AlarmViewModel by activityViewModels()
     private val alarmPlayerViewModel: AlarmPlayerViewModel by activityViewModels()
 
@@ -50,7 +52,9 @@ class SleepSettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        if (!areNotificationsEnabled()) {
+            showNotificationDialog()
+        }
         alarmSharedPreferences = requireActivity().getSharedPreferences(
             AlarmPrefs.PREFS_NAME,
             Context.MODE_PRIVATE
@@ -178,10 +182,38 @@ class SleepSettingsFragment : Fragment() {
         editor.apply()
     }
 
+    override fun onPause() {
+        super.onPause()
+        notificationsDialog?.hide()
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun areNotificationsEnabled(): Boolean {
+        val notificationManager = NotificationManagerCompat.from(requireContext())
+        return notificationManager.areNotificationsEnabled()
+    }
+
+    private fun showNotificationDialog() {
+        val dialogView =
+            LayoutInflater.from(requireContext()).inflate(R.layout.dialog_notifications, null)
+        val allowButton = dialogView.findViewById<FrameLayout>(R.id.buttonAllow)
+        allowButton.setOnClickListener {
+            val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+            startActivity(intent)
+        }
+        val builder = AlertDialog.Builder(requireContext(), R.style.TransparentDialog)
+        builder.setView(dialogView)
+        builder.setCancelable(true)
+        notificationsDialog = builder.create()
+        val notNowButton = dialogView.findViewById<FrameLayout>(R.id.buttonNotNow)
+        notNowButton.setOnClickListener { notificationsDialog?.dismiss() }
+        notificationsDialog?.show()
     }
 
 }

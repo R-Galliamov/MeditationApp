@@ -58,24 +58,7 @@ class AlarmPlayerRepository @Inject constructor(
             .putString(AlarmPlayerPrefs.SELECTED_PLAYLIST_NAME, currentPlaylist.name)
             .apply()
     }
-
-    fun downloadMelody(fileName: String) {
-        val file = File(
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-            fileName
-        )
-        if (!file.exists()) {
-            val request = DownloadManager.Request((BASE_URL + fileName).toUri())
-                .setMimeType("audio/mp3")
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE) //TODO Hide it
-                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
-            downloadManager.enqueue(request)
-        }
-    }
-
 }
-
-
 @Module
 @InstallIn(SingletonComponent::class)
 object AlarmPlayerRepositoryModule {
