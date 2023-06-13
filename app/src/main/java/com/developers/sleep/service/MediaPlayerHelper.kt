@@ -51,6 +51,7 @@ class MediaPlayerHelper @Inject constructor(
     }
 
     fun playMelodyByUrl(melodyUrl: String) {
+
         this.melodyUrl = melodyUrl
         volume = generalSP.getFloat(GeneralPrefs.VOLUME, 1f)
         stopPlaying()
