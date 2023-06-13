@@ -4,18 +4,13 @@ import android.app.Application
 import android.app.DownloadManager
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.Environment
-import androidx.core.net.toUri
 import com.developers.sleep.AlarmPrefs
-import com.developers.sleep.BASE_URL
 import com.developers.sleep.dataModels.AlarmSound
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import java.io.File
-import java.io.IOException
 import javax.inject.Inject
 
 class AlarmSoundRepository @Inject constructor(
@@ -65,8 +60,6 @@ class AlarmSoundRepository @Inject constructor(
             fileName
         }
     }
-
-
 }
 
 @Module

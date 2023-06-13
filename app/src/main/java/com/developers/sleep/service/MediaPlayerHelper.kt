@@ -2,14 +2,11 @@ package com.developers.sleep.service
 
 import android.app.Application
 import android.content.Context
-import android.content.res.AssetFileDescriptor
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.developers.sleep.BASE_URL
 import com.developers.sleep.GeneralPrefs
-import com.developers.sleep.PlayerPrefs
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -54,6 +51,7 @@ class MediaPlayerHelper @Inject constructor(
     }
 
     fun playMelodyByUrl(melodyUrl: String) {
+
         this.melodyUrl = melodyUrl
         volume = generalSP.getFloat(GeneralPrefs.VOLUME, 1f)
         stopPlaying()

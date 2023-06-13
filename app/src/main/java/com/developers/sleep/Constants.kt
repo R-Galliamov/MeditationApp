@@ -64,7 +64,6 @@ object UserDataPrefs {
 }
 
 const val EXTRA_ALARM_SOUND = "extraAlarmSound"
-const val BASE_URL = "https://www.learningcontainer.com/wp-content/uploads/2020/02/" //TODO add url
 const val PACKAGE_NAME = "com.developers.sleep" //TODO fix if changed
 const val ACTION_ALARM_TRIGGERED = "actionAlarmTriggered"
 

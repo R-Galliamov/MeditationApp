@@ -5,21 +5,11 @@ import android.content.Context
 import android.content.res.AssetFileDescriptor
 import android.media.AudioAttributes
 import android.media.MediaPlayer
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.developers.sleep.BASE_URL
 import com.developers.sleep.GeneralPrefs
-import com.developers.sleep.PlayerPrefs
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 

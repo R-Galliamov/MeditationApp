@@ -4,10 +4,7 @@ import android.app.Application
 import android.app.DownloadManager
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.Environment
-import androidx.core.net.toUri
 import com.developers.sleep.AlarmPlayerPrefs
-import com.developers.sleep.BASE_URL
 import com.developers.sleep.PLAYLIST_LIST
 import com.developers.sleep.dataModels.Melody
 import com.developers.sleep.dataModels.Playlist
@@ -16,7 +13,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import java.io.File
 import javax.inject.Inject
 
 class AlarmPlayerRepository @Inject constructor(
