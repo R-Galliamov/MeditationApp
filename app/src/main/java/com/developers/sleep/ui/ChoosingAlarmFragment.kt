@@ -43,11 +43,11 @@ class ChoosingAlarmFragment : Fragment() {
         )
 
         val adapter = AlarmSoundAdapter(object : AlarmSoundAdapter.OnAlarmSoundClickListener {
-            override fun onMelodyClick(alarmSound: AlarmSound, position: Int) {
+            override fun onMelodyClick(alarmSound: AlarmSound) {
                 mediaPlayerHelper.playAlarmSound(alarmSound.fileName)
-                saveSelectedMelody(alarmSound, position)
+                saveSelectedMelody(alarmSound)
             }
-        }, getSelectedMelodyIndex() ?: 0)
+        }, alarmViewModel.chosenAlarmSound.value!!)
 
         val recyclerView = binding.recyclerView
         recyclerView.adapter = adapter
@@ -60,7 +60,6 @@ class ChoosingAlarmFragment : Fragment() {
         binding.buttonChoose.setOnClickListener {
             closeFragment()
         }
-
         return binding.root
     }
 
@@ -77,7 +76,6 @@ class ChoosingAlarmFragment : Fragment() {
                 findNavController().navigateUp()
             }
         }
-
     }
 
     override fun onPause() {
@@ -90,17 +88,7 @@ class ChoosingAlarmFragment : Fragment() {
         _binding = null
     }
 
-    private fun getSelectedMelodyIndex(): Int? {
-        return sharedPreferences.getInt(AlarmPrefs.SELECTED_ALARM_MELODY_INDEX, -1)
-            .takeIf { it >= 0 }
-    }
-
-    private fun saveSelectedMelody(alarmSound: AlarmSound, position: Int) {
-        val selectedPosition = if (position >= 0) position else 0
-        val editor = sharedPreferences.edit()
-        editor.putInt(AlarmPrefs.SELECTED_ALARM_MELODY_INDEX, selectedPosition)
-        editor.apply()
-
+    private fun saveSelectedMelody(alarmSound: AlarmSound) {
         alarmViewModel.setChosenAlarmSound(alarmSound)
     }
 }

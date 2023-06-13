@@ -5,18 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.developers.sleep.dataModels.Melody
 import com.developers.sleep.R
 import com.developers.sleep.dataModels.AlarmSound
 import com.developers.sleep.databinding.AlarmSoundItemBinding
 
 class AlarmSoundAdapter(
-    private val onAlarmSoundClickListener: OnAlarmSoundClickListener, private var selectedAlarmIndex : Int
+    private val onAlarmSoundClickListener: OnAlarmSoundClickListener, private var selectedAlarmSound : AlarmSound
 ) :
     ListAdapter<AlarmSound, AlarmSoundAdapter.AlarmSoundViewHolder>(AlarmSoundDiffCallback()) {
 
     interface OnAlarmSoundClickListener {
-        fun onMelodyClick(alarmSound: AlarmSound, position: Int)
+        fun onMelodyClick(alarmSound: AlarmSound)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlarmSoundViewHolder {
@@ -38,31 +37,19 @@ class AlarmSoundAdapter(
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val alarmSound = getItem(position)
-                    onAlarmSoundClickListener.onMelodyClick(alarmSound, position)
-                    selectAlarm(position)
+                    onAlarmSoundClickListener.onMelodyClick(alarmSound)
+                    selectedAlarmSound = alarmSound
+                    notifyDataSetChanged()
                 }
             }
         }
 
         fun bind(alarmSound: AlarmSound) {
             binding.melodyName.text = alarmSound.name
-
-            if (adapterPosition == selectedAlarmIndex) {
+            binding.radioImage.setImageResource(R.drawable.radio_unselected)
+            if (alarmSound.name == selectedAlarmSound.name) {
                 binding.radioImage.setImageResource(R.drawable.radio_selected)
-            } else {
-                binding.radioImage.setImageResource(R.drawable.radio_unselected)
             }
-
-        }
-
-        private fun selectAlarm(position: Int) {
-            //TODO rewrite with melody name
-            val previousSelectedIndex = selectedAlarmIndex
-            selectedAlarmIndex = position
-            if (previousSelectedIndex != RecyclerView.NO_POSITION) {
-                notifyItemChanged(previousSelectedIndex)
-            }
-            notifyItemChanged(selectedAlarmIndex)
         }
     }
 }

@@ -162,7 +162,6 @@ class SleepPlayerFragment : Fragment() {
         window.setBackgroundDrawableResource(R.drawable.sleep_diver_background)
     }
 
-    //TODO test if margins to small
     private fun removeBackground() {
         val window: Window = requireActivity().window
         window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)

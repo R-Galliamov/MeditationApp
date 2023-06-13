@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.developers.sleep.PACKAGE_NAME
@@ -52,7 +51,7 @@ class MelodyChooserFragment : Fragment() {
         melodiesRecyclerView = binding.recyclerViewMelodies
         melodyAdapter = MelodyAdapter(object : MelodyAdapter.OnMelodyClickListener {
             override fun onMelodyClick(melody: Melody) {
-                if (!melody.isPremium) {
+                if (!melody.isPremium || userIsPremium) {
                     alarmPlayerViewModel.setCurrentMelody(melody)
                     findNavController().navigateUp()
                 } else {

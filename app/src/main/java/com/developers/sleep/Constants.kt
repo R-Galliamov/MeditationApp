@@ -41,13 +41,6 @@ object AlarmPlayerPrefs {
     const val MUSIC_DURATION = "musicDuration"
 }
 
-object PlayerPrefs {
-    const val PREFS_NAME = "PlayerPrefs"
-    const val SELECTED_MELODY = "selectedMelody"
-    const val SELECTED_PLAYLIST = "selectedPlaylist"
-    const val MUSIC_DURATION = "musicDuration"
-}
-
 object TestPrefs {
     const val PREFS_NAME = "userDataPrefs"
     const val USER_ANSWERS_COUNT = "userAnswersCount"
@@ -64,7 +57,6 @@ object UserDataPrefs {
 }
 
 const val EXTRA_ALARM_SOUND = "extraAlarmSound"
-const val BASE_URL = "https://www.learningcontainer.com/wp-content/uploads/2020/02/" //TODO add url
 const val PACKAGE_NAME = "com.developers.sleep" //TODO fix if changed
 const val ACTION_ALARM_TRIGGERED = "actionAlarmTriggered"
 

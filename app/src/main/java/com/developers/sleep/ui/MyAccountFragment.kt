@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.developers.sleep.R
 import com.developers.sleep.TestPrefs
 import com.developers.sleep.UserDataPrefs
@@ -65,6 +66,12 @@ class MyAccountFragment : Fragment() {
             editGender.setOnClickListener {
                 genderChoosing.visibility = View.VISIBLE
             }
+
+            buttonStatus.setOnClickListener {
+                findNavController().navigate(R.id.action_mainFragment_to_paywallFragment)
+            }
+
+            statusText.text = if (userIsPremium) "Premium" else "Basic"
 
             screenOverlaying.setOnClickListener {
                 genderChoosing.visibility = View.GONE

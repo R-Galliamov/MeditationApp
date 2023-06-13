@@ -1,19 +1,13 @@
 package com.developers.sleep.viewModel
 
 import android.app.Application
-import android.content.Context
-import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.developers.sleep.PLAYLIST_LIST
-import com.developers.sleep.PlayerPrefs
 import com.developers.sleep.dataModels.Melody
 import com.developers.sleep.dataModels.Playlist
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel

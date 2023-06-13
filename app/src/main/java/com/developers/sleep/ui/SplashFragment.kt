@@ -16,6 +16,8 @@ import com.developers.sleep.UserDataPrefs
 import com.developers.sleep.databinding.FragmentSplashBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+var userIsPremium = false
+
 @AndroidEntryPoint
 class SplashFragment : Fragment() {
 
@@ -50,12 +52,14 @@ class SplashFragment : Fragment() {
             generalSharedPreferences.getBoolean(GeneralPrefs.IS_FIRST_LAUNCH, true)
         val isGoalChosen = generalSharedPreferences.getBoolean(GeneralPrefs.IS_GOAL_CHOSEN, false)
 
+        userIsPremium = Apphud.hasPremiumAccess()
+
         if (isFirstLaunch) {
             findNavController().navigate(R.id.action_splashFragment_to_onboardingFragment)
         } else if (!isGoalChosen) {
             findNavController().navigate(R.id.action_splashFragment_to_choosingGoalFragment)
         } else {
-            if (Apphud.hasPremiumAccess()) {
+            if (userIsPremium) {
                 findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
             } else {
                 val navController = findNavController()
