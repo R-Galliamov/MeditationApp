@@ -7,27 +7,27 @@ data class TestQuestion(
 
 val QUESTION_LIST_TEST = listOf(
     TestQuestion(
-        "What is the capital of France?",
-        listOf("London", "Paris", "Berlin", "Madrid"),
+        "How many hours do you usually sleep at night?",
+        listOf("Less than 5 hours", "5-7 hours", "7-9 hours", "More than 9 hours")
     ),
     TestQuestion(
-        "Who painted the Mona Lisa?",
-        listOf("Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"),
+        "Do you often remember your dreams?",
+        listOf("Yes, often", "Sometimes", "Rarely", "Never")
     ),
     TestQuestion(
-        "What is the largest planet in our solar system?",
-        listOf("Mars", "Venus", "Saturn", "Jupiter"),
+        "How often do you experience difficulty falling asleep?",
+        listOf("Never", "Sometimes", "Often", "Every night")
     ),
     TestQuestion(
-        "Which country won the FIFA World Cup in 2018?",
-        listOf("Germany", "Brazil", "France", "Argentina"),
+        "In which position do you usually sleep?",
+        listOf("On the stomach", "On the back", "On the side", "Different positions")
     ),
     TestQuestion(
-        "What is the chemical symbol for gold?",
-        listOf("Go", "Ag", "Au", "Pt"),
+        "Do you typically have a bedtime routine?",
+        listOf("Yes, always", "Sometimes", "Rarely", "Never")
     ),
     TestQuestion(
-        "What is the tallest mountain in the world?",
-        listOf("Mount Everest", "K2", "Kangchenjunga", "Makalu"),
+        "How often do you exercise in a week?",
+        listOf("Never", "1-2 times", "3-4 times", "5 times or more")
     )
 )

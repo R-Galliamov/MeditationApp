@@ -7,7 +7,6 @@ import com.developers.sleep.dataModels.Tip
 import com.developers.sleep.repository.TipsRepository
 import java.util.Calendar
 import javax.inject.Inject
-
 class TipsViewModel @Inject constructor(
     private val application: Application,
 ) : AndroidViewModel(application) {

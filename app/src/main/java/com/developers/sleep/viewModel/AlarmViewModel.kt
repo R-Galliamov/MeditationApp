@@ -24,7 +24,7 @@ class AlarmViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences =
         application.getSharedPreferences(AlarmPrefs.PREFS_NAME, Context.MODE_PRIVATE)
 
-    val _alarmTime = MutableLiveData<Calendar>()
+    private val _alarmTime = MutableLiveData<Calendar>()
     val alarmTime: LiveData<Calendar>
         get() = _alarmTime
 

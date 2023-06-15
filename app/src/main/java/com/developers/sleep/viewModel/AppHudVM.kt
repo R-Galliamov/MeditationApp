@@ -10,8 +10,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppHudVM @Inject constructor() : ViewModel() {
-
-
     private val _products = MutableLiveData<List<ApphudProduct>>()
     val products: LiveData<List<ApphudProduct>>
         get() = _products

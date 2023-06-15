@@ -9,7 +9,6 @@ import com.developers.sleep.dataModels.Melody
 import com.developers.sleep.dataModels.Playlist
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-
 @HiltViewModel
 class PlayerViewModel @Inject constructor(
     private val application: Application,
