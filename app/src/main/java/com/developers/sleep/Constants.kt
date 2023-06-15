@@ -41,13 +41,6 @@ object AlarmPlayerPrefs {
     const val MUSIC_DURATION = "musicDuration"
 }
 
-object PlayerPrefs {
-    const val PREFS_NAME = "PlayerPrefs"
-    const val SELECTED_MELODY = "selectedMelody"
-    const val SELECTED_PLAYLIST = "selectedPlaylist"
-    const val MUSIC_DURATION = "musicDuration"
-}
-
 object TestPrefs {
     const val PREFS_NAME = "userDataPrefs"
     const val USER_ANSWERS_COUNT = "userAnswersCount"

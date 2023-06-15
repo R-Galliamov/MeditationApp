@@ -8,15 +8,18 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.developers.sleep.AlarmPlayerPrefs
 import com.developers.sleep.R
 import com.developers.sleep.UserDataPrefs
 import com.developers.sleep.databinding.FragmentProfileBinding
+import com.developers.sleep.viewModel.MenuViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,6 +30,7 @@ class ProfileFragment : Fragment() {
 
     private lateinit var userDataSP: SharedPreferences
     private lateinit var galleryLauncher: ActivityResultLauncher<String>
+
 
 
     override fun onCreateView(
@@ -56,7 +60,7 @@ class ProfileFragment : Fragment() {
             binding.name.visibility = View.VISIBLE
             binding.name.text = "$userName, "
             binding.fragmentText.text = getString(R.string.good_night)
-          //  binding.notification.visibility = View.GONE
+            //  binding.notification.visibility = View.GONE //TODO decide something with i icon
         }
 
         val avatarUri = userDataSP.getString(UserDataPrefs.AVATAR_URI, null)
@@ -99,7 +103,6 @@ class ProfileFragment : Fragment() {
                 .addToBackStack("My account")
                 .commit()
         }
-
     }
 
     override fun onDestroyView() {

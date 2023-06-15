@@ -70,7 +70,6 @@ class SleepSettingsFragment : Fragment() {
             val previousHour = previousCalendar?.get(Calendar.HOUR_OF_DAY)
             val previousMinute = previousCalendar?.get(Calendar.MINUTE)
 
-            //TODO make custom dialog or change background
             val timePickerDialog = TimePickerDialog(
                 requireContext(),
                 THEME_HOLO_DARK,

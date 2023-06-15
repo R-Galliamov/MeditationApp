@@ -4,18 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.developers.sleep.dataModels.Melody
 import com.developers.sleep.PACKAGE_NAME
-import com.developers.sleep.PLAYLIST_LIST
 import com.developers.sleep.dataModels.Playlist
 import com.developers.sleep.R
 import com.developers.sleep.adapter.MelodyAdapter
 import com.developers.sleep.adapter.PlayListAdapter
 import com.developers.sleep.databinding.FragmentMelodiesBinding
+import com.developers.sleep.viewModel.MenuViewModel
 import com.developers.sleep.viewModel.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -52,7 +53,7 @@ class MelodiesFragment : Fragment() {
         melodiesRecyclerView = binding.recyclerViewMelodies
         melodyAdapter = MelodyAdapter(object : MelodyAdapter.OnMelodyClickListener {
             override fun onMelodyClick(melody: Melody) {
-                if (!melody.isPremium) {
+                if (!melody.isPremium || userIsPremium) {
                     playerViewModel.setCurrentMelody(melody)
                     findNavController().navigate(R.id.action_mainFragment_to_playerFragment)
                 } else {
@@ -69,6 +70,7 @@ class MelodiesFragment : Fragment() {
         playerViewModel.currentPlaylist.observe(viewLifecycleOwner) {
             showPlaylist(it)
         }
+
     }
 
     private fun getDrawableResourceByName(name: String): Int {
@@ -80,6 +82,8 @@ class MelodiesFragment : Fragment() {
             R.drawable.sleepwaves
         }
     }
+
+
 
     private fun showPlaylist(playList: Playlist) {
         melodyAdapter.submitList(playList.melodiesList)

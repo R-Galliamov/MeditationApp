@@ -119,6 +119,7 @@
                 android:text="@string/subscription" />
 
             <LinearLayout
+                android:id="@+id/buttonStatus"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@drawable/rounded_ripple_button"
@@ -135,6 +136,7 @@
                     android:text="@string/type" />
 
                 <TextView
+                    android:id="@+id/statusText"
                     style="@style/YellowTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

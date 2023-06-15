@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
@@ -49,9 +50,11 @@ class MainFragment : Fragment() {
         bottomNavView = binding.bottomNavView
         bottomNavView.itemIconTintList = null
 
-        showFragment(menuViewModel.currentFragment)
-        if (menuViewModel.currentFragment is HomeFragment) {
-            updateNavBarUi(R.id.menuHome)
+        menuViewModel.currentFragment.observe(viewLifecycleOwner) {
+            showFragment(it)
+            if (it is HomeFragment) {
+                updateNavBarUi(R.id.menuHome)
+            }
         }
 
         bottomNavView.setOnItemSelectedListener { menuItem ->
@@ -59,38 +62,48 @@ class MainFragment : Fragment() {
             when (menuItem.itemId) {
                 R.id.menuHome -> {
                     val fragment = HomeFragment()
-                    menuViewModel.currentFragment = fragment
+                    menuViewModel.currentFragment.value = fragment
                     showFragment(fragment)
                 }
 
                 R.id.menuSleep -> {
                     val fragment = HomeFragment()
-                    menuViewModel.currentFragment = fragment
+                    menuViewModel.currentFragment.value = fragment
                     findNavController().navigate(R.id.action_mainFragment_to_sleepSettingsFragment)
                 }
 
                 R.id.menuMelodies -> {
                     val fragment = MelodiesFragment()
-                    menuViewModel.currentFragment = fragment
+                    menuViewModel.currentFragment.value = fragment
                     showFragment(MelodiesFragment())
                 }
 
                 R.id.menuProfile -> {
                     val fragment = ProfileFragment()
-                    menuViewModel.currentFragment = fragment
+                    menuViewModel.currentFragment.value = fragment
                     showFragment(ProfileFragment())
                 }
             }
+
             true
         }
 
-
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    bottomNavView.selectedItemId = R.id.menuHome
+                }
+            }
+        )
     }
 
     private fun updateNavBarUi(menuItemId: Int) {
         with(bottomNavView) {
             val menuHomeItem = menu.findItem(R.id.menuHome)
             val menuSleepItem = menu.findItem(R.id.menuSleep)
+            val menuMelodiesItem = menu.findItem(R.id.menuMelodies)
+            val menuProfileItem = menu.findItem(R.id.menuProfile)
 
             if (menuItemId == R.id.menuHome) {
                 menuHomeItem.setIcon(R.drawable.menuhome_selected)
@@ -113,7 +126,6 @@ class MainFragment : Fragment() {
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
                 menuSleepItem.title = spannableStringUnselected
-
             } else {
                 menuHomeItem.setIcon(R.drawable.menuhome)
                 val spannableStringUnselected = SpannableString(menuHomeItem.title)
@@ -132,6 +144,7 @@ class MainFragment : Fragment() {
     private fun showFragment(fragment: Fragment) {
         childFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
+            .addToBackStack(fragment.tag)
             .commit()
     }
 

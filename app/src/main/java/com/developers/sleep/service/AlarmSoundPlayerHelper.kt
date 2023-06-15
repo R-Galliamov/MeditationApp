@@ -13,7 +13,6 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
 class AlarmSoundPlayerHelper @Inject constructor(
     private val application: Application,
 ) {
