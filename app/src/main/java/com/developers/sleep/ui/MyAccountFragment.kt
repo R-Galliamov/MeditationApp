@@ -71,7 +71,7 @@ class MyAccountFragment : Fragment() {
                 findNavController().navigate(R.id.action_mainFragment_to_paywallFragment)
             }
 
-            statusText.text = if (userIsPremium) "Premium" else "Basic"
+            statusText.text = if (userIsPremium) getString(R.string.premium) else getString(R.string.basic)
 
             screenOverlaying.setOnClickListener {
                 genderChoosing.visibility = View.GONE

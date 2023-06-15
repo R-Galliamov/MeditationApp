@@ -35,7 +35,7 @@ class PlayerFragment : Fragment() {
     @Inject
     lateinit var mediaPlayerHelper: MediaPlayerHelper
     private val playerViewModel: PlayerViewModel by activityViewModels()
-    private lateinit var timerJob: Job
+    private var timerJob: Job? = null
     private var internetCheckJob: Job? = null
 
     override fun onCreateView(
@@ -53,6 +53,7 @@ class PlayerFragment : Fragment() {
         var durationInMinutes = playerViewModel.musicDurationInMinutes.value ?: 30
         mediaPlayerHelper.setDuration(durationInMinutes)
         mediaPlayerHelper.playMelodyByUrl(currentMelody?.url.toString())
+        timerJob = updatingTimerJob(playerViewModel.musicDurationInMinutes.value!!)
         binding.timerText.text = formatMinutesToMinutesSeconds(durationInMinutes)
 
         playerViewModel.currentMelody.observe(viewLifecycleOwner)
@@ -69,11 +70,6 @@ class PlayerFragment : Fragment() {
         playerViewModel.musicDurationInMinutes.observe(viewLifecycleOwner) {
             durationInMinutes = it
             mediaPlayerHelper.setDuration(durationInMinutes)
-            //timerJob.cancel()
-            timerJob = updatingTimerJob(durationInMinutes)
-            if (mediaPlayerHelper.isMelodyPlaying.value == true) {
-               // timerJob.start()
-            }
             binding.timerText.text = formatMinutesToMinutesSeconds(durationInMinutes)
         }
 
@@ -95,15 +91,7 @@ class PlayerFragment : Fragment() {
             if (mediaPlayerHelper.isMelodyPlaying.value == true) {
                 mediaPlayerHelper.pausePlaying()
             } else if (isInternetAvailable(requireContext())) {
-                if (timerJob.isActive) {
-                    mediaPlayerHelper.resumePlaying()
-                } else {
-                    mediaPlayerHelper.setDuration(durationInMinutes)
-                    mediaPlayerHelper.playMelodyByUrl(currentMelody?.url.toString())
-                    timerJob.cancel()
-                    timerJob = updatingTimerJob(durationInMinutes)
-                    timerJob.start()
-                }
+                mediaPlayerHelper.resumePlaying()
             } else {
                 checkInternetConnection(requireContext())
             }
@@ -123,6 +111,8 @@ class PlayerFragment : Fragment() {
 
         binding.numberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
             playerViewModel.setMusicDurationInMinutes(newVal)
+            timerJob?.cancel()
+            timerJob = updatingTimerJob(newVal)
         }
 
         binding.buttonBack.setOnClickListener {
@@ -212,7 +202,6 @@ class PlayerFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        timerJob = updatingTimerJob(playerViewModel.musicDurationInMinutes.value!!)
         internetCheckJob = startInternetCheckJob(requireContext())
     }
 
@@ -226,7 +215,7 @@ class PlayerFragment : Fragment() {
         super.onDestroyView()
         mediaPlayerHelper.stopPlaying()
         mediaPlayerHelper.resetTrackProgress()
-        timerJob.cancel()
+        timerJob?.cancel()
         _binding = null
     }
 

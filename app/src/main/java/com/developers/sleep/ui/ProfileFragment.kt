@@ -31,8 +31,6 @@ class ProfileFragment : Fragment() {
     private lateinit var userDataSP: SharedPreferences
     private lateinit var galleryLauncher: ActivityResultLauncher<String>
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
