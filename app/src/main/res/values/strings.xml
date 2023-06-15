@@ -92,6 +92,7 @@
     <string name="other">Other</string>
     <string name="tips">Tips</string>
     <string name="sleep_basics">Sleep basics</string>
+    <string name="check_your_internet_connection">Check your Internet connection</string>
 
 
 </resources>

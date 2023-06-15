@@ -10,6 +10,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -26,13 +27,16 @@ class AlarmHelper(private val context: Context) {
 
     fun setAlarmWithSound(time: Calendar, alarmSound: AlarmSound) {
         val intent = Intent(context, AlarmReceiver::class.java)
+        Log.d("APP_LOG", "alarmSound name to put is ${alarmSound.fileName}")
         intent.putExtra(EXTRA_ALARM_SOUND, alarmSound.fileName)
+        Log.d("APP_LOG", "Intent created with ${intent?.getStringExtra(EXTRA_ALARM_SOUND)}")
         val pendingIntent = PendingIntent.getBroadcast(
             context,
-            0,
+            alarmSound.hashCode(),
             intent,
-            PendingIntent.FLAG_IMMUTABLE
+            PendingIntent.FLAG_MUTABLE
         )
+
         alarmManager.setExact(
             AlarmManager.RTC_WAKEUP,
             time.timeInMillis,
@@ -43,9 +47,7 @@ class AlarmHelper(private val context: Context) {
     fun cancelAlarm() {
         val intent = Intent(context, AlarmReceiver::class.java)
         val pendingIntent =
-            PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+            PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_MUTABLE)
         alarmManager.cancel(pendingIntent)
     }
-
-
 }

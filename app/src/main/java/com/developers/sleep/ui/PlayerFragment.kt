@@ -1,9 +1,14 @@
 package com.developers.sleep.ui
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -16,6 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -30,6 +36,8 @@ class PlayerFragment : Fragment() {
     lateinit var mediaPlayerHelper: MediaPlayerHelper
     private val playerViewModel: PlayerViewModel by activityViewModels()
     private lateinit var timerJob: Job
+    private var internetCheckJob: Job? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,10 +51,10 @@ class PlayerFragment : Fragment() {
 
         var currentMelody = playerViewModel.currentMelody.value
         var durationInMinutes = playerViewModel.musicDurationInMinutes.value ?: 30
-        timerJob = updatingTimerJob(durationInMinutes)
         mediaPlayerHelper.setDuration(durationInMinutes)
         mediaPlayerHelper.playMelodyByUrl(currentMelody?.url.toString())
         binding.timerText.text = formatMinutesToMinutesSeconds(durationInMinutes)
+
         playerViewModel.currentMelody.observe(viewLifecycleOwner)
         {
             currentMelody = it
@@ -61,10 +69,10 @@ class PlayerFragment : Fragment() {
         playerViewModel.musicDurationInMinutes.observe(viewLifecycleOwner) {
             durationInMinutes = it
             mediaPlayerHelper.setDuration(durationInMinutes)
-            timerJob.cancel()
+            //timerJob.cancel()
             timerJob = updatingTimerJob(durationInMinutes)
             if (mediaPlayerHelper.isMelodyPlaying.value == true) {
-                timerJob.start()
+               // timerJob.start()
             }
             binding.timerText.text = formatMinutesToMinutesSeconds(durationInMinutes)
         }
@@ -86,7 +94,7 @@ class PlayerFragment : Fragment() {
         binding.buttonPlayer.setOnClickListener {
             if (mediaPlayerHelper.isMelodyPlaying.value == true) {
                 mediaPlayerHelper.pausePlaying()
-            } else {
+            } else if (isInternetAvailable(requireContext())) {
                 if (timerJob.isActive) {
                     mediaPlayerHelper.resumePlaying()
                 } else {
@@ -96,6 +104,8 @@ class PlayerFragment : Fragment() {
                     timerJob = updatingTimerJob(durationInMinutes)
                     timerJob.start()
                 }
+            } else {
+                checkInternetConnection(requireContext())
             }
         }
 
@@ -115,7 +125,7 @@ class PlayerFragment : Fragment() {
             playerViewModel.setMusicDurationInMinutes(newVal)
         }
 
-        binding.buttonBack.setOnClickListener() {
+        binding.buttonBack.setOnClickListener {
             findNavController().navigateUp()
         }
     }
@@ -149,6 +159,44 @@ class PlayerFragment : Fragment() {
         }
     }
 
+    private fun startInternetCheckJob(context: Context): Job {
+        return CoroutineScope(Dispatchers.Default).launch {
+            while (isActive) {
+                if (!isInternetAvailable(context)) {
+                    withContext(Dispatchers.Main) {
+                        mediaPlayerHelper.pausePlaying()
+                    }
+                }
+                delay(5000)
+            }
+        }
+    }
+
+    private fun checkInternetConnection(context: Context) {
+        if (!isInternetAvailable(context)) {
+            Toast.makeText(
+                context,
+                getString(R.string.check_your_internet_connection),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val networkCapabilities = connectivityManager.activeNetwork ?: return false
+            val activeNetwork =
+                connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
+            return activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+                    activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+        } else {
+            val networkInfo = connectivityManager.activeNetworkInfo ?: return false
+            return networkInfo.isConnected
+        }
+    }
+
     private fun updateProgressBar(currentProgress: Float, maxProgress: Float) {
         binding.circularProgressBar.apply {
             progress = currentProgress
@@ -162,8 +210,15 @@ class PlayerFragment : Fragment() {
         return String.format("%02d:%02d", minutesPart, secondsPart)
     }
 
+    override fun onResume() {
+        super.onResume()
+        timerJob = updatingTimerJob(playerViewModel.musicDurationInMinutes.value!!)
+        internetCheckJob = startInternetCheckJob(requireContext())
+    }
+
     override fun onPause() {
         super.onPause()
+        internetCheckJob?.cancel()
         mediaPlayerHelper.pausePlaying()
     }
 

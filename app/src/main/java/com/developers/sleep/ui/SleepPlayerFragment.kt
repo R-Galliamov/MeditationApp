@@ -8,12 +8,16 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.icu.text.SimpleDateFormat
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -49,6 +53,7 @@ class SleepPlayerFragment : Fragment() {
     private val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
     private var updateTimeJob: Job? = null
 
+    private var internetCheckJob: Job? = null
 
     @Inject
     lateinit var mediaPlayerHelper: MediaPlayerHelper
@@ -70,16 +75,16 @@ class SleepPlayerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setBackground()
-        val currentMelody = alarmPlayerViewModel.currentMelody //TODO pass it to the mediaPlayer
+        val currentMelody = alarmPlayerViewModel.currentMelody
         val musicDuration = alarmPlayerViewModel.musicDurationInMinutes.value ?: 30
 
         if (alarmViewModel.isMusicOn()) {
-            //TODO check if no internet
+            checkInternetConnection(requireContext())
             binding.buttonMiniPlayer.visibility = View.VISIBLE
 
             mediaPlayerHelper.setDuration(musicDuration)
-            mediaPlayerHelper.playMelodyByUrl(currentMelody.value?.url.toString()) //TODO replace
-            binding.buttonPlayerState.setBackgroundResource(R.drawable.circular_button_miniplayer_pause)
+            mediaPlayerHelper.playMelodyByUrl(currentMelody.value?.url.toString())
+
         } else {
             binding.buttonMiniPlayer.visibility = View.GONE
         }
@@ -89,15 +94,14 @@ class SleepPlayerFragment : Fragment() {
                 binding.buttonPlayerState.setBackgroundResource(R.drawable.circular_button_miniplayer_pause)
             } else {
                 binding.buttonPlayerState.setBackgroundResource(R.drawable.circular_button_miniplayer_play)
-
             }
         }
-
         with(binding) {
             buttonPlayerState.setOnClickListener {
                 if (mediaPlayerHelper.isMelodyPlaying.value == true) {
                     mediaPlayerHelper.pausePlaying()
                 } else {
+                    checkInternetConnection(requireContext())
                     mediaPlayerHelper.resumePlaying()
                 }
             }
@@ -121,7 +125,7 @@ class SleepPlayerFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         updateTimeJob = startUpdatingTime()
-
+        internetCheckJob = startInternetCheckJob(requireContext())
         val filter = IntentFilter(ACTION_ALARM_TRIGGERED)
         requireContext().registerReceiver(alarmTriggeredReceiver, filter)
     }
@@ -129,19 +133,8 @@ class SleepPlayerFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         updateTimeJob?.cancel()
+        internetCheckJob?.cancel()
         requireContext().unregisterReceiver(alarmTriggeredReceiver)
-    }
-
-    private fun startUpdatingTime(): Job {
-        return CoroutineScope(Dispatchers.Default).launch {
-            while (isActive) {
-                val formattedTime = getCurrentTime()
-                withContext(Dispatchers.Main) {
-                    binding.currentTimeText.text = formattedTime
-                }
-                delay(1000)
-            }
-        }
     }
 
     private fun getCurrentTime(): String {
@@ -162,7 +155,6 @@ class SleepPlayerFragment : Fragment() {
         window.setBackgroundDrawableResource(R.drawable.sleep_diver_background)
     }
 
-    //TODO test if margins to small
     private fun removeBackground() {
         val window: Window = requireActivity().window
         window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
@@ -210,6 +202,54 @@ class SleepPlayerFragment : Fragment() {
         binding.buttonText.text = getString(R.string.wake_up)
     }
 
+    private fun startUpdatingTime(): Job {
+        return CoroutineScope(Dispatchers.Default).launch {
+            while (isActive) {
+                val formattedTime = getCurrentTime()
+                withContext(Dispatchers.Main) {
+                    binding.currentTimeText.text = formattedTime
+                }
+                delay(1000)
+            }
+        }
+    }
+    private fun startInternetCheckJob(context: Context): Job {
+        return CoroutineScope(Dispatchers.Default).launch {
+            while (isActive) {
+                if (!isInternetAvailable(context) && alarmViewModel.isMusicOn()) {
+                    withContext(Dispatchers.Main) {
+                        mediaPlayerHelper.pausePlaying()
+                    }
+                }
+                delay(5000)
+            }
+        }
+    }
+
+    private fun checkInternetConnection(context: Context) {
+        if (!isInternetAvailable(context)) {
+            Toast.makeText(
+                context,
+                getString(R.string.check_your_internet_connection),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val networkCapabilities = connectivityManager.activeNetwork ?: return false
+            val activeNetwork =
+                connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
+            return activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+                    activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+        } else {
+            val networkInfo = connectivityManager.activeNetworkInfo ?: return false
+            return networkInfo.isConnected
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

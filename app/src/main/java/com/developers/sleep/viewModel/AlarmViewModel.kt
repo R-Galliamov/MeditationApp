@@ -3,11 +3,13 @@ package com.developers.sleep.viewModel
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.developers.sleep.AlarmPrefs
+import com.developers.sleep.EXTRA_ALARM_SOUND
 import com.developers.sleep.repository.AlarmSoundRepository
 import com.developers.sleep.dataModels.AlarmSound
 import com.developers.sleep.service.AlarmHelper
@@ -64,7 +66,7 @@ class AlarmViewModel @Inject constructor(
         if (alarmTime != null) {
             val alarmHelper = AlarmHelper(application)
             alarmHelper.setAlarmWithSound(alarmTime, chosenAlarmSound.value!!)
-            Toast.makeText(application, "Alarm started", Toast.LENGTH_SHORT).show()
+            Log.d("APP_LOG", "AlarmService started with ${chosenAlarmSound.value!!}")
         }
     }
 

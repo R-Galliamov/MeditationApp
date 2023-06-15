@@ -42,6 +42,7 @@ class PlayerViewModel @Inject constructor(
     init {
         _currentMelody.value = defaultMelody
         _currentPlaylist.value = defaultPlayList
+        _musicDurationInMinutes.value = 30
     }
 
     fun setMusicDurationInMinutes(duration: Int) {

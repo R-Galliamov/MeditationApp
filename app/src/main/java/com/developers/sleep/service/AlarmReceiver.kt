@@ -11,6 +11,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -44,7 +45,9 @@ class AlarmReceiver : BroadcastReceiver() {
                 }
 
                 val serviceIntent = Intent(context, AlarmService::class.java)
+                Log.d("APP_LOG", "AlarmReceiver get ${intent?.getStringExtra(EXTRA_ALARM_SOUND)}")
                 serviceIntent.putExtra(EXTRA_ALARM_SOUND, intent.getStringExtra(EXTRA_ALARM_SOUND))
+                Log.d("APP_LOG", "AlarmReceiver starts service with ${serviceIntent?.getStringExtra(EXTRA_ALARM_SOUND)}")
                 context.startService(serviceIntent)
                 showNotification(context)
             }

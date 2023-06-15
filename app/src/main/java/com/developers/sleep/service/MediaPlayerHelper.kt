@@ -51,7 +51,6 @@ class MediaPlayerHelper @Inject constructor(
     }
 
     fun playMelodyByUrl(melodyUrl: String) {
-
         this.melodyUrl = melodyUrl
         volume = generalSP.getFloat(GeneralPrefs.VOLUME, 1f)
         stopPlaying()
@@ -95,10 +94,12 @@ class MediaPlayerHelper @Inject constructor(
     }
 
     fun pausePlaying() {
-        playbackJob?.cancel()
-        trackPositionMillis = mediaPlayer.currentPosition.toLong()
-        mediaPlayer.pause()
-        _isMelodyPlaying.value = mediaPlayer.isPlaying
+        if (mediaPlayer.isPlaying) {
+            playbackJob?.cancel()
+            trackPositionMillis = mediaPlayer.currentPosition.toLong()
+            mediaPlayer.pause()
+            _isMelodyPlaying.value = mediaPlayer.isPlaying
+        }
     }
 
     fun stopPlaying() {
