@@ -59,6 +59,9 @@ object UserDataPrefs {
 const val EXTRA_ALARM_SOUND = "extraAlarmSound"
 const val PACKAGE_NAME = "com.developers.sleep" //TODO fix if changed
 const val ACTION_ALARM_TRIGGERED = "actionAlarmTriggered"
+const val PRIVACY_POLICY_URL = "https://docs.google.com/document/d/1dEab0gfZ1gznuF4x2r43kl9V2SvYGV_9mx0c7RAhqaA"
+const val TERMS_OF_USE_URL = "https://docs.google.com/document/d/1q4YiNAOz9grN7x8xkZnqiVJMYqbRpDfwLEtQHinSKAc"
+const val SUPPORT_EMAIL = "roman.gallyamov@gmail.com"
 
 object NotificationsConsts {
     const val ALARM_CHANNEL = "Alarm"

@@ -1,3 +1,3 @@
 package com.developers.sleep.dataModels
 
-data class Tip(val name: String, val content: String, var drawableRes: Int = -1)
+data class Tip(val name: String, val content: String, var panelRes: Int = -1, var imageRes: Int = -1)

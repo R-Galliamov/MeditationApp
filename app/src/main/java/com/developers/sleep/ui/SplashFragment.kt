@@ -16,6 +16,7 @@ import com.developers.sleep.UserDataPrefs
 import com.developers.sleep.databinding.FragmentSplashBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+//TODO add changing after payment
 var userIsPremium = false
 
 @AndroidEntryPoint
@@ -71,7 +72,6 @@ class SplashFragment : Fragment() {
                     null,
                     navOptions
                 )
-
             }
         }
     }

@@ -25,7 +25,8 @@ class TipsViewModel @Inject constructor(
         get() = _currentTip
 
     init {
-        setDrawableResource()
+        setDrawableResourceForPanel()
+        setImageResource()
         updateTipOfTheDay()
     }
 
@@ -38,17 +39,18 @@ class TipsViewModel @Inject constructor(
         val dayOfYear = calendar.get(Calendar.DAY_OF_YEAR)
         val tipIndex = (dayOfYear - 1) % tipsList.size
         val selectedTip = tipsList[tipIndex]
-        val tip = Tip(selectedTip.name, selectedTip.content, selectedTip.drawableRes)
+        val tip =
+            Tip(selectedTip.name, selectedTip.content, selectedTip.panelRes, selectedTip.imageRes)
         _tipOfTheDay.value = tip
     }
 
-    private fun setDrawableResource() {
+    private fun setDrawableResourceForPanel() {
         for (i in tipsList.indices) {
-            tipsList[i].drawableRes = getDrawableResource(i)
+            tipsList[i].panelRes = getPanelDrawableResource(i)
         }
     }
 
-    private fun getDrawableResource(listIndex: Int): Int {
+    private fun getPanelDrawableResource(listIndex: Int): Int {
         val index = listIndex % 4
         return when (index) {
             0 -> R.drawable.rectangle_half_green
@@ -60,4 +62,21 @@ class TipsViewModel @Inject constructor(
     }
 
 
+    private fun setImageResource() {
+        for (i in tipsList.indices) {
+            tipsList[i].imageRes = getImageResource(i)
+        }
+    }
+
+    private fun getImageResource(listIndex: Int): Int {
+        val index = listIndex % 5
+        return when (index) {
+            0 -> R.drawable.tip_pic1
+            1 -> R.drawable.tip_pic2
+            2 -> R.drawable.tip_pic3
+            3 -> R.drawable.tip_pic4
+            4 -> R.drawable.tip_pic5
+            else -> R.drawable.tip_pic1
+        }
+    }
 }

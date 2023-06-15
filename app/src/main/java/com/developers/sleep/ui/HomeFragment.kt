@@ -1,17 +1,12 @@
 package com.developers.sleep.ui
 
 import TipsViewModel
-import android.app.AlertDialog
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.activity.OnBackPressedCallback
-import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -88,7 +83,8 @@ class HomeFragment : Fragment() {
 
         val tipOfTheDay = tipsViewModel.tipOfTheDay.value
         binding.tipNameText.text = tipOfTheDay?.name
-        binding.coloredRectangle.setBackgroundResource(tipOfTheDay?.drawableRes!!)
+        binding.coloredRectangle.setBackgroundResource(tipOfTheDay?.panelRes!!)
+        binding.imageTip.setBackgroundResource(tipOfTheDay.imageRes)
 
         binding.buttonTip.setOnClickListener {
             tipsViewModel.setCurrentTip(tipOfTheDay)

@@ -58,7 +58,7 @@ class ProfileFragment : Fragment() {
             binding.name.visibility = View.VISIBLE
             binding.name.text = "$userName, "
             binding.fragmentText.text = getString(R.string.good_night)
-            //  binding.notification.visibility = View.GONE //TODO decide something with i icon
+            //  binding.notification.visibility = View.GONE
         }
 
         val avatarUri = userDataSP.getString(UserDataPrefs.AVATAR_URI, null)

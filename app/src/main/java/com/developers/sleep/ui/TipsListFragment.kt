@@ -7,14 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.developers.sleep.R
 import com.developers.sleep.databinding.FragmentTipsListBinding
 import com.developers.sleep.databinding.TipItemBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TipsListFragment : Fragment() {
@@ -41,7 +38,7 @@ class TipsListFragment : Fragment() {
 
         tipsViewModel.tipOfTheDay.observe(viewLifecycleOwner) { tip ->
             binding.tipNameText.text = tip.name
-            binding.coloredRectangle.setBackgroundResource(tip.drawableRes)
+            binding.coloredRectangle.setBackgroundResource(tip.panelRes)
         }
 
         val tipOfTheDay = tipsViewModel.tipOfTheDay.value
@@ -62,7 +59,8 @@ class TipsListFragment : Fragment() {
             val itemView = TipItemBinding.inflate(layoutInflater, binding.linearContainer, false)
 
             itemView.tipNameText.text = tip.name
-            itemView.coloredRectangle.setBackgroundResource(tip.drawableRes)
+            itemView.coloredRectangle.setBackgroundResource(tip.panelRes)
+            itemView.imageTip.setBackgroundResource(tip.imageRes)
             itemView.buttonTip.setOnClickListener {
                 tipsViewModel.setCurrentTip(tip)
                 findNavController().navigate(R.id.action_tipsListFragment_to_tipFragment)

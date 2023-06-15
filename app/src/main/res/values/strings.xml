@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Sleep</string>
     <string name="continueText">Continue</string>
-    <string name="agreementOfUsage">By clicking Get Started, I agree to the Terms of Use and Privacy Policy. I understand that device data, IDFA, and non-sensitive app data may be shared with a third party to improve the experience of the app.</string>
+    <string name="agreementOfUsage">By clicking Start, I agree to the Terms of Use and Privacy Policy. I understand that device data, IDFA, and non-sensitive app data may be shared with a third party to improve the experience of the app.</string>
 
     <string name="firstWelcomeTitle">Melodies for\nrelaxation</string>
     <string name="firstWelcomeText">Feel the relaxing atmosphere of the night. Fall asleep naturally and calmly.</string>
@@ -94,6 +94,7 @@
     <string name="sleep_basics">Sleep basics</string>
     <string name="check_your_internet_connection">Check your Internet connection</string>
     <string name="basic">Basic</string>
+    <string name="privacy_policy">Privacy Policy</string>
 
 
 </resources>
