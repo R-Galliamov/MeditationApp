@@ -4,17 +4,15 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.developers.sleep.AlarmPrefs
-import com.developers.sleep.EXTRA_ALARM_SOUND
-import com.developers.sleep.repository.AlarmSoundRepository
 import com.developers.sleep.dataModels.AlarmSound
+import com.developers.sleep.repository.AlarmSoundRepository
 import com.developers.sleep.service.AlarmHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.*
+import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
@@ -72,13 +70,7 @@ class AlarmViewModel @Inject constructor(
 
     fun setAlarmTime(time: Calendar) {
         time.add(Calendar.DAY_OF_YEAR, 1)
-
-        //TODO remove in main
-        val testTime = Calendar.getInstance()
-        testTime.add(Calendar.SECOND, 35)
-
-        _alarmTime.value = testTime
-
+        _alarmTime.value = time
         val editor = sharedPreferences.edit()
         editor.putLong(AlarmPrefs.ALARM_TIME, time.timeInMillis)
         editor.apply()
