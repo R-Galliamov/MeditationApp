@@ -58,12 +58,6 @@ class SleepPlayerFragment : Fragment() {
     @Inject
     lateinit var mediaPlayerHelper: MediaPlayerHelper
 
-    private val alarmTriggeredReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            onAlarmTriggered()
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -105,7 +99,7 @@ class SleepPlayerFragment : Fragment() {
                     mediaPlayerHelper.resumePlaying()
                 }
             }
-            songTitle.text = currentMelody.value?.name ?: "Interstellar" //TODO remove
+            songTitle.text = currentMelody.value?.name
 
             currentTimeText.text = getCurrentTime()
             val alarmTime = alarmViewModel.alarmTime.value
@@ -126,15 +120,12 @@ class SleepPlayerFragment : Fragment() {
         super.onResume()
         updateTimeJob = startUpdatingTime()
         internetCheckJob = startInternetCheckJob(requireContext())
-        val filter = IntentFilter(ACTION_ALARM_TRIGGERED)
-        requireContext().registerReceiver(alarmTriggeredReceiver, filter)
     }
 
     override fun onPause() {
         super.onPause()
         updateTimeJob?.cancel()
         internetCheckJob?.cancel()
-        requireContext().unregisterReceiver(alarmTriggeredReceiver)
     }
 
     private fun getCurrentTime(): String {
@@ -213,6 +204,7 @@ class SleepPlayerFragment : Fragment() {
             }
         }
     }
+
     private fun startInternetCheckJob(context: Context): Job {
         return CoroutineScope(Dispatchers.Default).launch {
             while (isActive) {

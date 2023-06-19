@@ -26,6 +26,7 @@ import com.developers.sleep.PaywallConstants
 import com.developers.sleep.R
 import com.developers.sleep.TERMS_OF_USE_URL
 import com.developers.sleep.databinding.FragmentPaywallBinding
+import com.developers.sleep.ui.userIsPremium
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -59,6 +60,10 @@ class PaywallFragment : Fragment() {
                     binding.buttonYearPayment.setBackgroundResource(R.drawable.rounded_button_blue)
                 }
             }
+        }
+
+        if (Apphud.hasPremiumAccess()) {
+            findNavController().navigate(R.id.action_paywallFragment_to_mainFragment)
         }
 
         with(binding) {
@@ -191,6 +196,7 @@ class PaywallFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        userIsPremium = Apphud.hasPremiumAccess()
         _binding = null
     }
 

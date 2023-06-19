@@ -1,5 +1,6 @@
 package com.developers.sleep.service
 
+import android.app.Application
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -11,12 +12,18 @@ import android.graphics.Color
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStore
 import com.developers.sleep.EXTRA_ALARM_SOUND
 import com.developers.sleep.NotificationsConsts
 import com.developers.sleep.R
 import com.developers.sleep.UserDataPrefs
+import com.developers.sleep.viewModel.AlarmViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 class AlarmReceiver : BroadcastReceiver() {
+
     override fun onReceive(context: Context, intent: Intent) {
 
         when (intent.action) {
@@ -29,7 +36,6 @@ class AlarmReceiver : BroadcastReceiver() {
                 val userSharedPreferences =
                     context.getSharedPreferences(UserDataPrefs.PREFS_NAME, Context.MODE_PRIVATE)
 
-                //TODO replace with repository
                 val nightsCount = userSharedPreferences.getInt(UserDataPrefs.NIGHTS_COUNT, 1) + 1
                 with(userSharedPreferences.edit()) {
                     putInt(UserDataPrefs.NIGHTS_COUNT, nightsCount)
@@ -39,7 +45,12 @@ class AlarmReceiver : BroadcastReceiver() {
                 val serviceIntent = Intent(context, AlarmService::class.java)
                 Log.d("APP_LOG", "AlarmReceiver get ${intent?.getStringExtra(EXTRA_ALARM_SOUND)}")
                 serviceIntent.putExtra(EXTRA_ALARM_SOUND, intent.getStringExtra(EXTRA_ALARM_SOUND))
-                Log.d("APP_LOG", "AlarmReceiver starts service with ${serviceIntent?.getStringExtra(EXTRA_ALARM_SOUND)}")
+                Log.d(
+                    "APP_LOG",
+                    "AlarmReceiver starts service with ${
+                        serviceIntent?.getStringExtra(EXTRA_ALARM_SOUND)
+                    }"
+                )
                 context.startService(serviceIntent)
                 showNotification(context)
             }
@@ -89,7 +100,7 @@ class AlarmReceiver : BroadcastReceiver() {
         return NotificationCompat.Builder(context, channelId)
             .setContentTitle(title)
             .setContentText(content)
-            .setSmallIcon(R.drawable.ic_launcher_foreground) //TODO replace with app icon
+            .setSmallIcon(R.drawable.baseline_alarm)
             .addAction(turnOffAction)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)

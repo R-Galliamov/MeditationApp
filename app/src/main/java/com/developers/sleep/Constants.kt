@@ -30,8 +30,8 @@ object AlarmPrefs {
     const val ALARM_TIME = "AlarmTime"
     const val IS_MUSIC_FOR_SLEEP_0N = "isMusicForSleepOn"
     const val STANDARD_ALARM_SOUND = "Dreamy Drizzle"
-    const val SELECTED_ALARM_MELODY_INDEX = "selectedAlarmMelodyIndex"
     const val SELECTED_ALARM_MELODY_NAME = "selectedAlarmMelodyName"
+    const val ALARM_INTENT_CODE = "alarmIntentCode"
 }
 
 object AlarmPlayerPrefs {
