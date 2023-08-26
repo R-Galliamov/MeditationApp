@@ -70,7 +70,7 @@ class AlarmViewModel @Inject constructor(
     }
 
     fun setAlarmTime(time: Calendar) {
-        //time.add(Calendar.DAY_OF_YEAR, 1)
+        time.add(Calendar.DAY_OF_YEAR, 1)
         _alarmTime.value = time
         val editor = sharedPreferences.edit()
         editor.putLong(AlarmPrefs.ALARM_TIME, time.timeInMillis)

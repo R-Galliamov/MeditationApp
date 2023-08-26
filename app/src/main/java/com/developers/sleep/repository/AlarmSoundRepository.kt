@@ -26,8 +26,7 @@ class AlarmSoundRepository @Inject constructor(
 
     private fun getChosenAlarmSoundName(): String {
         val name = alarmSharedPreferences.getString(
-            AlarmPrefs.SELECTED_ALARM_MELODY_NAME,
-            AlarmPrefs.STANDARD_ALARM_SOUND
+            AlarmPrefs.SELECTED_ALARM_MELODY_NAME, AlarmPrefs.STANDARD_ALARM_SOUND
         ).toString()
         return name
     }

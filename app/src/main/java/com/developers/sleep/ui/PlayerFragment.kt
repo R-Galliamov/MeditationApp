@@ -5,9 +5,11 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.URLUtil
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -24,6 +26,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.net.URL
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -39,8 +42,7 @@ class PlayerFragment : Fragment() {
     private var internetCheckJob: Job? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentPlayerBinding.inflate(inflater, container, false)
         return binding.root
@@ -52,18 +54,18 @@ class PlayerFragment : Fragment() {
         var currentMelody = playerViewModel.currentMelody.value
         var durationInMinutes = playerViewModel.musicDurationInMinutes.value ?: 30
         mediaPlayerHelper.setDuration(durationInMinutes)
+
         mediaPlayerHelper.playMelodyByUrl(currentMelody?.url.toString())
+
         timerJob = updatingTimerJob(playerViewModel.musicDurationInMinutes.value!!)
         binding.timerText.text = formatMinutesToMinutesSeconds(durationInMinutes)
 
-        playerViewModel.currentMelody.observe(viewLifecycleOwner)
-        {
+        playerViewModel.currentMelody.observe(viewLifecycleOwner) {
             currentMelody = it
             binding.melodyNameText.text = it.name
         }
 
-        playerViewModel.currentPlaylist.observe(viewLifecycleOwner)
-        {
+        playerViewModel.currentPlaylist.observe(viewLifecycleOwner) {
             binding.playlistNameText.text = it.name
         }
 
@@ -165,9 +167,7 @@ class PlayerFragment : Fragment() {
     private fun checkInternetConnection(context: Context) {
         if (!isInternetAvailable(context)) {
             Toast.makeText(
-                context,
-                getString(R.string.check_your_internet_connection),
-                Toast.LENGTH_SHORT
+                context, getString(R.string.check_your_internet_connection), Toast.LENGTH_SHORT
             ).show()
         }
     }
@@ -179,8 +179,9 @@ class PlayerFragment : Fragment() {
             val networkCapabilities = connectivityManager.activeNetwork ?: return false
             val activeNetwork =
                 connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
-            return activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
-                    activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+            return activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || activeNetwork.hasTransport(
+                NetworkCapabilities.TRANSPORT_WIFI
+            )
         } else {
             val networkInfo = connectivityManager.activeNetworkInfo ?: return false
             return networkInfo.isConnected

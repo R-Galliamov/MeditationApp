@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.MediaPlayer
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.developers.sleep.GeneralPrefs
@@ -11,12 +12,14 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -51,15 +54,21 @@ class MediaPlayerHelper @Inject constructor(
     }
 
     fun playMelodyByUrl(melodyUrl: String) {
+        val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, exception ->
+            Log.d("App log", "Error")
+            mediaPlayer.reset()
+            playbackJob?.cancel()
+            playbackJob = null
+        }
         this.melodyUrl = melodyUrl
         volume = generalSP.getFloat(GeneralPrefs.VOLUME, 1f)
         stopPlaying()
-        playbackJob = coroutineScope.launch {
+        playbackJob = coroutineScope.launch(coroutineExceptionHandler) {
             withContext(Dispatchers.IO) {
                 mediaPlayer.apply {
                     setAudioAttributes(
-                        AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                            .build()
+                        AudioAttributes.Builder()
+                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build()
                     )
                     setDataSource(melodyUrl)
                     setVolume(volume, volume)

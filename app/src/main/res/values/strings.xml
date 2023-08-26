@@ -96,6 +96,7 @@
     <string name="basic">Basic</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="sleep_wellness_quiz">Sleep Wellness Quiz</string>
+    <string name="something_went_wrong">Something went wrong</string>
 
 
 </resources>

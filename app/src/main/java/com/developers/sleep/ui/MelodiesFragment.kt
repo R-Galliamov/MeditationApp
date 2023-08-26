@@ -49,7 +49,6 @@ class MelodiesFragment : Fragment() {
             }
         }, playerViewModel.currentPlaylist.value!!)
 
-
         melodiesRecyclerView = binding.recyclerViewMelodies
         melodyAdapter = MelodyAdapter(object : MelodyAdapter.OnMelodyClickListener {
             override fun onMelodyClick(melody: Melody) {
@@ -70,7 +69,6 @@ class MelodiesFragment : Fragment() {
         playerViewModel.currentPlaylist.observe(viewLifecycleOwner) {
             showPlaylist(it)
         }
-
     }
 
     private fun getDrawableResourceByName(name: String): Int {
@@ -82,8 +80,6 @@ class MelodiesFragment : Fragment() {
             R.drawable.sleepwaves
         }
     }
-
-
 
     private fun showPlaylist(playList: Playlist) {
         melodyAdapter.submitList(playList.melodiesList)
