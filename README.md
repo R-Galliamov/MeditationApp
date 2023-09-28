@@ -11,6 +11,7 @@
   - Заполнение пользователем анкеты данных
   - Предоставление премиум-контента пользователю по системе подписки
 
+
 <img src="MeditationAppScreenshots/Screenshot_1.png" alt="Alt Text" width="216" height="480">    <img src="MeditationAppScreenshots/Screenshot_2.png" alt="Alt Text" width="216" height="480">    <img src="MeditationAppScreenshots/Screenshot_3.png" alt="Alt Text" width="216" height="480"> 
 
 <img src="MeditationAppScreenshots/Screenshot_4.png" alt="Alt Text" width="216" height="480">  <img src="MeditationAppScreenshots/Screenshot_5.png" alt="Alt Text" width="216" height="480">  <img src="MeditationAppScreenshots/Screenshot_6.png" alt="Alt Text" width="216" height="480">
