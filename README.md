@@ -1,3 +1,3 @@
 # MeditationApp
 
-<img src="MeditationAppScreenshots/Screenshot_1.png" alt="Alt Text" width="108" height="240">
+<img src="MeditationAppScreenshots/Screenshot_1.png" alt="Alt Text" width="216" height="480">
